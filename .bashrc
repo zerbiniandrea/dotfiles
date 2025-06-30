@@ -19,3 +19,4 @@ if [[ $(ps --no-header --pid=$PPID --format=comm) != "fish" && -z ${BASH_EXECUTI
 fi
 
 export PATH=~/.npm-global/bin:$PATH
+export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/docker.sock"
