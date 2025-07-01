@@ -8,3 +8,4 @@ set -gx PATH ~/.npm-global/bin $PATH
 set -gx DOCKER_HOST "unix://$XDG_RUNTIME_DIR/docker.sock"
 
 direnv hook fish | source
+alias up='yay && flatpak update'
