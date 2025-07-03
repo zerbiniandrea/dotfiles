@@ -9,3 +9,4 @@ set -gx DOCKER_HOST "unix://$XDG_RUNTIME_DIR/docker.sock"
 
 direnv hook fish | source
 alias up='yay && flatpak update'
+#starship init fish | source
