@@ -43,4 +43,6 @@ eval "$(direnv hook zsh)"
 zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
+export KEYTIMEOUT=1
+
 fastfetch
