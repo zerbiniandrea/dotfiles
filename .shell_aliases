@@ -1,0 +1,4 @@
+# Common aliases for bash and zsh
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias up='yay && flatpak update'

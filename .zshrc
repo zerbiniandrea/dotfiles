@@ -30,19 +30,19 @@ zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
-alias ls='ls --color=auto'
-alias grep='grep --color=auto'
-alias up='yay && flatpak update'
+# Source shared aliases, exports, and integrations
+[ -f ~/.shell_aliases ] && source ~/.shell_aliases
+[ -f ~/.shell_exports ] && source ~/.shell_exports
+[ -f ~/.shell_integrations ] && source ~/.shell_integrations
 
 # Shell integrations
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(starship init zsh)"
-eval "$(direnv hook zsh)"
 
 zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
-export KEYTIMEOUT=1
+KEYTIMEOUT=1
 
 fastfetch

@@ -5,8 +5,10 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-alias ls='ls --color=auto'
-alias grep='grep --color=auto'
+# Source shared aliases, exports, and integrations
+[ -f ~/.shell_aliases ] && source ~/.shell_aliases
+[ -f ~/.shell_exports ] && source ~/.shell_exports
+[ -f ~/.shell_integrations ] && source ~/.shell_integrations
 PS1='[\u@\h \W]\$ '
 
 # export $(envsubst < ~/.env)
@@ -18,5 +20,3 @@ PS1='[\u@\h \W]\$ '
 #  exec fish $LOGIN_OPTION
 #fi
 
-export PATH=~/.npm-global/bin:$PATH
-export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/docker.sock"

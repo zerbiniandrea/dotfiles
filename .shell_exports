@@ -1,0 +1,12 @@
+# Common environment variables for bash and zsh
+
+# Add npm global bin to PATH if it exists
+if [ -d ~/.npm-global/bin ]; then
+    export PATH=~/.npm-global/bin:$PATH
+else
+    echo "💡 Tip: Set up npm global directory with:"
+    echo "   mkdir -p ~/.npm-global"
+    echo "   npm config set prefix ~/.npm-global"
+fi
+
+export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/docker.sock"
