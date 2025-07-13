@@ -1,0 +1,108 @@
+@import url("/home/zerbi/.config/waybar/colors.css");
+
+* {
+  font-family: "DM Sans", "JetBrainsMono Nerd Font Propo", sans-serif;
+  font-size: 16px;
+  border-radius: 50px;
+  font-weight: bold;
+}
+
+window#waybar {
+  background-color: transparent;
+  color: @foreground;
+}
+
+.modules-right {
+  margin-right: 12px;
+}
+
+#workspaces {
+  background-color: @surface_container;
+  color: @primary;
+  padding: 8px 12px;
+  margin-left: 12px;
+  border: none;
+  border-radius: 50px;
+}
+
+#workspaces button {
+  background: transparent;
+  color: alpha(@outline, 0.4);
+  padding: 6px 10px;
+  margin: 0 2px;
+  border: 2px solid transparent;
+  outline: none;
+  box-shadow: none;
+  text-shadow: none;
+  font-size: 13px;
+  border-radius: 12px;
+  transition: all 0.25s ease;
+  min-width: 32px;
+}
+
+#workspaces button:hover {
+  color: @primary;
+  background-color: alpha(@primary_container, 0.4);
+  border: 2px solid alpha(@primary, 0.3);
+}
+
+#workspaces button.active {
+  color: @primary;
+  background-color: @primary_container;
+  border: 2px solid @primary;
+  box-shadow: 0 0 0 2px alpha(@primary, 0.2);
+}
+
+#workspaces button.active:hover {
+  color: @primary_fixed_dim;
+  background-color: alpha(@primary_container, 0.8);
+}
+
+#workspaces button.empty {
+  color: @secondary;
+  background-color: alpha(@surface_container_high, 0.5);
+  border: 1px solid alpha(@outline, 0.3);
+}
+
+#workspaces button.urgent {
+  background-color: @error;
+  color: @on_error;
+}
+
+#battery,
+#pulseaudio,
+#backlight,
+#network,
+#clock,
+#custom-media,
+#window,
+#cpu,
+#memory,
+#disk,
+#tray,
+#custom-launcher,
+#custom-notification,
+#custom-gaming {
+  color: @primary;
+  background-color: @surface_container;
+  padding: 0 15px 0 15px;
+  margin: 0 0 0 12px;
+}
+
+window#waybar #custom-gaming {
+  font-size: 26px;
+  font-weight: bold;
+}
+
+#window.hidden {
+  opacity: 0;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+window#waybar.empty #window {
+  background-color: transparent;
+}

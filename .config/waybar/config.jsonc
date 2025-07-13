@@ -1,0 +1,118 @@
+{
+  "layer": "top",
+  "position": "top",
+  "margin-top": 13,
+  "modules-left": [
+    "custom/launcher",
+    "clock",
+    "hyprland/workspaces",
+    "custom/gaming",
+  ],
+  "modules-center": ["custom/notification", "custom/media"],
+  "modules-right": ["pulseaudio", "battery", "network"],
+  "height": 56,
+
+  "custom/notification": {
+    "tooltip": false,
+    "format": "{icon}",
+    "format-icons": {
+      "notification": "󰂚",
+      "none": "󰂜",
+      "dnd-notification": "󰂛",
+      "dnd-none": "󰪑",
+      "inhibited-notification": "󰂚",
+      "inhibited-none": "󰂜",
+      "dnd-inhibited-notification": "󰂛",
+      "dnd-inhibited-none": "󰪑",
+    },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true,
+  },
+
+  "custom/launcher": {
+    "format": "󰣇",
+    "on-click": "bash /home/$USER/.config/waybar/scripts/app_launcher.sh",
+    "tooltip-format": "Launch your favorite apps",
+  },
+
+  "custom/gaming": {
+    "format": "{}",
+    "exec": "bash /home/$USER/.config/waybar/scripts/gaming_status.sh",
+    "interval": 1,
+    "on-click": "hyprctl dispatch togglespecialworkspace games",
+    "tooltip-format": "Gaming workspace - click to toggle",
+  },
+
+  "custom/media": {
+    "format": "{}",
+    "escape": true,
+    "return-type": "json",
+    "max-length": 40,
+    "on-click": "playerctl play-pause",
+    "on-click-right": "playerctl stop",
+    "smooth-scrolling-threshold": 1, // This value was tested using a trackpad, it should be lowered if using a mouse.
+    "on-scroll-up": "playerctl next",
+    "on-scroll-down": "playerctl previous",
+    "exec": "$HOME/.config/waybar/scripts/mediaplayer.py 2> /dev/null", // Script in resources/custom_modules folder
+  },
+
+  "battery": {
+    "format": "{icon}  {capacity}%",
+    "format-charging": "󰂄  {capacity}%",
+    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+    "tooltip-format": "Battery is at {capacity}%",
+  },
+
+  "clock": {
+    "format": "󰥔  {:%I:%M %p}",
+    "format-alt": "󰥔  {:%a, %d. %b  %I:%M %p}",
+    "tooltip-format": "Date: {:%Y-%m-%d}",
+  },
+
+  "pulseaudio": {
+    "format": "{icon}  {volume}%",
+    "format-bluetooth": "󰂱 {volume}%",
+    "format-muted": "󰖁",
+    "scroll-step": 1,
+    "on-click": "pavucontrol",
+    "ignored-sinks": ["Easy Effects Sink"],
+    "format-icons": {
+      "headphone": "󰋋",
+      "hands-free": "",
+      "headset": "󰋎",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": ["󰖀", "󰕾"],
+    },
+    "tooltip-format": "Volume: {volume}%",
+  },
+
+  "network": {
+    "format": "{ifname}",
+    "format-wifi": "{icon}  {essid}",
+    "format-ethernet": "󰈀  Ethernet",
+    "format-disconnected": "󰤭  Disconnected",
+    "max-length": 50,
+    "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+    "tooltip-format-wifi": "WiFi: {essid} ({signalStrength}%)",
+    "tooltip-format-ethernet": "Ethernet: {ipaddr}/{cidr}",
+    "tooltip-format-disconnected": "No connection",
+  },
+
+  "hyprland/workspaces": {
+    "format": "{icon} {name}",
+    "format-icons": {
+      "active": "●",
+      "default": "○",
+    },
+    "on-click": "activate",
+    "sort-by-number": true,
+    "show-special": false,
+    "all-outputs": false,
+  },
+}
