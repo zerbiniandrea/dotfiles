@@ -4,7 +4,7 @@
   font-weight: bold;
   color: @primary;
   all: unset;
-  transition: all 0.2s ease;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .notification-row {
@@ -15,92 +15,169 @@
 
 .floating-notifications.background .notification-row .notification-background {
   background-color: @surface_container;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  border-radius: 16px;
-  margin: 12px;
-  padding: 8px;
-  border: 1px solid alpha(@outline, 0.2);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.15),
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 1px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  margin: 10px;
+  padding: 0;
+  border: 1px solid alpha(@outline, 0.12);
 }
 
-.floating-notifications.background .notification-row .notification-background .notification {
-  padding: 12px;
-  border-radius: 12px;
+.floating-notifications.background
+  .notification-row
+  .notification-background
+  .notification {
+  padding: 18px 24px;
+  border-radius: 20px;
+  background: transparent;
 }
 
-.floating-notifications.background .notification-row .notification-background .notification.critical {
+.floating-notifications.background
+  .notification-row
+  .notification-background
+  .notification.critical {
   border: 2px solid @error;
-  background-color: alpha(@error_container, 0.3);
+  background-color: alpha(@error_container, 0.15);
 }
 
-.floating-notifications.background .notification-row .notification-background .notification .notification-content {
-  margin: 14px;
+.floating-notifications.background
+  .notification-row
+  .notification-background
+  .notification
+  .notification-content {
+  margin: 0;
+  padding: 0;
 }
 
-.floating-notifications.background .notification-row .notification-background .notification > *:last-child > * {
+.floating-notifications.background
+  .notification-row
+  .notification-background
+  .notification
+  > *:last-child
+  > * {
   min-height: 3.4em;
 }
 
-.floating-notifications.background .notification-row .notification-background .notification > *:last-child > * .notification-action {
-  border-radius: 8px;
+.floating-notifications.background
+  .notification-row
+  .notification-background
+  .notification
+  > *:last-child
+  > *
+  .notification-action {
+  border-radius: 12px;
   background-color: @primary_container;
   color: @on_primary_container;
-  margin: 8px 12px;
-  padding: 8px 15px;
+  margin: 6px 8px;
+  padding: 10px 16px;
   border: 1px solid transparent;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.floating-notifications.background .notification-row .notification-background .notification > *:last-child > * .notification-action:hover {
+.floating-notifications.background
+  .notification-row
+  .notification-background
+  .notification
+  > *:last-child
+  > *
+  .notification-action:hover {
   background-color: @primary;
   color: @on_primary;
   border: 1px solid @primary;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
 }
 
-.floating-notifications.background .notification-row .notification-background .notification > *:last-child > * .notification-action:active {
+.floating-notifications.background
+  .notification-row
+  .notification-background
+  .notification
+  > *:last-child
+  > *
+  .notification-action:active {
   background-color: @primary_fixed_dim;
   color: @on_primary;
+  transform: translateY(0px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-.image {
-  margin: 10px 20px 10px 0px;
-}
 
 .summary {
-  font-weight: bold;
-  font-size: 1.1rem;
+  font-weight: 600;
+  font-size: 1.05rem;
   color: @on_surface;
+  line-height: 1.3;
+  margin-bottom: 4px;
+  margin-left: 12px;
 }
 
 .body {
   font-size: 0.9rem;
   color: @on_surface_variant;
-  font-weight: normal;
+  font-weight: 400;
+  line-height: 1.4;
+  opacity: 0.9;
+  margin-left: 12px;
 }
 
-.floating-notifications.background .notification-row .notification-background .close-button {
+.floating-notifications.background
+  .notification-row
+  .notification-background
+  .close-button {
   margin: 8px;
-  padding: 8px;
-  border-radius: 8px;
-  background-color: alpha(@surface_container_high, 0.8);
-  border: 1px solid transparent;
-  color: @outline;
+  padding: 3px;
+  border-radius: 50%;
+  background-color: alpha(@surface_container_highest, 0.4);
+  border: none;
+  color: alpha(@on_surface_variant, 0.6);
+  min-width: 16px;
+  min-height: 16px;
+  font-size: 9px;
+  opacity: 0.7;
 }
 
-.floating-notifications.background .notification-row .notification-background .close-button:hover {
-  background-color: @error;
-  color: @on_error;
+.floating-notifications.background
+  .notification-row
+  .notification-background
+  .close-button:hover {
+  background-color: alpha(@error, 0.15);
+  color: @error;
+  opacity: 1;
+  transform: scale(1.1);
+  box-shadow: 0 2px 6px alpha(@error, 0.2);
 }
 
-.floating-notifications.background .notification-row .notification-background .close-button:active {
-  background-color: @error_container;
-  color: @on_error_container;
+.floating-notifications.background
+  .notification-row
+  .notification-background
+  .close-button:active {
+  background-color: alpha(@error, 0.25);
+  color: @error;
+  transform: scale(0.95);
+  box-shadow: 0 1px 3px alpha(@error, 0.3);
 }
 
 .notification.critical progress {
   background-color: @error;
+  border-radius: 4px;
 }
 
 .notification.low progress,
 .notification.normal progress {
   background-color: @primary;
+  border-radius: 4px;
 }
 
+progressbar {
+  min-height: 6px;
+  border-radius: 4px;
+  background-color: alpha(@outline, 0.2);
+}
+
+progress {
+  min-height: 6px;
+  border-radius: 4px;
+}
