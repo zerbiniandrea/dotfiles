@@ -8,8 +8,8 @@
     "hyprland/workspaces",
     "custom/gaming",
   ],
-  "modules-center": ["custom/notification", "custom/media"],
-  "modules-right": ["pulseaudio", "battery", "network"],
+  "modules-center": ["custom/media"],
+  "modules-right": ["pulseaudio", "battery", "network", "custom/notification"],
   "height": 56,
 
   "custom/notification": {
