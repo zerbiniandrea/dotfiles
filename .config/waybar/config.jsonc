@@ -41,10 +41,10 @@
 
   "custom/gaming": {
     "format": "{}",
+    "return-type": "json",
     "exec": "bash /home/$USER/.config/waybar/scripts/gaming_status.sh",
     "interval": 1,
     "on-click": "hyprctl dispatch togglespecialworkspace games",
-    "tooltip-format": "Gaming workspace - click to toggle",
   },
 
   "custom/media": {

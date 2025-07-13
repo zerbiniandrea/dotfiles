@@ -92,7 +92,21 @@ window#waybar {
 window#waybar #custom-gaming {
   font-size: 26px;
   font-weight: bold;
+  transition: all 0.3s ease;
 }
+
+/* When not on gaming workspace - dimmed */
+window#waybar #custom-gaming.inactive {
+  opacity: 0.4;
+  color: @outline;
+}
+
+/* When actively on gaming workspace - bright with glow */
+window#waybar #custom-gaming.active {
+  color: @primary;
+  text-shadow: 0 0 8px alpha(@primary, 0.5);
+}
+
 
 #window.hidden {
   opacity: 0;
