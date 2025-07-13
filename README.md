@@ -22,7 +22,7 @@ Clone the repository to your home directory:
 
 ```bash
 cd ~
-git clone https://github.com/zerbiniandrea/dotfiles/edit/main/README.md dotfiles
+git clone https://github.com/zerbiniandrea/dotfiles/ dotfiles
 cd dotfiles
 ```
 
