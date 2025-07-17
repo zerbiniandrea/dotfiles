@@ -82,11 +82,20 @@ window#waybar {
 #tray,
 #custom-launcher,
 #custom-notification,
-#custom-gaming {
+#custom-gaming,
+#custom-microphone {
   color: @primary;
   background-color: @surface_container;
-  padding: 0 15px 0 15px;
+  padding: 0 18px 0 18px;
   margin: 0 0 0 12px;
+}
+
+#custom-microphone.muted {
+  color: @error;
+}
+
+#custom-microphone.unmuted {
+  color: @primary;
 }
 
 window#waybar #custom-gaming {
@@ -106,7 +115,6 @@ window#waybar #custom-gaming.active {
   color: @primary;
   text-shadow: 0 0 8px alpha(@primary, 0.5);
 }
-
 
 #window.hidden {
   opacity: 0;

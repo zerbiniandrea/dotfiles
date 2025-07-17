@@ -9,8 +9,17 @@
     "custom/gaming",
   ],
   "modules-center": ["custom/media"],
-  "modules-right": ["pulseaudio", "battery", "network", "custom/notification"],
+  "modules-right": ["custom/microphone", "pulseaudio", "battery", "network", "custom/notification"],
   "height": 56,
+
+  "custom/microphone": {
+    "format": "{}",
+    "return-type": "json",
+    "exec": "bash /home/$USER/.config/waybar/scripts/mic_status.sh",
+    "interval": 1,
+    "on-click": "bash /home/$USER/.config/waybar/scripts/toggle_mic.sh",
+    "signal": 8,
+  },
 
   "custom/notification": {
     "tooltip": false,
