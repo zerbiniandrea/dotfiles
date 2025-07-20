@@ -8,62 +8,73 @@
 }
 
 window {
-    width: 80%;
-    height: 70%;
+    width: 70%;
+    height: 85%;
     background-color: @surface;
     border: 1px solid;
     border-color: @outline;
-    border-radius: 16px;
+    border-radius: 12px;
 }
 
 element {
-    padding: 8;
+    padding: 0px;
     background-color: transparent;
     text-color: @on-surface;
-    border-radius: 8px;
+    border-radius: 4px;
+    orientation: vertical;
+    spacing: 0px;
 }
 
 element selected {
-    text-color: @on-primary-container;
-    background-color: @primary-container;
-    border-radius: 8px;
+    background-color: @primary;
+    text-color: @on-primary;
+    border-radius: 4px;
 }
 
 element-text {
-    background-color: transparent;
+    background-color: inherit;
     text-color: inherit;
-    vertical-align: 0.5;
     horizontal-align: 0.5;
+    font: "DM Sans 7";
+    padding: 2px 4px;
+    margin: 1px 0px 0px 0px;
 }
 
 element-icon {
-    size: 128px;
+    size: 320px;
     background-color: transparent;
-    horizontal-align: 0.5;
+    border-radius: 4px;
 }
 
 entry {
-    padding: 12;
-    background-color: @surface;
+    padding: 8px;
+    background-color: @surface-container;
     text-color: @on-surface;
-    border-radius: 12px;
+    border-radius: 8px;
+    placeholder: "Search wallpapers";
+    placeholder-color: @outline;
 }
 
 inputbar {
     children: [prompt, entry];
-    background-color: @surface;
-    border-radius: 12px;
-    padding: 8;
-    margin: 8;
+    background-color: @surface-container;
+    border-radius: 8px;
+    padding: 8px;
+    margin: 8px;
 }
 
 listview {
     background-color: @surface;
-    columns: 4;
-    lines: 3;
-    padding: 8;
-    margin: 0 8 8 8;
+    columns: 3;
+    lines: 2;
+    padding: 2px;
+    margin: 2px;
+    spacing: 2px;
+    cycle: false;
+    dynamic: true;
+    layout: vertical;
     flow: horizontal;
+    scrollbar: true;
 }
 
 mainbox {
@@ -72,10 +83,19 @@ mainbox {
 }
 
 prompt {
-    background-color: @surface;
+    background-color: @surface-container;
     enabled: true;
-    font: "Material Design Icons 16";
-    padding: 12 0 0 12;
+    padding: 8px;
     text-color: @primary;
     str: "🖼️";
+}
+
+scrollbar {
+    width: 6px;
+    border: 0;
+    handle-color: @primary;
+    handle-width: 6px;
+    background-color: @surface-container;
+    margin: 0 4px;
+    border-radius: 3px;
 }

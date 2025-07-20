@@ -14,9 +14,17 @@ IFS=$'\n'
 # Grab the user-selected wallpaper with grid layout
 SELECTED_WALL=$(for a in *.jpg *.png; do echo -en "$a\0icon\x1f$a\n" ; done | rofi -dmenu -theme ~/.config/rofi/themes/wallpaper-grid.rasi -p "")
 
-# If not empty, pass to walset-backend with full path
+# If wallpaper selected, show color scheme options
 if [ -n "$SELECTED_WALL" ]; then
-    "$HOME/.bin/walset-backend" "$WALL_DIR/$SELECTED_WALL"
+    # Show color scheme options
+    SCHEMES="tonal-spot (default)\ncontent\nexpressive\nfidelity\nneutral\nrainbow\nmonochrome\nfruit-salad"
+    SELECTED_SCHEME=$(echo -e "$SCHEMES" | rofi -dmenu -p "Color scheme:" -theme ~/.config/rofi/themes/material-you.rasi)
+    
+    if [ -n "$SELECTED_SCHEME" ]; then
+        # Extract scheme name (remove description)
+        SCHEME=$(echo "$SELECTED_SCHEME" | cut -d' ' -f1)
+        "$HOME/.bin/walset-backend" "$WALL_DIR/$SELECTED_WALL" "$SCHEME"
+    fi
 fi
 
 # Go back to where you came from

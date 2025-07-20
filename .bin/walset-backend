@@ -1,12 +1,13 @@
 #!/bin/bash
 
-# Check if the user provided an argument
-if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 <path_to_image>"
+# Check arguments
+if [ "$#" -lt 1 ]; then
+    echo "Usage: $0 <path_to_image> [color_scheme]"
     exit 1
 fi
 
 IMAGE="$1"
+COLOR_SCHEME="${2:-tonal-spot}" # Default to tonal-spot if not provided
 
 # Send notification to the user
 notify-send "Changing Theme" "Applying new wallpaper and updating colors, please wait until confirmation..."
@@ -23,15 +24,20 @@ wal -i "$IMAGE" -n -s -t -e
 #     pywal-spicetify Dribbblish
 # fi
 
-# Use Matugen to generate Material You colors
-matugen image "$IMAGE"
+# Use Matugen to generate Material You colors with selected scheme
+matugen image "$IMAGE" --type "scheme-$COLOR_SCHEME"
+
+# Generate libadwaita theme with Gradience (higher tone for more vibrant colors)
+#gradience-cli monet -n "auto-generated" -p "$IMAGE" --theme dark --tone 40
+# Apply the generated theme
+#gradience-cli apply -n "auto-generated"
 
 # Refresh swaync
 pkill swaync
-uwsm app -- swaync > /dev/null 2>&1 &
+uwsm app -- swaync >/dev/null 2>&1 &
 
 # Refresh waybar
 pkill waybar
-uwsm app -- waybar > /dev/null 2>&1 &
+uwsm app -- waybar >/dev/null 2>&1 &
 
 notify-send "Theme Applied" "Wallpaper and theme updated successfully!"
