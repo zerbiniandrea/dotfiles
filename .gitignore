@@ -1,2 +1,4 @@
 .env
 .config/nvim/lazy-lock.json
+.config/hypr/colors.conf
+.config/waybar/colors.css
