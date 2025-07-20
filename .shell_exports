@@ -1,5 +1,8 @@
 # Common environment variables for bash and zsh
 
+# Add ~/.bin to PATH for local scripts
+export PATH="$HOME/.bin:$PATH"
+
 # Add npm global bin to PATH if it exists
 if [ -d ~/.npm-global/bin ]; then
     export PATH=~/.npm-global/bin:$PATH

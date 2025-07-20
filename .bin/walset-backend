@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Check if the user provided an argument
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <path_to_image>"
+    exit 1
+fi
+
+IMAGE="$1"
+
+# Send notification to the user
+notify-send "Changing Theme" "Applying new wallpaper and updating colors, please wait until confirmation..."
+
+# Set wallpaper
+swww img "$IMAGE" --transition-type="center" --transition-step=1 --transition-fps="60"
+
+# Generate pywal colors
+wal -i "$IMAGE" -n -s -t -e
+
+# Spotify theming disabled due to spicetify backup issues
+# Uncomment and configure spicetify if you want Spotify theming:
+# if command -v pywal-spicetify &> /dev/null; then
+#     pywal-spicetify Dribbblish
+# fi
+
+# Use Matugen to generate Material You colors
+matugen image "$IMAGE"
+
+# Refresh swaync
+pkill swaync
+uwsm app -- swaync > /dev/null 2>&1 &
+
+# Refresh waybar
+pkill waybar
+uwsm app -- waybar > /dev/null 2>&1 &
+
+notify-send "Theme Applied" "Wallpaper and theme updated successfully!"

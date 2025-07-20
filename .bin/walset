@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Directory containing wallpapers
+WALL_DIR="$HOME/Pictures/Wallpapers"
+
+# Current directory (to cd back to)
+CWD="$(pwd)"
+
+cd "$WALL_DIR" || exit
+
+# Handle spaces in filenames
+IFS=$'\n'
+
+# Grab the user-selected wallpaper with grid layout
+SELECTED_WALL=$(for a in *.jpg *.png; do echo -en "$a\0icon\x1f$a\n" ; done | rofi -dmenu -theme ~/.config/rofi/themes/wallpaper-grid.rasi -p "")
+
+# If not empty, pass to walset-backend with full path
+if [ -n "$SELECTED_WALL" ]; then
+    "$HOME/.bin/walset-backend" "$WALL_DIR/$SELECTED_WALL"
+fi
+
+# Go back to where you came from
+cd "$CWD" || exit

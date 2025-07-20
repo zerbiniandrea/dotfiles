@@ -1,0 +1,76 @@
+@import "~/.local/share/rofi/themes/material-you/material-colors.rasi"
+
+* {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    spacing: 0;
+}
+
+window {
+    width: 512px;
+    background-color: @surface;
+    border: 1px solid;
+    border-color: @outline;
+    border-radius: 16px;
+}
+
+element {
+    padding: 8 12;
+    background-color: transparent;
+    text-color: @on-surface;
+}
+
+element selected {
+    text-color: @on-primary-container;
+    background-color: @primary-container;
+    border-radius: 8px;
+}
+
+element-text {
+    background-color: transparent;
+    text-color: inherit;
+    vertical-align: 0.5;
+}
+
+element-icon {
+    size: 14;
+    padding: 0 10 0 0;
+    background-color: transparent;
+}
+
+entry {
+    padding: 12;
+    background-color: @surface;
+    text-color: @on-surface;
+    border-radius: 12px;
+}
+
+inputbar {
+    children: [prompt, entry];
+    background-color: @surface;
+    border-radius: 12px;
+    padding: 8;
+    margin: 8;
+}
+
+listview {
+    background-color: @surface;
+    columns: 1;
+    lines: 8;
+    padding: 8;
+    margin: 0 8 8 8;
+}
+
+mainbox {
+    background-color: @surface;
+    children: [inputbar, listview];
+}
+
+prompt {
+    background-color: @surface;
+    enabled: true;
+    font: "Material Design Icons 14";
+    padding: 12 0 0 12;
+    text-color: @primary;
+}
