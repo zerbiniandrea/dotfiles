@@ -2,3 +2,4 @@
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias up='yay && flatpak update'
+alias starthypr='exec uwsm start hyprland'
