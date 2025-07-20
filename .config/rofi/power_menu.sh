@@ -1,20 +1,20 @@
 #!/bin/bash
 
-options="Shutdown\nRestart\nLogout\nSleep"
+options="󰐥 Power Off\n Reboot\n󰤄 Suspend\n Log out"
 
-chosen=$(echo -e "$options" | rofi -dmenu -i -p "Power Menu" -theme-str 'window {width: 300px;}')
+chosen=$(echo -e "$options" | rofi -dmenu -i -l 4 -p "Power Menu" -theme-str 'window {width: 300px;}')
 
 case $chosen in
-    "Shutdown")
-        systemctl poweroff
-        ;;
-    "Restart")
-        systemctl reboot
-        ;;
-    "Logout")
-        hyprctl dispatch exit
-        ;;
-    "Sleep")
-        systemctl suspend
-        ;;
+"󰐥 Power Off")
+    systemctl poweroff
+    ;;
+" Reboot")
+    systemctl reboot
+    ;;
+"󰤄 Suspend")
+    systemctl suspend
+    ;;
+" Log out")
+    hyprctl dispatch exit
+    ;;
 esac

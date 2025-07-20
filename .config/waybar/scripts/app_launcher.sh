@@ -1,4 +1,4 @@
 #!/bin/bash
 
-rofi -show drun
+uwsm app -- rofi -show drun
 

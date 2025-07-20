@@ -4,5 +4,6 @@ configuration{
     display-run: " ";
     display-window: " ";
     drun-display-format: "{icon} {name}";
+    drun-launch-command: "uwsm app -- {cmd}";
 }
 @theme "themes/tokyonight.rasi"
