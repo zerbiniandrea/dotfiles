@@ -13,14 +13,14 @@ window#waybar {
 }
 
 .modules-right {
-  margin-right: 12px;
+  margin-right: 20px;
 }
 
 #workspaces {
   background-color: @surface_container;
   color: @primary;
   padding: 8px 12px;
-  margin-left: 12px;
+  margin-left: 20px;
   border: none;
   border-radius: 50px;
 }
@@ -86,8 +86,18 @@ window#waybar {
 #custom-microphone {
   color: @primary;
   background-color: @surface_container;
-  padding: 0 18px 0 18px;
+  padding: 0 16px 0 16px;
   margin: 0 0 0 12px;
+}
+
+#custom-notification,
+#custom-microphone,
+#custom-logo {
+  min-width: 16px;
+}
+
+#custom-logo {
+  margin-left: 20px;
 }
 
 #custom-microphone.muted {
