@@ -34,10 +34,46 @@ class PlayerManager:
         signal.signal(signal.SIGINT, signal_handler)
         signal.signal(signal.SIGTERM, signal_handler)
         signal.signal(signal.SIGPIPE, signal.SIG_DFL)
+        signal.signal(signal.SIGUSR1, self.cycle_player)
         self.selected_player = selected_player
         self.excluded_player = excluded_player.split(',') if excluded_player else []
+        self.current_player_index = 0
+        self.state_file = "/tmp/waybar_media_player_index"
 
+        self.load_player_index()
         self.init_players()
+
+    def load_player_index(self):
+        try:
+            if os.path.exists(self.state_file):
+                with open(self.state_file, 'r') as f:
+                    self.current_player_index = int(f.read().strip())
+        except:
+            self.current_player_index = 0
+
+    def save_player_index(self):
+        try:
+            with open(self.state_file, 'w') as f:
+                f.write(str(self.current_player_index))
+        except:
+            pass
+
+    def cycle_player(self, signum, frame):
+        players = self.get_players()
+        if len(players) > 1:
+            self.current_player_index = (self.current_player_index + 1) % len(players)
+            self.save_player_index()
+            self.show_current_player()
+
+    def get_current_player(self):
+        players = self.get_players()
+        if len(players) == 0:
+            return None
+        # Ensure index is within bounds
+        if self.current_player_index >= len(players):
+            self.current_player_index = 0
+            self.save_player_index()
+        return players[self.current_player_index]
 
     def init_players(self):
         for player in self.manager.props.player_names:
@@ -50,6 +86,8 @@ class PlayerManager:
 
     def run(self):
         logger.info("Starting main loop")
+        # Show initial state
+        self.show_current_player()
         self.loop.run()
 
     def init_player(self, player):
@@ -66,7 +104,26 @@ class PlayerManager:
 
     def write_output(self, text, player):
         logger.debug(f"Writing output: {text}")
-
+        
+        # Save current player name for shell script
+        try:
+            with open("/tmp/waybar_current_player_name", 'w') as f:
+                f.write(player.props.player_name)
+        except:
+            pass
+        
+        players = self.get_players()
+        if len(players) > 1:
+            # Show arrows around the entire content if multiple players
+            if text:
+                # Smart truncation: ensure closing > is always visible
+                max_content_length = 37  # 40 total - 3 for "< >"
+                if len(text) > max_content_length:
+                    text = text[:max_content_length-3] + "..."
+                text = f"< {text} >"
+            else:
+                text = "< >"
+        
         output = {"text": text,
                   "class": "custom-" + player.props.player_name,
                   "alt": player.props.player_name}
@@ -97,12 +154,9 @@ class PlayerManager:
             logger.debug("No players found")
             return None
 
-    def show_most_important_player(self):
-        logger.debug("Showing most important player")
-        # show the currently playing player
-        # or else show the first paused player
-        # or else show nothing
-        current_player = self.get_first_playing_player()
+    def show_current_player(self):
+        logger.debug("Showing current selected player")
+        current_player = self.get_current_player()
         if current_player is not None:
             self.on_metadata_changed(current_player, current_player.props.metadata)
         else:    
@@ -124,15 +178,15 @@ class PlayerManager:
 
         if track_info:
             if player.props.status == "Playing":
-                track_info = "   " + track_info
+                track_info = "  " + track_info
             else:
-                track_info = "   " + track_info
-        # only print output if no other player is playing
-        current_playing = self.get_first_playing_player()
-        if current_playing is None or current_playing.props.player_name == player.props.player_name:
+                track_info = "  " + track_info
+        # only print output if this is the currently selected player
+        current_selected = self.get_current_player()
+        if current_selected is not None and current_selected.props.player_name == player.props.player_name:
             self.write_output(track_info, player)
         else:
-            logger.debug(f"Other player {current_playing.props.player_name} is playing, skipping")
+            logger.debug(f"Player {player.props.player_name} is not the selected player, skipping")
 
     def on_player_appeared(self, _, player):
         logger.info(f"Player has appeared: {player.name}")
@@ -142,13 +196,19 @@ class PlayerManager:
             return
         if player is not None and (self.selected_player is None or player.name == self.selected_player):
             self.init_player(player)
+            self.show_current_player()  # Update display when new player appears
         else:
             logger.debug(
                 "New player appeared, but it's not the selected player, skipping")
 
     def on_player_vanished(self, _, player):
         logger.info(f"Player {player.props.player_name} has vanished")
-        self.show_most_important_player()
+        # Reset index if it's out of bounds
+        players = self.get_players()
+        if self.current_player_index >= len(players):
+            self.current_player_index = max(0, len(players) - 1)
+            self.save_player_index()
+        self.show_current_player()
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
