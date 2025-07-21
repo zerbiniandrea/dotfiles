@@ -15,17 +15,11 @@ notify-send "Changing Theme" "Applying new wallpaper and updating colors, please
 # Set wallpaper
 swww img "$IMAGE" --transition-type="center" --transition-step=1 --transition-fps="60"
 
-# Generate pywal colors
-wal -i "$IMAGE" -n -s -t -e
-
-# Spotify theming disabled due to spicetify backup issues
-# Uncomment and configure spicetify if you want Spotify theming:
-# if command -v pywal-spicetify &> /dev/null; then
-#     pywal-spicetify Dribbblish
-# fi
-
-# Use Matugen to generate Material You colors with selected scheme
+# Use Matugen to generate Material You colors with selected scheme (includes Spotify!)
 matugen image "$IMAGE" --type "scheme-$COLOR_SCHEME"
+
+# Apply the generated Spotify theme
+spicetify apply
 
 # Generate libadwaita theme with Gradience (higher tone for more vibrant colors)
 #gradience-cli monet -n "auto-generated" -p "$IMAGE" --theme dark --tone 40

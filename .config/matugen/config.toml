@@ -22,10 +22,10 @@ output_path = '~/.config/waybar/colors.css'
 # input_path = '~/.config/matugen/templates/gtk-colors.css'
 # output_path = '~/.config/gtk-4.0/colors.css'
 
-
-
 [templates.rofi]
 input_path = '~/.config/matugen/templates/rofi-colors.rasi'
 output_path = '~/.local/share/rofi/themes/material-you/material-colors.rasi'
 
-
+[templates.spicetify]
+input_path = '~/.config/matugen/templates/spicetify-colors.ini'
+output_path = '~/.config/spicetify/Themes/Ziro/color.ini'
