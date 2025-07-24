@@ -1,8 +1,8 @@
 #!/bin/bash
 
-options="󰐥 Power Off\n Reboot\n󰤄 Suspend\n Log out"
+options="󰐥 Power Off\n Reboot\n󰤄 Suspend"
 
-chosen=$(echo -e "$options" | rofi -dmenu -i -l 4 -p "Power Menu" -theme-str 'window {width: 300px;}')
+chosen=$(echo -e "$options" | rofi -dmenu -i -l 3 -p "Power Menu" -theme-str 'window {width: 300px;}')
 
 case $chosen in
 "󰐥 Power Off")
@@ -13,8 +13,5 @@ case $chosen in
     ;;
 "󰤄 Suspend")
     systemctl suspend
-    ;;
-" Log out")
-    hyprctl dispatch exit
     ;;
 esac
