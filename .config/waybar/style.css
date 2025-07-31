@@ -82,7 +82,6 @@ window#waybar {
 #tray,
 #custom-logo,
 #custom-notification,
-#custom-gaming,
 #custom-microphone {
   color: @primary;
   background-color: @surface_container;
@@ -106,24 +105,6 @@ window#waybar {
 
 #custom-microphone.unmuted {
   color: @primary;
-}
-
-window#waybar #custom-gaming {
-  font-size: 26px;
-  font-weight: bold;
-  transition: all 0.3s ease;
-}
-
-/* When not on gaming workspace - dimmed */
-window#waybar #custom-gaming.inactive {
-  opacity: 0.4;
-  color: @outline;
-}
-
-/* When actively on gaming workspace - bright with glow */
-window#waybar #custom-gaming.active {
-  color: @primary;
-  text-shadow: 0 0 8px alpha(@primary, 0.5);
 }
 
 #window.hidden {

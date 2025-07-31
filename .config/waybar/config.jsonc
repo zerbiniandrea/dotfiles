@@ -6,7 +6,6 @@
     "custom/logo",
     "clock",
     "hyprland/workspaces",
-    "custom/gaming",
   ],
   "modules-center": ["custom/media"],
   "modules-right": [
@@ -50,14 +49,6 @@
 
   "custom/logo": {
     "format": "󰣇",
-  },
-
-  "custom/gaming": {
-    "format": "{}",
-    "return-type": "json",
-    "exec": "bash /home/$USER/.config/waybar/scripts/gaming_status.sh",
-    "interval": 1,
-    "on-click": "hyprctl dispatch togglespecialworkspace games",
   },
 
   "custom/media": {
