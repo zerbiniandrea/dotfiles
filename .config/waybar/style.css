@@ -71,18 +71,13 @@ window#waybar {
 
 #battery,
 #pulseaudio,
-#backlight,
 #network,
 #clock,
-#custom-media,
-#window,
-#cpu,
-#memory,
-#disk,
-#tray,
 #custom-logo,
+#custom-media,
 #custom-notification,
-#custom-microphone {
+#custom-microphone,
+#custom-power {
   color: @primary;
   background-color: @surface_container;
   padding: 0 16px 0 16px;
@@ -91,7 +86,8 @@ window#waybar {
 
 #custom-notification,
 #custom-microphone,
-#custom-logo {
+#custom-logo,
+#custom-power {
   min-width: 16px;
 }
 
@@ -118,4 +114,8 @@ window#waybar {
 
 window#waybar.empty #window {
   background-color: transparent;
+}
+
+#custom-power {
+  font-size: 20px;
 }

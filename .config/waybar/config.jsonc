@@ -8,7 +8,8 @@
   "modules-right": [
     "custom/microphone",
     "pulseaudio",
-    "battery",
+    "custom/power",
+    "battery", 
     "network",
     "custom/notification",
   ],
@@ -61,11 +62,19 @@
     "restart-interval": 3,
   },
 
+  "custom/power": {
+    "format": "{}",
+    "exec": "$HOME/.config/waybar/scripts/power_profile_menu.sh display",
+    "signal": 9,
+    "tooltip": false,
+  },
+
   "battery": {
     "format": "{icon}  {capacity}%",
-    "format-charging": "󰂄  {capacity}%",
+    "format-charging": "󰂄  {capacity}%", 
     "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
-    "tooltip-format": "Battery is at {capacity}%",
+    "tooltip-format": "Battery: {capacity}%\nClick to change power profile",
+    "on-click": "$HOME/.config/waybar/scripts/power_profile_menu.sh menu",
   },
 
   "clock": {
