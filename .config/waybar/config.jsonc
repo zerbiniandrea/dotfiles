@@ -2,11 +2,8 @@
   "layer": "top",
   "position": "top",
   "margin-top": 13,
-  "modules-left": [
-    "custom/logo",
-    "clock",
-    "hyprland/workspaces",
-  ],
+  "height": 56,
+  "modules-left": ["custom/logo", "clock", "hyprland/workspaces"],
   "modules-center": ["custom/media"],
   "modules-right": [
     "custom/microphone",
@@ -15,7 +12,6 @@
     "network",
     "custom/notification",
   ],
-  "height": 56,
 
   "custom/microphone": {
     "format": "{}",
@@ -107,6 +103,7 @@
     "tooltip-format-wifi": "WiFi: {essid} ({signalStrength}%)",
     "tooltip-format-ethernet": "Ethernet: {ipaddr}/{cidr}",
     "tooltip-format-disconnected": "No connection",
+    "on-click": "nm-connection-editor",
   },
 
   "hyprland/workspaces": {
@@ -115,7 +112,6 @@
       "active": "●",
       "default": "○",
     },
-    "on-click": "activate",
     "sort-by-number": true,
     "show-special": false,
     "all-outputs": false,
