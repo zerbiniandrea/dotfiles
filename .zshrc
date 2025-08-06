@@ -46,5 +46,3 @@ zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-dir
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
 KEYTIMEOUT=1
-
-fastfetch
