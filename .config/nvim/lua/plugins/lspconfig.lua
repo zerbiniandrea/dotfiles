@@ -159,19 +159,17 @@ return {
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
             end, '[T]oggle Inlay [H]ints')
           end
+
+          -- Organize imports keybinding
+          map('<leader>oi', function()
+            vim.lsp.buf.code_action {
+              context = { only = { 'source.organizeImports' }, diagnostics = {} },
+              apply = true,
+            }
+          end, '[O]rganize [I]mports')
         end,
       })
 
-      -- Auto organize imports on save
-      vim.api.nvim_create_autocmd('BufWritePre', {
-        group = vim.api.nvim_create_augroup('lsp-format-imports', { clear = true }),
-        callback = function()
-          vim.lsp.buf.code_action {
-            context = { only = { 'source.organizeImports' }, diagnostics = {} },
-            apply = true,
-          }
-        end,
-      })
 
       -- Diagnostic Config
       -- See :help vim.diagnostic.Opts
