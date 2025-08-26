@@ -18,6 +18,8 @@ setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_FIND_NO_DUPS
 setopt HIST_SAVE_NO_DUPS
 setopt SHARE_HISTORY
+setopt HIST_IGNORE_SPACE
+HISTORY_IGNORE="(export *|curl *)"
 # Vi mode
 bindkey -v
 
