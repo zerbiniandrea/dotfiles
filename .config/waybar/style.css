@@ -1,121 +1,162 @@
-@import url("/home/zerbi/.config/waybar/colors.css");
+@import "colors/colors.css";
 
 * {
-  font-family: "DM Sans", "JetBrainsMono Nerd Font Propo", sans-serif;
-  font-size: 16px;
-  border-radius: 50px;
-  font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    font-family: "DM Sans", "JetBrainsMono Nerd Font Propo", sans-serif;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+    min-width: 10px;
 }
 
 window#waybar {
-  background-color: transparent;
-  color: @foreground;
+    background-color: @bg0;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+}
+
+tooltip {
+    background-color: @bg0;
+    border: 1px solid @blue;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+tooltip label {
+    color: @fg;
+    padding: 8px 12px;
+    font-size: 14px;
+}
+
+.modules-left {
+    margin-left: 20px;
 }
 
 .modules-right {
-  margin-right: 20px;
+    margin-right: 20px;
 }
 
+/* Workspaces */
 #workspaces {
-  background-color: @surface_container;
-  color: @primary;
-  padding: 8px 12px;
-  margin-left: 20px;
-  border: none;
-  border-radius: 50px;
+    margin: 0 8px;
+    padding: 12px 8px;
+    min-height: 0;
+    transition: all 0.3s ease-in-out;
 }
 
 #workspaces button {
-  background: transparent;
-  color: alpha(@outline, 0.4);
-  padding: 6px 10px;
-  margin: 0 2px;
-  border: 2px solid transparent;
-  outline: none;
-  box-shadow: none;
-  text-shadow: none;
-  font-size: 13px;
-  border-radius: 12px;
-  transition: all 0.25s ease;
-  min-width: 32px;
-}
-
-#workspaces button:hover {
-  color: @primary;
-  background-color: alpha(@primary_container, 0.4);
-  border: 2px solid alpha(@primary, 0.3);
+    color: transparent;
+    background: linear-gradient(90deg, @grey0 0%, @bg1 100%);
+    transition: all 0.3s ease-in-out;
+    min-height: 0;
+    min-width: 36px;
+    margin: 5px 4px;
+    border-radius: 9999px;
 }
 
 #workspaces button.active {
-  color: @primary;
-  background-color: @primary_container;
-  border: 2px solid @primary;
-  box-shadow: 0 0 0 2px alpha(@primary, 0.2);
+    background: linear-gradient(90deg, @blue 0%, @purple 100%);
+    color: transparent;
+    transition: all 0.3s ease-in-out;
+    font-size: 13px;
+    border-radius: 9999px;
+    min-width: 80px;
 }
 
-#workspaces button.active:hover {
-  color: @primary_fixed_dim;
-  background-color: alpha(@primary_container, 0.8);
-}
-
-#workspaces button.empty {
-  color: @secondary;
-  background-color: alpha(@surface_container_high, 0.5);
-  border: 1px solid alpha(@outline, 0.3);
+#workspaces button:hover {
+    background: linear-gradient(90deg, @purple 0%, @blue 100%);
+    color: transparent;
+    border-radius: 16px;
+    background-size: 400% 400%;
+    transition: all 0.3s ease-in-out;
 }
 
 #workspaces button.urgent {
-  background-color: @error;
-  color: @on_error;
+    background-color: @red;
+    color: transparent;
+    animation: pulse 1s infinite;
 }
 
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* Modules */
 #battery,
-#pulseaudio,
 #network,
-#clock,
-#custom-logo,
-#custom-media,
-#custom-notification,
+#pulseaudio,
 #custom-microphone,
+#custom-notification,
 #custom-power {
-  color: @primary;
-  background-color: @surface_container;
-  padding: 0 16px 0 16px;
-  margin: 0 0 0 12px;
+    margin: 0 2px;
+    padding: 0 16px;
+    font-size: 16px;
 }
 
-#custom-notification,
-#custom-microphone,
-#custom-logo,
-#custom-power {
-  min-width: 16px;
+#clock {
+    color: @blue;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 20px;
+    padding: 0px 8px;
 }
 
-#custom-logo {
-  margin-left: 20px;
+#custom-media {
+    color: @aqua;
+    margin: 0 12px;
+    padding: 0 16px;
+    font-size: 16px;
+}
+
+/* Module Colors */
+#custom-microphone {
+    color: @yellow;
 }
 
 #custom-microphone.muted {
-  color: @error;
+    color: @red;
 }
 
-#custom-microphone.unmuted {
-  color: @primary;
-}
-
-#window.hidden {
-  opacity: 0;
-  min-width: 0;
-  min-height: 0;
-  padding: 0;
-  margin: 0;
-  border: none;
-}
-
-window#waybar.empty #window {
-  background-color: transparent;
+#pulseaudio {
+    color: @yellow;
 }
 
 #custom-power {
-  font-size: 20px;
+    color: @orange;
+}
+
+#battery {
+    color: @green;
+}
+
+#network {
+    color: @purple;
+}
+
+#custom-notification {
+    color: @blue;
+}
+
+/* Volume Slider */
+#pulseaudio-slider {
+    padding: 0 8px;
+    margin: 0;
+}
+
+#pulseaudio-slider slider {
+    border-radius: 2px;
+    background: @grey0;
+}
+
+#pulseaudio-slider trough {
+    min-width: 100px;
+    min-height: 6px;
+    border-radius: 3px;
+    background: @bg2;
+}
+
+#pulseaudio-slider highlight {
+    border-radius: 3px;
+    background: @yellow;
 }

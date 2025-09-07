@@ -2,7 +2,7 @@
   font-family: "DM Sans", "JetBrainsMono Nerd Font Propo", sans-serif;
   font-size: 16px;
   font-weight: bold;
-  color: @primary;
+  color: @fg;
   all: unset;
   transition: all 0.2s ease;
 }
@@ -15,9 +15,9 @@
 /* CONTROL CENTER ------------------------------------------------------------------------ */
 
 .control-center {
-  background-color: @surface_container;
+  background-color: @bg0;
   border-radius: 16px;
-  border: 1px solid alpha(@outline, 0.2);
+  border: 1px solid @grey0;
   box-shadow: 0 8px 24px rgba(0,0,0,0.4);
   margin: 12px;
   padding: 15px;
@@ -26,16 +26,16 @@
 /* Notifications  */
 .control-center .notification-row .notification-background,
 .control-center .notification-row .notification-background .notification.critical {
-  background-color: @surface_container_high;
+  background-color: @bg1;
   border-radius: 12px;
   margin: 8px 0px;
   padding: 8px;
 }
 
 .control-center .notification-row .notification-background .notification.critical {
-  color: @error;
-  border: 2px solid @error;
-  background-color: alpha(@error_container, 0.3);
+  color: @red;
+  border: 2px solid @red;
+  background-color: rgba(247, 118, 142, 0.3);
 }
 
 .control-center .notification-row .notification-background .notification .notification-content {
@@ -48,41 +48,41 @@
 }
 
 .control-center .notification-row .notification-background .notification > *:last-child > * .notification-action {
-  background-color: @primary_container;
-  color: @on_primary_container;
+  background-color: @blue;
+  color: @bg0;
   border-radius: 8px;
   margin: 8px 12px;
   padding: 8px 15px;
 }
 
 .control-center .notification-row .notification-background .notification > *:last-child > * .notification-action:hover {
-  background-color: @primary;
-  color: @on_primary;
+  background-color: @purple;
+  color: @bg0;
 }
 
 .control-center .notification-row .notification-background .notification > *:last-child > * .notification-action:active {
-  background-color: @primary_fixed_dim;
-  color: @on_primary;
+  background-color: @aqua;
+  color: @bg0;
 }
 
 /* Buttons */
 
 .control-center .notification-row .notification-background .close-button {
-  background-color: alpha(@surface_container_highest, 0.8);
+  background-color: rgba(84, 92, 126, 0.8);
   border-radius: 8px;
-  color: @outline;
+  color: @grey0;
   margin: 8px;
   padding: 8px;
 }
 
 .control-center .notification-row .notification-background .close-button:hover {
-  background-color: @error;
-  color: @on_error;
+  background-color: @red;
+  color: @bg0;
 }
 
 .control-center .notification-row .notification-background .close-button:active {
-  background-color: @error_container;
-  color: @on_error_container;
+  background-color: @red;
+  color: @bg0;
 }
 
 progressbar,
@@ -101,21 +101,22 @@ progressbar {
   margin: 2px 8px 2px 8px;
 
 }
+
 .notification-group-headers {
   font-weight: bold;
   font-size: 1.25rem;
-  color: @text;
+  color: @fg;
   letter-spacing: 2px;
 }
 
 .notification-group-icon {
-  color: @text;
+  color: @fg;
 }
 
 .notification-group-collapse-button,
 .notification-group-close-all-button {
-  background-color: @surface_container_highest;
-  color: @on_surface;
+  background-color: @bg2;
+  color: @fg;
   margin: 8px;
   border-radius: 8px;
   padding: 8px;
@@ -123,40 +124,48 @@ progressbar {
 
 .notification-group-collapse-button:hover,
 .notification-group-close-all-button:hover {
-  background-color: @primary_container;
-  color: @on_primary_container;
+  background-color: @blue;
+  color: @bg0;
 }  
 
 /* WIDGETS --------------------------------------------------------------------------- */
+
+/* Fixed widgets area at bottom */
+.control-center .widget-title,
+.control-center .widget-dnd,
+.control-center .widget-mpris,
+.control-center .widget-buttons-grid,
+.control-center .widget-volume {
+}
 
   /* Notification clear button */
 .widget-title {
   font-size: 1.2em;
   margin: 12px 8px 4px 8px;
   font-weight: bold;
-  color: @on_surface;
+  color: @fg;
 }
 
 .widget-title button {
   background-color: transparent;
-  color: alpha(@outline, 0.7);
+  color: rgba(84, 92, 126, 0.7);
   border-radius: 8px;
   padding: 12px 24px;
   margin: 16px 8px 12px 8px;
   font-size: 14px;
   font-weight: normal;
-  border: 1px solid alpha(@outline, 0.3);
+  border: 1px solid rgba(84, 92, 126, 0.3);
 }
 
 .widget-title button:hover {
-  background-color: alpha(@error, 0.1);
-  color: @error;
-  border: 1px solid alpha(@error, 0.5);
+  background-color: rgba(247, 118, 142, 0.1);
+  color: @red;
+  border: 1px solid rgba(247, 118, 142, 0.5);
 }
 
 .widget-title button:active {
-  background-color: alpha(@error, 0.2);
-  color: @error;
+  background-color: rgba(247, 118, 142, 0.2);
+  color: @red;
 }
 
   /* Do not disturb */
@@ -166,33 +175,33 @@ progressbar {
 }
 
 .widget-dnd > switch {
-  background-color: @surface_container_high;
+  background-color: @bg1;
   font-size: initial;
   border-radius: 20px;
   box-shadow: none;
   padding: 4px;
   min-width: 48px;
   min-height: 24px;
-  border: 1px solid alpha(@outline, 0.3);
+  border: 1px solid rgba(84, 92, 126, 0.3);
 }
 
 .widget-dnd > switch:hover {
-  background-color: @surface_container_highest;
-  border: 1px solid alpha(@primary, 0.5);
+  background-color: @bg2;
+  border: 1px solid rgba(122, 162, 247, 0.5);
 }
 
 .widget-dnd > switch:checked {
-  background-color: @primary;
-  border: 1px solid @primary;
+  background-color: @blue;
+  border: 1px solid @blue;
 }
 
 .widget-dnd > switch:checked:hover {
-  background-color: @primary_fixed_dim;
-  border: 1px solid @primary_fixed_dim;
+  background-color: @purple;
+  border: 1px solid @purple;
 }
 
 .widget-dnd > switch slider {
-  background-color: @on_surface;
+  background-color: @fg;
   border-radius: 50px;
   margin: 2px;
   min-width: 16px;
@@ -201,7 +210,7 @@ progressbar {
 }
 
 .widget-dnd > switch:checked slider {
-  background-color: @on_primary;
+  background-color: @bg0;
 }
 
   /* Buttons menu */
@@ -210,50 +219,50 @@ progressbar {
   padding: 8px 12px;
   margin: 8px;
   border-radius: 12px;
-  background-color: @surface_container_high;
+  background-color: @bg1;
 }
 
 .widget-buttons-grid>flowbox>flowboxchild>button {
   margin: 8px;
   padding: 8px 15px;
-  background-color: @surface_container_highest;
+  background-color: @bg2;
   border-radius: 8px;
-  color: @on_surface;
+  color: @fg;
 }
 
 .widget-buttons-grid>flowbox>flowboxchild>button:hover {
-  background-color: @primary_container;
-  color: @on_primary_container;
+  background-color: @blue;
+  color: @bg0;
 }
 
 
   /* Music player */
 .widget-mpris {
-    background: @background-alt;
+    background: transparent;
     border-radius: 16px;
-    color: @text;
+    color: @fg;
     margin:  20px 6px;
 }
 
   /* NOTE: Background need *opacity 1* otherwise will turn into the album art blurred  */
 .widget-mpris-player {
-    background-color: @background-sec;
+    background-color: transparent;
     border-radius: 22px;
     padding: 6px 14px;
     margin: 6px;
 }
 
 .widget-mpris > box > button {
-  color: @text;
+  color: @fg;
   border-radius: 20px;
 }
  
 .widget-mpris button {
-  color: alpha(@text, .6);
+  color: rgba(192, 202, 245, 0.6);
 }
 
 .widget-mpris button:hover {
-  color: @text;
+  color: @fg;
 }
 
 .widget-mpris-album-art {
@@ -272,8 +281,8 @@ progressbar {
 
 /* Volume */
 .widget-volume {
-  background: @background-sec;
-  color: @background;
+  background: @bg2;
+  color: @bg0;
   padding: 4px;
   margin: 6px;
   border-radius: 6px;
