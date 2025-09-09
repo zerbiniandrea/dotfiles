@@ -19,10 +19,10 @@
     0 4px 16px rgba(0, 0, 0, 0.15),
     0 8px 32px rgba(0, 0, 0, 0.08),
     0 1px 4px rgba(0, 0, 0, 0.2);
-  border-radius: 20px;
+  border-radius: 10px;
   margin: 10px;
   padding: 0;
-  border: 1px solid @grey0;
+  border: 2px solid @blue;
 }
 
 .floating-notifications.background
@@ -30,7 +30,7 @@
   .notification-background
   .notification {
   padding: 18px 24px;
-  border-radius: 20px;
+  border-radius: 10px;
   background: transparent;
 }
 
@@ -67,7 +67,7 @@
   > *:last-child
   > *
   .notification-action {
-  border-radius: 12px;
+  border-radius: 10px;
   background-color: @blue;
   color: @bg0;
   margin: 6px 8px;
@@ -146,8 +146,8 @@
   background-color: rgba(247, 118, 142, 0.15);
   color: @red;
   opacity: 1;
-  transform: scale(1.1);
-  box-shadow: 0 2px 6px rgba(247, 118, 142, 0.2);
+  transform: scale(1.05);
+  box-shadow: 0 1px 3px rgba(247, 118, 142, 0.15);
 }
 
 .floating-notifications.background

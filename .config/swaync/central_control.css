@@ -16,8 +16,8 @@
 
 .control-center {
   background-color: @bg0;
-  border-radius: 16px;
-  border: 1px solid @grey0;
+  border-radius: 10px;
+  border: 2px solid @blue;
   box-shadow: 0 8px 24px rgba(0,0,0,0.4);
   margin: 12px;
   padding: 15px;
@@ -27,7 +27,7 @@
 .control-center .notification-row .notification-background,
 .control-center .notification-row .notification-background .notification.critical {
   background-color: @bg1;
-  border-radius: 12px;
+  border-radius: 10px;
   margin: 8px 0px;
   padding: 8px;
 }
@@ -50,7 +50,7 @@
 .control-center .notification-row .notification-background .notification > *:last-child > * .notification-action {
   background-color: @blue;
   color: @bg0;
-  border-radius: 8px;
+  border-radius: 10px;
   margin: 8px 12px;
   padding: 8px 15px;
 }
@@ -69,10 +69,10 @@
 
 .control-center .notification-row .notification-background .close-button {
   background-color: rgba(84, 92, 126, 0.8);
-  border-radius: 8px;
-  color: @grey0;
+  border-radius: 6px;
+  color: @fg;
   margin: 8px;
-  padding: 8px;
+  padding: 6px;
 }
 
 .control-center .notification-row .notification-background .close-button:hover {
@@ -83,6 +83,12 @@
 .control-center .notification-row .notification-background .close-button:active {
   background-color: @red;
   color: @bg0;
+}
+
+
+/* Prevent timestamp overlap with close button in control panel */
+.control-center .time {
+  margin-right: 45px; /* Add space to avoid close button overlap */
 }
 
 progressbar,
@@ -118,7 +124,7 @@ progressbar {
   background-color: @bg2;
   color: @fg;
   margin: 8px;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 8px;
 }
 
@@ -128,14 +134,36 @@ progressbar {
   color: @bg0;
 }  
 
+/* Style all close buttons in control center consistently */
+.control-center .close-button {
+  background-color: rgba(84, 92, 126, 0.8);
+  border-radius: 10px;
+  color: @fg;
+  margin: 8px;
+  padding: 6px;
+}
+
+.control-center .close-button:hover {
+  background-color: @red;
+  color: @bg0;
+}
+
+.control-center .close-button:active {
+  background-color: @red;
+  color: @bg0;
+}
+
+/* Align grouped notification close button with timestamp */
+.control-center .notification-group .close-button {
+  margin-top: 16px; /* Align vertically with timestamp */
+  margin-right: 12px; /* Move a bit to the left */
+}
+
 /* WIDGETS --------------------------------------------------------------------------- */
 
-/* Fixed widgets area at bottom */
-.control-center .widget-title,
-.control-center .widget-dnd,
-.control-center .widget-mpris,
-.control-center .widget-buttons-grid,
-.control-center .widget-volume {
+/* Make notifications scrollable with GTK CSS */
+.widget-notifications {
+  min-height: 400px;
 }
 
   /* Notification clear button */
@@ -149,7 +177,7 @@ progressbar {
 .widget-title button {
   background-color: transparent;
   color: rgba(84, 92, 126, 0.7);
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 12px 24px;
   margin: 16px 8px 12px 8px;
   font-size: 14px;
