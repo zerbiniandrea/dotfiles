@@ -19,7 +19,6 @@ tooltip {
     background-color: @bg0;
     border: 1px solid @blue;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 tooltip label {
@@ -50,7 +49,7 @@ tooltip label {
     transition: all 0.3s ease-in-out;
     min-height: 0;
     min-width: 36px;
-    margin: 5px 4px;
+    margin: 3px 2px;
     border-radius: 9999px;
 }
 
@@ -106,7 +105,7 @@ tooltip label {
     color: @aqua;
     margin: 0 12px;
     padding: 0 16px;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 /* Module Colors */
