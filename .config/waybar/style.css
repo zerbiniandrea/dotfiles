@@ -2,7 +2,7 @@
 
 * {
     border: none;
-    border-radius: 12px;
+    border-radius: 0;
     font-family: "DM Sans", "JetBrainsMono Nerd Font Propo", sans-serif;
     font-weight: bold;
     padding: 0;
@@ -13,6 +13,7 @@
 window#waybar {
     background-color: @bg0;
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+    border-radius: 0;
 }
 
 tooltip {
