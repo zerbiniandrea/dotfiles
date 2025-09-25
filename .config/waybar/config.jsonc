@@ -108,7 +108,7 @@
         "format-bluetooth": "󰂱",
         "format-muted": "󰖁",
         "scroll-step": 1,
-        "on-click": "pavucontrol",
+        "on-click": "kitty --class=Wiremix -e wiremix",
         "ignored-sinks": [
             "Easy Effects Sink"
         ],
@@ -147,7 +147,7 @@
         "tooltip-format-wifi": "WiFi: {essid} ({signalStrength}%)",
         "tooltip-format-ethernet": "Ethernet: {ipaddr}/{cidr}",
         "tooltip-format-disconnected": "No connection",
-        "on-click": "nm-connection-editor",
+        "on-click": "kitty --class=Impala -e impala",
         "cursor": "pointer"
     },
     "hyprland/workspaces": {
