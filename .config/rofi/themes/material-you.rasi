@@ -1,4 +1,4 @@
-@import "../colors/tokyo-night.rasi"
+@import "../colors/current.rasi"
 
 * {
     border: 0;
@@ -12,7 +12,7 @@ window {
     background-color: @surface;
     border: 1px solid;
     border-color: @outline;
-    border-radius: 16px;
+    border-radius: 0px;
 }
 
 element {
@@ -24,7 +24,7 @@ element {
 element selected {
     text-color: @on-primary-container;
     background-color: @primary-container;
-    border-radius: 8px;
+    border-radius: 0px;
 }
 
 element-text {
@@ -43,13 +43,13 @@ entry {
     padding: 12;
     background-color: @surface;
     text-color: @on-surface;
-    border-radius: 12px;
+    border-radius: 0px;
 }
 
 inputbar {
     children: [prompt, entry];
     background-color: @surface;
-    border-radius: 12px;
+    border-radius: 0px;
     padding: 8;
     margin: 8;
 }

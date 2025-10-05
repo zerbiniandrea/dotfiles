@@ -1,0 +1,31 @@
+@define-color background-color #24273a;
+@define-color border-color #c6d0f5;
+@define-color label #cad3f5;
+@define-color image #cad3f5;
+@define-color progress #cad3f5;
+
+/* Main SwayOSD styling */
+window {
+    border-radius: 0;
+    opacity: 0.97;
+    border: 2px solid @border-color;
+    background-color: @background-color;
+}
+
+label {
+    font-family: 'JetBrainsMono Nerd Font Propo', sans-serif;
+    font-size: 11pt;
+    color: @label;
+}
+
+image {
+    color: @image;
+}
+
+progressbar {
+    border-radius: 0;
+}
+
+progress {
+    background-color: @progress;
+}

@@ -1,142 +1,55 @@
 {
+    "reload_style_on_change": true,
     "layer": "top",
     "position": "top",
-    "height": 50,
+    "spacing": 0,
+    "height": 26,
     "modules-left": [
-        "clock",
         "hyprland/workspaces"
     ],
     "modules-center": [
-        "custom/media"
+        "clock"
     ],
     "modules-right": [
-        "custom/microphone",
-        "group/volume",
-        "custom/power",
-        "battery",
+        "group/tray-expander",
+        "bluetooth",
         "network",
+        "pulseaudio",
         "custom/notification",
+        "battery"
     ],
-    "custom/microphone": {
-        "format": "{}",
-        "return-type": "json",
-        "exec": "bash /home/$USER/.config/waybar/scripts/mic_status.sh",
-        "interval": 1,
-        "on-click": "bash /home/$USER/.config/waybar/scripts/toggle_mic.sh",
-        "signal": 8,
-        "cursor": "pointer"
-    },
-    "custom/notification": {
-        "tooltip": false,
+    "hyprland/workspaces": {
+        "on-click": "activate",
         "format": "{icon}",
         "format-icons": {
-            "notification": "󰂚",
-            "none": "󰂜",
-            "dnd-notification": "󰂛",
-            "dnd-none": "󰪑",
-            "inhibited-notification": "󰂚",
-            "inhibited-none": "󰂜",
-            "dnd-inhibited-notification": "󰂛",
-            "dnd-inhibited-none": "󰪑",
+            "default": "",
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "7",
+            "8": "8",
+            "9": "9",
+            "10": "0",
+            "active": "󱓻"
         },
-        "return-type": "json",
-        "exec-if": "which swaync-client",
-        "exec": "swaync-client -swb",
-        "on-click": "swaync-client -t -sw",
-        "on-click-right": "swaync-client -d -sw",
-        "escape": true,
-        "cursor": "pointer"
-    },
-    "custom/media": {
-        "format": "{}",
-        "escape": true,
-        "return-type": "json",
-        "max-length": 40,
-        "on-click": "$HOME/.config/waybar/scripts/control_selected_player.sh play-pause",
-        "on-click-right": "$HOME/.config/waybar/scripts/control_selected_player.sh stop",
-        "on-scroll-up": "$HOME/.config/waybar/scripts/cycle_player.sh",
-        "on-scroll-down": "$HOME/.config/waybar/scripts/cycle_player.sh",
-        "exec": "$HOME/.config/waybar/scripts/mediaplayer.py 2> /dev/null", // Script in resources/custom_modules folder
-        "restart-interval": 3,
-    },
-    "custom/power": {
-        "format": "{}",
-        "exec": "$HOME/.config/waybar/scripts/power_profile_menu.sh display",
-        "signal": 9,
-        "tooltip": false,
-        "cursor": "pointer"
-    },
-    "battery": {
-        "format": "{icon}",
-        "format-charging": "󰂄",
-        "format-icons": [
-            "󰁺",
-            "󰁻",
-            "󰁼",
-            "󰁽",
-            "󰁾",
-            "󰁿",
-            "󰂀",
-            "󰂁",
-            "󰂂",
-            "󰁹"
-        ],
-        "tooltip-format": "Battery: {capacity}%\nClick to change power profile",
-        "on-click": "$HOME/.config/waybar/scripts/power_profile_menu.sh menu",
-        "cursor": "pointer"
+        "persistent-workspaces": {
+            "1": [],
+            "2": [],
+            "3": [],
+            "4": [],
+            "5": []
+        }
     },
     "clock": {
-        "format": "{:%H:%M}",
-        "format-alt": "{:%a, %d. %b  %H:%M}",
-        "tooltip-format": "Date: {:%Y-%m-%d}",
-        "cursor": "pointer"
-    },
-    "group/volume": {
-        "orientation": "horizontal",
-        "drawer": {
-            "transition-duration": 500,
-            "transition-left-to-right": true,
-        },
-        "modules": [
-            "pulseaudio",
-            "pulseaudio/slider"
-        ],
-        "cursor": "pointer"
-    },
-    "pulseaudio": {
-        "format": "{icon}",
-        "format-bluetooth": "󰂱",
-        "format-muted": "󰖁",
-        "scroll-step": 1,
-        "on-click": "kitty --class=Wiremix -e wiremix",
-        "ignored-sinks": [
-            "Easy Effects Sink"
-        ],
-        "format-icons": {
-            "headphone": "󰋋",
-            "hands-free": "",
-            "headset": "󰋎",
-            "phone": "",
-            "portable": "",
-            "car": "",
-            "default": [
-                "󰖀",
-                "󰕾"
-            ],
-        },
-        "tooltip-format": "Volume: {volume}%",
-        "cursor": "pointer"
-    },
-    "pulseaudio/slider": {
-        "min": 0,
-        "max": 100,
-        "orientation": "horizontal",
+        "locale": "en_US.UTF-8",
+        "format": "{:L%A %H:%M}",
+        "format-alt": "{:L%d %B W%V %Y}",
+        "tooltip": false
     },
     "network": {
-        "format": "{icon}",
-        "format-wifi": "{icon}",
-        "format-ethernet": "󰈀",
-        "format-disconnected": "󰤭",
         "format-icons": [
             "󰤯",
             "󰤟",
@@ -144,17 +57,106 @@
             "󰤥",
             "󰤨"
         ],
-        "tooltip-format-wifi": "WiFi: {essid} ({signalStrength}%)",
-        "tooltip-format-ethernet": "Ethernet: {ipaddr}/{cidr}",
-        "tooltip-format-disconnected": "No connection",
-        "on-click": "kitty --class=Impala -e impala",
-        "cursor": "pointer"
+        "format": "{icon}",
+        "format-wifi": "{icon}",
+        "format-ethernet": "󰀂",
+        "format-disconnected": "󰤮",
+        "tooltip-format-wifi": "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+        "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+        "tooltip-format-disconnected": "Disconnected",
+        "interval": 3,
+        "spacing": 1,
+        "on-click": "kitty --class=Impala -e impala"
     },
-    "hyprland/workspaces": {
+    "battery": {
+        "format": "{capacity}% {icon}",
+        "format-discharging": "{icon}",
+        "format-charging": "{icon}",
+        "format-plugged": "",
+        "format-icons": {
+            "charging": [
+                "󰢜",
+                "󰂆",
+                "󰂇",
+                "󰂈",
+                "󰢝",
+                "󰂉",
+                "󰢞",
+                "󰂊",
+                "󰂋",
+                "󰂅"
+            ],
+            "default": [
+                "󰁺",
+                "󰁻",
+                "󰁼",
+                "󰁽",
+                "󰁾",
+                "󰁿",
+                "󰂀",
+                "󰂁",
+                "󰂂",
+                "󰁹"
+            ]
+        },
+        "format-full": "󰂅",
+        "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%",
+        "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
+        "interval": 5,
+        "on-click": "~/.config/rofi/power_menu.sh",
+        "states": {
+            "warning": 20,
+            "critical": 10
+        }
+    },
+    "bluetooth": {
         "format": "",
-        "on-click": "activate",
-        "on-scroll-down": "hyprctl dispatch workspace e+1",
-        "on-scroll-up": "hyprctl dispatch workspace e-1",
-        "cursor": "pointer"
+        "format-disabled": "󰂲",
+        "format-connected": "",
+        "tooltip-format": "Devices connected: {num_connections}",
+        "on-click": "blueberry"
     },
+    "pulseaudio": {
+        "format": "{icon}",
+        "on-click": "kitty --class=Wiremix -e wiremix",
+        "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "tooltip-format": "Playing at {volume}%",
+        "scroll-step": 5,
+        "format-muted": "󰖁",
+        "format-icons": {
+            "default": [
+                "󰖀",
+                "󰕾",
+                "󰕾"
+            ]
+        }
+    },
+    "group/tray-expander": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 600,
+            "children-class": "tray-group-item"
+        },
+        "modules": [
+            "custom/expand-icon",
+            "tray"
+        ]
+    },
+    "custom/expand-icon": {
+        "format": "›",
+        "tooltip": false
+    },
+    "tray": {
+        "icon-size": 12,
+        "spacing": 12
+    },
+    "custom/notification": {
+        "exec": "~/.config/scripts/waybar-notification-status.sh",
+        "on-click": "~/.config/scripts/notification-toggle.sh",
+        "signal": 10,
+        "interval": 30,
+        "tooltip": false,
+        "format": " {} ",
+        "return-type": "json"
+    }
 }
