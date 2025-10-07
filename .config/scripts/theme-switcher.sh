@@ -3,7 +3,7 @@
 # Enhanced theme switcher script inspired by Omarchy
 # Usage: theme-switcher.sh [theme-name]
 
-THEMES_DIR="$HOME/dotfiles/.config/themes/themes"
+THEMES_DIR="$HOME/dotfiles/.config/themes"
 CURRENT_LINK="$HOME/dotfiles/.config/themes/current/theme"
 
 list_themes() {

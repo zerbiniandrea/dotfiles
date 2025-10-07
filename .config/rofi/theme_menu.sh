@@ -2,7 +2,7 @@
 
 # Theme switcher rofi menu
 
-THEMES_DIR="$HOME/dotfiles/.config/themes/themes"
+THEMES_DIR="$HOME/dotfiles/.config/themes"
 
 # Get available themes
 themes=()

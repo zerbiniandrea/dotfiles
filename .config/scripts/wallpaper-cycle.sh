@@ -3,7 +3,7 @@
 # Wallpaper cycling script for current theme
 # Usage: wallpaper-cycle.sh
 
-THEMES_DIR="$HOME/dotfiles/.config/themes/themes"
+THEMES_DIR="$HOME/dotfiles/.config/themes"
 CURRENT_LINK="$HOME/dotfiles/.config/themes/current/theme"
 STATE_FILE="$HOME/.cache/wallpaper-cycle-state"
 
