@@ -156,7 +156,7 @@
         "signal": 10,
         "interval": 30,
         "tooltip": false,
-        "format": " {} ",
+        "format": "{}",
         "return-type": "json"
     }
 }

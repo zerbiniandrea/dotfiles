@@ -10,7 +10,7 @@ max-visible=5
 outer-margin=20
 padding=10
 border-size=2
-font=JetBrainsMono Nerd Font Propo 11
+font=JetBrainsMono Nerd Font Mono 11
 max-icon-size=32
 
 # Include theme colors from current theme
