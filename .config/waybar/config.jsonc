@@ -13,10 +13,11 @@
     "modules-right": [
         "group/tray-expander",
         "bluetooth",
-        "network",
         "pulseaudio",
-        "custom/notification",
-        "battery"
+        "custom/power-profile",
+        "battery",
+        "network",
+        "custom/notification"
     ],
     "hyprland/workspaces": {
         "on-click": "activate",
@@ -72,7 +73,7 @@
         "format": "{capacity}% {icon}",
         "format-discharging": "{icon}",
         "format-charging": "{icon}",
-        "format-plugged": "",
+        "format-plugged": "󰂅",
         "format-icons": {
             "charging": [
                 "󰢜",
@@ -103,7 +104,7 @@
         "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%",
         "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
         "interval": 5,
-        "on-click": "~/.config/scripts/power_menu.sh",
+        "on-click": "~/.config/scripts/power_profile_menu.sh menu",
         "states": {
             "warning": 20,
             "critical": 10
@@ -158,5 +159,12 @@
         "tooltip": false,
         "format": "{}",
         "return-type": "json"
+    },
+    "custom/power-profile": {
+        "exec": "~/.config/scripts/power_profile_menu.sh display",
+        "on-click": "~/.config/scripts/power_profile_menu.sh menu",
+        "signal": 9,
+        "tooltip": false,
+        "format": "{}"
     }
 }

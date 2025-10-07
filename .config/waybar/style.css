@@ -36,7 +36,8 @@
 #network,
 #bluetooth,
 #pulseaudio,
-#custom-notification {
+#custom-notification,
+#custom-power-profile {
   min-width: 12px;
   margin: 0 7.5px;
 }

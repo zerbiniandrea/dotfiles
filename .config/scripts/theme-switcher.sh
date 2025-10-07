@@ -71,8 +71,8 @@ apply_wallpaper() {
         echo "Applying wallpaper..."
         local wallpaper_dir="$theme_path/backgrounds"
         
-        # Find the first image file in the backgrounds directory
-        local wallpaper=$(find "$wallpaper_dir" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" \) | head -1)
+        # Find the first image file in the backgrounds directory (sorted for consistency)
+        local wallpaper=$(find "$wallpaper_dir" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" \) | sort | head -1)
         
         if [ -n "$wallpaper" ] && [ -f "$wallpaper" ]; then
             # Update wallpaper symlink
