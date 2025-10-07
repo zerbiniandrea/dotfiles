@@ -1,6 +1,11 @@
-@import "../colors/current.rasi"
-
 * {
+    surface: #0d1117;
+    on-surface: #e6edf3;
+    primary: #58a6ff;
+    primary-container: #58a6ff;
+    on-primary-container: #0d1117;
+    outline: #8a8a8d;
+    
     border: 0;
     margin: 0;
     padding: 0;

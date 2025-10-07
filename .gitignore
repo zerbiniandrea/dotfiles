@@ -1,5 +1,5 @@
 .env
 .config/nvim/lazy-lock.json
 .config/kitty/current-theme.conf
-.config/rofi/colors/current.rasi
+.config/rofi/current-theme.rasi
 .config/themes/current/

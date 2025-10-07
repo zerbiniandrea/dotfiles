@@ -6,4 +6,4 @@ configuration{
     drun-display-format: "{icon} {name}";
     drun-launch-command: "uwsm app -- {cmd}";
 }
-@theme "themes/material-you.rasi"
+@theme "current-theme.rasi"

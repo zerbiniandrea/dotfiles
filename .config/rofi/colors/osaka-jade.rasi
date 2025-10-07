@@ -1,8 +1,0 @@
-* {
-    surface: #11221c;
-    on-surface: #c1c497;
-    primary: #71cead;
-    primary-container: #71cead;
-    on-primary-container: #11221c;
-    outline: #589a5f;
-}

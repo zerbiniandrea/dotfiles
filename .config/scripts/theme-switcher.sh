@@ -54,12 +54,12 @@ apply_osd_theme() {
 }
 
 apply_rofi_theme() {
-    local theme_name="$1"
+    local theme_path="$1"
     
-    # Apply rofi theme by updating the color symlink
-    if [ -f "$HOME/.config/rofi/colors/$theme_name.rasi" ]; then
+    # Apply rofi theme if rofi.rasi exists in theme
+    if [ -f "$theme_path/rofi.rasi" ]; then
         echo "Applying Rofi theme..."
-        ln -sf "$HOME/.config/rofi/colors/$theme_name.rasi" "$HOME/.config/rofi/colors/current.rasi"
+        ln -sf "$theme_path/rofi.rasi" "$HOME/.config/rofi/current-theme.rasi"
     fi
 }
 
@@ -113,7 +113,7 @@ switch_theme() {
     # Hyprland automatically uses the symlinked theme
     apply_notification_theme "$theme_path"
     apply_osd_theme "$theme_path"
-    apply_rofi_theme "$theme_name"
+    apply_rofi_theme "$theme_path"
     apply_wallpaper "$theme_path"
     
     # Restart/reload components
