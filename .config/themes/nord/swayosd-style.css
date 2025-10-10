@@ -8,9 +8,9 @@
 /* Main SwayOSD styling */
 window {
     border-radius: 0;
-    opacity: 0.97;
+    opacity: 1.0;
     border: 2px solid @border-color;
-    background-color: @background-color;
+    background-color: rgba(46, 52, 64, 0.7);
 }
 
 label {

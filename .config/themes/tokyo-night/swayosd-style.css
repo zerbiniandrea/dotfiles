@@ -1,5 +1,5 @@
 @define-color background-color #1a1b26;
-@define-color border-color #33ccff;
+@define-color border-color #7aa2f7;
 @define-color label #a9b1d6;
 @define-color image #a9b1d6;
 @define-color progress #a9b1d6;
@@ -8,9 +8,9 @@
 /* Main SwayOSD styling */
 window {
     border-radius: 0;
-    opacity: 0.97;
+    opacity: 1.0;
     border: 2px solid @border-color;
-    background-color: @background-color;
+    background-color: rgba(26, 27, 38, 0.7);
 }
 
 label {
