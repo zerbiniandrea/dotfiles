@@ -25,7 +25,13 @@ bindkey -v
 
 # The following lines were added by compinstall
 zstyle :compinstall filename '/home/zerbi/.zshrc'
-autoload -Uz compinit && compinit
+autoload -Uz compinit
+# Only regenerate completions once per day
+if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+    compinit
+else
+    compinit -C
+fi
 # End of compinstall
 
 
