@@ -46,9 +46,10 @@
     },
     "clock": {
         "locale": "en_US.UTF-8",
-        "format": "{:L%A %H:%M}",
+        "format": "{:L%A %H:%M:%S}",
         "format-alt": "{:L%d %B W%V %Y}",
-        "tooltip": false
+        "tooltip": false,
+        "interval": 1
     },
     "network": {
         "format-icons": [
