@@ -13,7 +13,7 @@ chosen=$(echo -e "$options" | rofi -dmenu -i -l 3 -p "Monitor Setup" -theme-str 
 case $chosen in
 "󰍹 External Only")
     # Enable external monitor first at safe position (in case it was disabled)
-    hyprctl keyword monitor "$EXTERNAL_MONITOR,1920x1080@60,1920x0,1"
+    hyprctl keyword monitor "$EXTERNAL_MONITOR,2560x1440@120,1920x0,1.25"
     # Move all workspaces from laptop to external monitor
     for ws in $(hyprctl workspaces -j | jq -r ".[] | select(.monitor == \"$LAPTOP_MONITOR\") | .id"); do
         hyprctl dispatch moveworkspacetomonitor "$ws" "$EXTERNAL_MONITOR"
@@ -24,7 +24,7 @@ case $chosen in
     ;;
 "󰍺 Dual Monitors")
     hyprctl keyword monitor "$LAPTOP_MONITOR,1920x1080@144,0x0,1"
-    hyprctl keyword monitor "$EXTERNAL_MONITOR,1920x1080@60,1920x0,1"
+    hyprctl keyword monitor "$EXTERNAL_MONITOR,2560x1440@120,1920x0,1.25"
     notify-send "Monitor Setup" "Dual monitor mode enabled"
     ;;
 "󰌢 Laptop Only")
