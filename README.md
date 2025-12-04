@@ -19,22 +19,16 @@ sudo pacman -S git stow
 ```bash
 # Official repositories
 sudo pacman -S \
-  hyprland hyprlock hypridle hyprpaper \
-  waybar rofi mako libnotify \
-  kitty fish starship fastfetch \
+  hyprland hyprlock hypridle hyprpaper uwsm hyprshot hyprsunset \
+  waybar rofi mako libnotify swayosd \
+  xdg-desktop-portal-gtk \
+  kitty starship fastfetch \
   pipewire wireplumber playerctl wl-clipboard jq \
   power-profiles-daemon nautilus \
   neovim \
   rclone rsync \
+  wiremix impala satty \
   ttf-jetbrains-mono-nerd
-
-# AUR packages
-yay -S \
-  hyprsunset-git uwsm \
-  swayosd-git \
-  wiremix impala \
-  hyprshot satty
-```
 
 ### Deploy Dotfiles
 

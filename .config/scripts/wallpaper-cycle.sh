@@ -3,8 +3,9 @@
 # Wallpaper cycling script for current theme
 # Usage: wallpaper-cycle.sh
 
-THEMES_DIR="$HOME/dotfiles/.config/themes"
-CURRENT_LINK="$HOME/dotfiles/.config/themes/current/theme"
+THEMES_DIR="$HOME/.config/themes"
+CURRENT_DIR="$THEMES_DIR/current"
+CURRENT_LINK="$CURRENT_DIR/theme"
 STATE_FILE="$HOME/.cache/wallpaper-cycle-state"
 
 # Get current theme
@@ -41,14 +42,14 @@ next_wallpaper="${wallpapers[$next_index]}"
 echo "Switching to wallpaper $((next_index + 1))/${#wallpapers[@]}: $(basename "$next_wallpaper")"
 
 # Update wallpaper symlink
-ln -sf "$next_wallpaper" "$HOME/dotfiles/.config/themes/current/wallpaper"
+ln -sf "$next_wallpaper" "$CURRENT_DIR/wallpaper"
 
 # Need to unload all wallpapers first to clear cache
 hyprctl hyprpaper unload all 2>/dev/null || true
 
 # Apply wallpaper (hyprpaper will use the symlink)
-hyprctl hyprpaper preload "$HOME/dotfiles/.config/themes/current/wallpaper" 2>/dev/null || true
-hyprctl hyprpaper wallpaper ",$HOME/dotfiles/.config/themes/current/wallpaper" 2>/dev/null || true
+hyprctl hyprpaper preload "$CURRENT_DIR/wallpaper" 2>/dev/null || true
+hyprctl hyprpaper wallpaper ",$CURRENT_DIR/wallpaper" 2>/dev/null || true
 
 # Save current index
 echo "$next_index" > "$STATE_FILE"

@@ -14,7 +14,7 @@ font=JetBrainsMono Nerd Font Mono 11
 max-icon-size=32
 
 # Include theme colors from current theme
-include=/home/zerbi/dotfiles/.config/themes/current/theme/mako.ini
+include=~/.config/themes/current/theme/mako.ini
 
 # App-specific rules
 [app-name=Spotify]

@@ -2,4 +2,5 @@
 .config/nvim/lazy-lock.json
 .config/kitty/current-theme.conf
 .config/rofi/current-theme.rasi
+.config/swayosd/style.css
 .config/themes/current/

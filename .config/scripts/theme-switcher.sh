@@ -3,8 +3,25 @@
 # Enhanced theme switcher script inspired by Omarchy
 # Usage: theme-switcher.sh [theme-name]
 
-THEMES_DIR="$HOME/dotfiles/.config/themes"
-CURRENT_LINK="$HOME/dotfiles/.config/themes/current/theme"
+THEMES_DIR="$HOME/.config/themes"
+CURRENT_DIR="$THEMES_DIR/current"
+CURRENT_LINK="$CURRENT_DIR/theme"
+DEFAULT_THEME="tokyo-night"
+
+# Initialize theme system (creates current/ directory and default symlinks)
+init_theme_system() {
+    if [ ! -d "$CURRENT_DIR" ]; then
+        echo "Initializing theme system..."
+        mkdir -p "$CURRENT_DIR"
+    fi
+
+    # If no theme is set, apply the default
+    if [ ! -L "$CURRENT_LINK" ] || [ ! -e "$CURRENT_LINK" ]; then
+        echo "No theme set, applying default theme: $DEFAULT_THEME"
+        switch_theme "$DEFAULT_THEME"
+        exit 0
+    fi
+}
 
 list_themes() {
     echo "Available themes:"
@@ -76,14 +93,14 @@ apply_wallpaper() {
         
         if [ -n "$wallpaper" ] && [ -f "$wallpaper" ]; then
             # Update wallpaper symlink
-            ln -sf "$wallpaper" "$HOME/dotfiles/.config/themes/current/wallpaper"
-            
+            ln -sf "$wallpaper" "$CURRENT_DIR/wallpaper"
+
             # Need to unload all wallpapers first to clear cache
             hyprctl hyprpaper unload all 2>/dev/null || true
-            
+
             # Now load and apply the new wallpaper through the symlink
-            hyprctl hyprpaper preload "$HOME/dotfiles/.config/themes/current/wallpaper" 2>/dev/null || true
-            hyprctl hyprpaper wallpaper ",$HOME/dotfiles/.config/themes/current/wallpaper" 2>/dev/null || true
+            hyprctl hyprpaper preload "$CURRENT_DIR/wallpaper" 2>/dev/null || true
+            hyprctl hyprpaper wallpaper ",$CURRENT_DIR/wallpaper" 2>/dev/null || true
             
             # Reset wallpaper cycle state to start from first wallpaper
             echo "0" > "$HOME/.cache/wallpaper-cycle-state"
@@ -142,6 +159,9 @@ switch_theme() {
 }
 
 # Main logic
+# Always ensure theme system is initialized
+init_theme_system
+
 if [ $# -eq 0 ]; then
     current_theme=$(readlink "$CURRENT_LINK" 2>/dev/null | xargs basename 2>/dev/null || echo "none")
     echo "Current theme: $current_theme"

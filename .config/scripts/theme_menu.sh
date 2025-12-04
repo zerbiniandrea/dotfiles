@@ -2,7 +2,7 @@
 
 # Theme switcher rofi menu
 
-THEMES_DIR="$HOME/dotfiles/.config/themes"
+THEMES_DIR="$HOME/.config/themes"
 
 # Get available themes
 themes=()
@@ -17,5 +17,5 @@ selected=$(printf '%s\n' "${themes[@]}" | rofi -dmenu -i -p "Select Theme")
 
 # Apply selected theme
 if [ -n "$selected" ]; then
-    "$HOME/dotfiles/.config/scripts/theme-switcher.sh" "$selected"
+    "$HOME/.config/scripts/theme-switcher.sh" "$selected"
 fi
