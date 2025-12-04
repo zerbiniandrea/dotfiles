@@ -25,6 +25,7 @@ sudo pacman -S \
   kitty starship fastfetch \
   pipewire wireplumber playerctl wl-clipboard jq \
   power-profiles-daemon nautilus \
+  ffmpegthumbnailer \
   neovim \
   rclone rsync \
   wiremix impala satty \
