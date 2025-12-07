@@ -75,7 +75,7 @@ mainbox {
 prompt {
     background-color: @surface;
     enabled: true;
-    font: "Material Design Icons 14";
+    font: "JetBrainsMono Nerd Font 14";
     padding: 12 0 0 12;
     text-color: @primary;
 }
