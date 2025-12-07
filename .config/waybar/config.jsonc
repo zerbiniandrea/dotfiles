@@ -12,11 +12,11 @@
     ],
     "modules-right": [
         "group/tray-expander",
-        "bluetooth",
-        "pulseaudio",
         "custom/power-profile",
         "battery",
+        "bluetooth",
         "network",
+        "pulseaudio",
         "custom/notification"
     ],
     "hyprland/workspaces": {
@@ -112,11 +112,13 @@
         }
     },
     "bluetooth": {
-        "format": "",
+        "format": "󰂯",
+        "format-off": "󰂲",
         "format-disabled": "󰂲",
-        "format-connected": "",
+        "format-connected": "󰂱",
         "tooltip-format": "Devices connected: {num_connections}",
-        "on-click": "blueberry"
+        "on-click": "kitty --class=Bluetuith -e bluetuith",
+        "on-click-right": "rfkill toggle bluetooth"
     },
     "pulseaudio": {
         "format": "{icon}",

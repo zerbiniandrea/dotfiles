@@ -30,6 +30,12 @@ sudo pacman -S \
   rclone rsync \
   wiremix impala satty \
   ttf-jetbrains-mono-nerd
+```
+
+```bash
+# AUR
+yay -S bluetuith
+```
 
 ### Deploy Dotfiles
 
