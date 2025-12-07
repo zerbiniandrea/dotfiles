@@ -1,0 +1,2 @@
+# Disable wakeup for Logitech USB Receiver to prevent immediate wake from suspend
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="046d", ATTR{idProduct}=="c547", ATTR{power/wakeup}="disabled"
