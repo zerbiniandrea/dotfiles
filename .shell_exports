@@ -3,9 +3,7 @@
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.bin:$PATH"
 
-# Add npm global bin to PATH if configured
-if [ "$(npm config get prefix 2>/dev/null)" = "$HOME/.npm-global" ]; then
-    export PATH=~/.npm-global/bin:$PATH
-fi
+# Add npm global bin to PATH
+export PATH=~/.npm-global/bin:$PATH
 
 export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/docker.sock"
