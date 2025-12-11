@@ -4,8 +4,8 @@ return {
     opts = {
       current_line_blame = true,
     },
-    config = function()
-      require('gitsigns').setup()
+    config = function(_, opts)
+      require('gitsigns').setup(opts)
 
       vim.keymap.set('n', '<leader>gp', ':Gitsigns preview_hunk<CR>', { desc = '[G]it [P]review hunk' })
       vim.keymap.set('n', '<leader>gs', ':Gitsigns stage_hunk<CR>', { desc = '[G]it [S]tage hunk' })
