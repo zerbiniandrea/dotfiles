@@ -33,15 +33,8 @@ list_themes() {
 }
 
 apply_terminal_theme() {
-    local theme_path="$1"
-    
-    # Apply kitty theme if kitty.conf exists in theme
-    if [ -f "$theme_path/kitty.conf" ]; then
-        echo "Applying kitty theme..."
-        ln -sf "$theme_path/kitty.conf" "$HOME/.config/kitty/current-theme.conf"
-        # Signal kitty to reload config
-        pkill -SIGUSR1 kitty 2>/dev/null || true
-    fi
+    # Signal kitty to reload config (theme is included via ../themes/current/theme/kitty.conf)
+    pkill -SIGUSR1 kitty 2>/dev/null || true
 }
 
 apply_notification_theme() {
@@ -71,13 +64,8 @@ apply_osd_theme() {
 }
 
 apply_rofi_theme() {
-    local theme_path="$1"
-    
-    # Apply rofi theme if rofi.rasi exists in theme
-    if [ -f "$theme_path/rofi.rasi" ]; then
-        echo "Applying Rofi theme..."
-        ln -sf "$theme_path/rofi.rasi" "$HOME/.config/rofi/current-theme.rasi"
-    fi
+    # Rofi theme is included via ../themes/current/theme/rofi.rasi
+    :
 }
 
 apply_wallpaper() {
