@@ -15,16 +15,16 @@ vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagn
 --
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
-vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+-- vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- Small terminal
-vim.keymap.set('n', '<leader>st', function()
-  vim.cmd.new()
-  vim.cmd.wincmd 'J'
-  vim.api.nvim_win_set_height(0, 12)
-  vim.wo.winfixheight = true
-  vim.cmd.term()
-end, { desc = '[S]mall [T]erminal' })
+-- vim.keymap.set('n', '<leader>st', function()
+--   vim.cmd.new()
+--   vim.cmd.wincmd 'J'
+--   vim.api.nvim_win_set_height(0, 12)
+--   vim.wo.winfixheight = true
+--   vim.cmd.term()
+-- end, { desc = '[S]mall [T]erminal' })
 
 -- TIP: Disable arrow keys in normal mode
 vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
