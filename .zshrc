@@ -4,6 +4,7 @@ ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 source "${ZINIT_HOME}/zinit.zsh"
 
 # Add in zsh plugins
+zinit light jeffreytse/zsh-vi-mode
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
@@ -20,9 +21,6 @@ setopt HIST_SAVE_NO_DUPS
 setopt SHARE_HISTORY
 setopt HIST_IGNORE_SPACE
 HISTORY_IGNORE="(export *|curl *)"
-# Vi mode
-bindkey -v
-
 # The following lines were added by compinstall
 zstyle :compinstall filename '/home/zerbi/.zshrc'
 autoload -Uz compinit
