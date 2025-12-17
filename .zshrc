@@ -4,6 +4,8 @@ ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 source "${ZINIT_HOME}/zinit.zsh"
 
 # Add in zsh plugins
+# Initialize vi-mode immediately to avoid keybinding conflicts
+ZVM_INIT_MODE=sourcing
 zinit light jeffreytse/zsh-vi-mode
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
