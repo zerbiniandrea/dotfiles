@@ -22,7 +22,7 @@ setopt SHARE_HISTORY
 setopt HIST_IGNORE_SPACE
 HISTORY_IGNORE="(export *|curl *)"
 # The following lines were added by compinstall
-zstyle :compinstall filename '/home/zerbi/.zshrc'
+zstyle :compinstall filename "$HOME/.zshrc"
 autoload -Uz compinit
 # Only regenerate completions once per day
 if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
