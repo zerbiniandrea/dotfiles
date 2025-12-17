@@ -2,5 +2,4 @@
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias up='yay && flatpak update'
-alias starthypr='exec uwsm start hyprland'
 alias uuid='uuidgen | tr -d "\n" | wl-copy && echo "UUID copied to clipboard: $(wl-paste)"'
