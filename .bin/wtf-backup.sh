@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Set source and destination paths
-SOURCE_DIR="/home/zerbi/Games/World of Warcraft/_retail_/WTF"
-BACKUP_DIR="/home/zerbi/Backups/WoW/WTF"
+SOURCE_DIR="$HOME/Games/World of Warcraft/_retail_/WTF"
+BACKUP_DIR="$HOME/Backups/WoW/WTF"
 STAGING_DIR="$BACKUP_DIR/latest"
-CLOUD_PATH="gdrive:Giochi/WoW/WTF Backups"
+CLOUD_PATH="gdrive:Games/WoW/WTF Backups"
 
 # Create staging directory if it doesn't exist
 mkdir -p "$STAGING_DIR"
