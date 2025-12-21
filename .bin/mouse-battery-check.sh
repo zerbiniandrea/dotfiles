@@ -9,7 +9,8 @@ THRESHOLD=20
 battery=$(solaar show 2>/dev/null | grep -oP 'Battery: \K[0-9]+' | head -1)
 
 if [[ -z "$battery" ]]; then
-    exit 0
+    notify-send -u warning "Mouse Battery Check Failed" "Could not read battery level from solaar"
+    exit 1
 fi
 
 if [[ "$battery" -le "$THRESHOLD" ]]; then

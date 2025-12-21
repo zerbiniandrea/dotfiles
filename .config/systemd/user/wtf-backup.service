@@ -1,0 +1,7 @@
+[Unit]
+Description=WTF Backup
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/.bin/wtf-backup.sh

@@ -27,7 +27,7 @@ sudo pacman -S \
   power-profiles-daemon nautilus \
   ffmpegthumbnailer \
   neovim \
-  rclone rsync \
+  rclone rsync solaar \
   wiremix impala satty \
   ttf-jetbrains-mono-nerd
 ```
@@ -51,6 +51,17 @@ Deploy all configurations using GNU Stow:
 
 ```bash
 stow .
+```
+
+### Enable Systemd User Timers
+
+After deploying, enable the user timers:
+
+```bash
+systemctl --user daemon-reload
+systemctl --user enable --now mouse-battery-check.timer  # Mouse low battery notifications
+systemctl --user enable --now keepass-backup.timer       # Daily KeePass backup
+systemctl --user enable --now wtf-backup.timer           # Daily WTF backup
 ```
 
 ## Managing Dotfiles

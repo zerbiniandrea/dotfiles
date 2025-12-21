@@ -1,0 +1,6 @@
+[Unit]
+Description=Mouse Battery Check
+
+[Service]
+Type=oneshot
+ExecStart=%h/.bin/mouse-battery-check.sh

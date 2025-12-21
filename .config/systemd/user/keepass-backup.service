@@ -1,0 +1,7 @@
+[Unit]
+Description=KeePass Database Backup
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/.bin/keepass-backup.sh
