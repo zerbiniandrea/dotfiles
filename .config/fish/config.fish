@@ -3,7 +3,6 @@ if status is-interactive
     fastfetch
 end
 
-set -gx PATH ~/.npm-global/bin $PATH
 
 
 direnv hook fish | source
