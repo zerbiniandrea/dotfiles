@@ -19,7 +19,8 @@ sudo pacman -S git stow
 ```bash
 # Official repositories
 sudo pacman -S \
-  hyprland hyprlock hypridle hyprpaper hyprshot hyprsunset hyprpicker uwsm \
+  hyprland hyprlock hypridle hyprpaper hyprsunset hyprpicker uwsm \
+  grim slurp \
   waybar rofi mako libnotify swayosd \
   xdg-desktop-portal-gtk \
   kitty starship fastfetch \
