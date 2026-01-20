@@ -20,10 +20,13 @@
   margin-right: 8px;
 }
 
+#workspaces {
+  margin: 0;
+}
+
 #workspaces button {
   all: initial;
-  padding: 0 6px;
-  margin: 0 1.5px;
+  padding: 0 7.5px;
   min-width: 9px;
 }
 
