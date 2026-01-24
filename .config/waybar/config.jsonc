@@ -68,7 +68,7 @@
         "tooltip-format-disconnected": "Disconnected",
         "interval": 3,
         "spacing": 1,
-        "on-click": "kitty --class=Impala -e impala"
+        "on-click": "networkmanager_dmenu"
     },
     "battery": {
         "format": "{capacity}% {icon}",

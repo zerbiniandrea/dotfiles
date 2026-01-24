@@ -29,7 +29,7 @@ sudo pacman -S \
   ffmpegthumbnailer \
   neovim \
   rclone rsync solaar \
-  wiremix impala satty \
+  wiremix networkmanager networkmanager-dmenu satty \
   ttf-jetbrains-mono-nerd
 ```
 
