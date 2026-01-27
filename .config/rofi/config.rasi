@@ -5,5 +5,7 @@ configuration{
     display-window: " ";
     drun-display-format: "{icon} {name}";
     drun-launch-command: "uwsm app -- {cmd}";
+    matching: "normal";
+    drun-match-fields: "name";
 }
 @theme "../themes/current/theme/rofi.rasi"
