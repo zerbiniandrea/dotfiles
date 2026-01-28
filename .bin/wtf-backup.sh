@@ -10,7 +10,7 @@ CLOUD_PATH="gdrive:Games/WoW/WTF Backups"
 mkdir -p "$STAGING_DIR"
 
 # Sync files to staging (this becomes your "latest" backup)
-rsync -av "$SOURCE_DIR/" "$STAGING_DIR/"
+rsync -av --delete "$SOURCE_DIR/" "$STAGING_DIR/"
 
 # Create timestamped archive backup for version history
 TIMESTAMP=$(date +%Y%m%d%H%M%S)
