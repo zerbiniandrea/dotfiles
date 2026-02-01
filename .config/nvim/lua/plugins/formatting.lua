@@ -16,18 +16,23 @@ return {
     opts = {
       notify_on_error = false,
       format_on_save = function(bufnr)
-        -- Disable "format_on_save lsp_fallback" for languages that don't
-        -- have a well standardized coding style. You can add additional
-        -- languages here or re-enable it for the disabled ones.
+        -- Check if file exists before formatting
+        local bufname = vim.api.nvim_buf_get_name(bufnr)
+        if bufname ~= '' and vim.fn.filereadable(bufname) == 0 then
+          -- File doesn't exist, don't format (prevents recreating deleted files)
+          return nil
+        end
+
+        -- Format all filetypes except those explicitly disabled
         local disable_filetypes = { c = true, cpp = true }
         if disable_filetypes[vim.bo[bufnr].filetype] then
           return nil
-        else
-          return {
-            timeout_ms = 500,
-            lsp_format = 'fallback',
-          }
         end
+
+        return {
+          timeout_ms = 500,
+          lsp_format = 'fallback',
+        }
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
