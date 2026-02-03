@@ -1,11 +1,7 @@
--- Set leader keys before loading plugins
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-
--- Set to true if you have a Nerd Font installed
 vim.g.have_nerd_font = true
 
--- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
@@ -17,7 +13,6 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
--- Configure and install plugins
 require('lazy').setup('plugins', {
   dev = {
     path = '~/Projects',
@@ -41,5 +36,3 @@ require('lazy').setup('plugins', {
     },
   },
 })
-
-

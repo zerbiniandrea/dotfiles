@@ -1,6 +1,6 @@
 return {
   'zerbiniandrea/conventional-commits.nvim',
-  dev = true, -- Use local version when available
+  dev = true,
   cmd = 'ConventionalCommit',
   config = function()
     require('conventional-commits').setup({})

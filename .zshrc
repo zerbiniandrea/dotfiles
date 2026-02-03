@@ -54,3 +54,5 @@ zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-dir
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
 KEYTIMEOUT=1
+
+source ~/Quinck/secure-sharing/quinck-secure.zsh
