@@ -2,6 +2,16 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.g.have_nerd_font = true
 
+vim.filetype.add {
+  filename = {
+    ['.env'] = 'dotenv',
+  },
+  pattern = {
+    ['.*/%.env%..*'] = 'dotenv',
+  },
+}
+vim.treesitter.language.register('bash', 'dotenv')
+
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
