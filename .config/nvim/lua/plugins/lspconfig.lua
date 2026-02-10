@@ -108,7 +108,6 @@ return {
           'bash-language-server',
           'dockerfile-language-server',
           'yaml-language-server',
-          'tailwindcss-language-server',
           'taplo', -- TOML
           'css-lsp',
           'html-lsp',
