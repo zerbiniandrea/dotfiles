@@ -54,6 +54,9 @@ return {
       enabled = true,
       ui_select = true,
       sources = {
+        explorer = {
+          hidden = true,
+        },
         files = {
           hidden = true,
         },
