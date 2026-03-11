@@ -116,6 +116,7 @@ return {
           -- Formatters
           'stylua',
           'prettier',
+          'oxfmt',
           'shfmt',
           -- Linters
           'shellcheck',
