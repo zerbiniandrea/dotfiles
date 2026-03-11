@@ -13,7 +13,7 @@ return {
     scroll = { enabled = true },
     input = { enabled = true },
     rename = { enabled = true },
-    scratch = { enabled = true },
+    scratch = { enabled = false },
 
     dashboard = {
       enabled = true,
@@ -59,6 +59,9 @@ return {
         },
         grep = {
           hidden = true,
+        },
+        recent = {
+          filter = { cwd = true },
         },
       },
     },
@@ -110,7 +113,16 @@ return {
     {
       '<leader>s.',
       function()
-        Snacks.picker.recent()
+        Snacks.picker.recent {
+          filter = { cwd = true },
+          transform = function(item)
+            if not item.file or item.file == '' then
+              return false
+            end
+            local stat = vim.uv.fs_stat(item.file)
+            return stat ~= nil and stat.type == 'file'
+          end,
+        }
       end,
       desc = '[S]earch Recent Files',
     },
@@ -217,20 +229,6 @@ return {
       mode = { 'n', 't' },
     },
 
-    {
-      '<leader>x',
-      function()
-        Snacks.scratch()
-      end,
-      desc = 'Open Scratch Buffer',
-    },
-    {
-      '<leader>X',
-      function()
-        Snacks.scratch.select()
-      end,
-      desc = 'Select Scratch Buffer',
-    },
   },
   init = function()
     vim.api.nvim_create_autocmd('User', {

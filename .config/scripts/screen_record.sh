@@ -51,19 +51,38 @@ echo "$FILENAME" > "$RECORDING_FILE"
 # Check mode: region or full screen
 MODE="${1:-region}"
 
+snap_geometry() {
+    # Snap slurp coordinates to multiples of 4 so they align with the
+    # physical buffer under fractional scaling (e.g. 1.25x)
+    local geo="$1"
+    local pos size x y w h
+    pos="${geo%% *}"
+    size="${geo##* }"
+    x="${pos%%,*}"
+    y="${pos##*,}"
+    w="${size%%x*}"
+    h="${size##*x}"
+    x=$(( (x / 4) * 4 ))
+    y=$(( (y / 4) * 4 ))
+    w=$(( ((w + 3) / 4) * 4 ))
+    h=$(( ((h + 3) / 4) * 4 ))
+    echo "${x},${y} ${w}x${h}"
+}
+
 if [ "$MODE" = "region" ]; then
     GEOMETRY=$(slurp)
     if [ -z "$GEOMETRY" ]; then
         rm "$RECORDING_FILE"
         exit 1
     fi
+    GEOMETRY=$(snap_geometry "$GEOMETRY")
     notify-send "Screen Recording" "Recording region... Press again to stop" -i video-x-generic
-    wf-recorder -g "$GEOMETRY" -c libx264 -p crf=32 -p preset=fast -F "scale=trunc(iw/4)*2:trunc(ih/4)*2,format=yuv420p" -r 24 -f "$FILENAME" > "$LOG_FILE" 2>&1 &
+    wf-recorder --no-dmabuf -g "$GEOMETRY" -c libx264 -p crf=32 -p preset=fast -F "scale=trunc(iw/4)*2:trunc(ih/4)*2,format=yuv420p" -r 24 -f "$FILENAME" > "$LOG_FILE" 2>&1 &
     echo $! > "$PID_FILE"
 else
     MONITOR=$(hyprctl monitors -j | jq -r '.[] | select(.focused) | .name')
     notify-send "Screen Recording" "Recording monitor $MONITOR... Press again to stop" -i video-x-generic
-    wf-recorder -o "$MONITOR" -c libx264 -p crf=32 -p preset=fast -F "scale=trunc(iw/4)*2:trunc(ih/4)*2,format=yuv420p" -r 24 -f "$FILENAME" > "$LOG_FILE" 2>&1 &
+    wf-recorder --no-dmabuf -o "$MONITOR" -c libx264 -p crf=32 -p preset=fast -F "scale=trunc(iw/4)*2:trunc(ih/4)*2,format=yuv420p" -r 24 -f "$FILENAME" > "$LOG_FILE" 2>&1 &
     echo $! > "$PID_FILE"
 fi
 

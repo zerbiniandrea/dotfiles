@@ -24,7 +24,7 @@ sudo pacman -S \
   waybar rofi mako libnotify swayosd \
   xdg-desktop-portal-gtk \
   kitty starship fastfetch \
-  pipewire wireplumber playerctl wl-clipboard jq \
+  pipewire wireplumber playerctl wl-clipboard wl-clip-persist jq \
   power-profiles-daemon nautilus \
   ffmpegthumbnailer \
   neovim \
