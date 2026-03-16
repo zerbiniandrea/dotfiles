@@ -74,6 +74,7 @@ return {
           folder_closed = '',
           folder_open = '',
         },
+        hooks = {},
         keymaps = {
           view = {
             { 'n', 'q', diffview_safe_close, { desc = 'Close diffview' } },
@@ -92,6 +93,18 @@ return {
       vim.keymap.set('n', '<leader>gh', '<cmd>DiffviewFileHistory<CR>', { desc = '[G]it [H]istory' })
       vim.keymap.set('n', '<leader>gH', '<cmd>DiffviewFileHistory %<CR>', { desc = '[G]it [H]istory (current file)' })
     end,
+  },
+  {
+    'akinsho/git-conflict.nvim',
+    version = '*',
+    opts = {},
+    keys = {
+      {
+        '<leader>gx',
+        '<cmd>GitConflictListQf<cr><cmd>lua Snacks.picker.qflist()<cr>',
+        desc = '[G]it Conflicts',
+      },
+    },
   },
 }
 

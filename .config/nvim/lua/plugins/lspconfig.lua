@@ -21,8 +21,25 @@ return {
     },
     config = function()
       -- Extend LSP capabilities with blink.cmp
+      -- Sanitize workspace URIs before LSP initialize to prevent
+      -- "workspace URI is not a valid file path: file://." errors from
+      -- diffview's artificial buffers. See neovim/neovim#32074
       vim.lsp.config('*', {
         capabilities = require('blink.cmp').get_lsp_capabilities(),
+        before_init = function(params)
+          local dominated_uri = 'file://.'
+          if params.rootUri and params.rootUri:find(dominated_uri, 1, true) then
+            params.rootUri = vim.uri_from_fname(vim.fn.getcwd())
+          end
+          if params.workspaceFolders then
+            for i, folder in ipairs(params.workspaceFolders) do
+              if folder.uri and folder.uri:find(dominated_uri, 1, true) then
+                local cwd = vim.fn.getcwd()
+                params.workspaceFolders[i] = { uri = vim.uri_from_fname(cwd), name = cwd }
+              end
+            end
+          end
+        end,
       })
 
       -- Keymaps on LSP attach
