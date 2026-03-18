@@ -122,6 +122,7 @@ return {
           'lua-language-server',
           'vtsls',
           'eslint-lsp',
+          'oxlint',
           'bash-language-server',
           'dockerfile-language-server',
           'yaml-language-server',
