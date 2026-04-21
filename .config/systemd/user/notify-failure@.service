@@ -1,0 +1,6 @@
+[Unit]
+Description=Notify on failure of %i
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/notify-send --urgency=critical --icon=dialog-error "Backup failed" "%i failed — run: journalctl --user -u %i -e"

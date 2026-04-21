@@ -1,6 +1,7 @@
 [Unit]
 Description=KeePass Database Backup
 After=network-online.target
+OnFailure=notify-failure@%n.service
 
 [Service]
 Type=oneshot
