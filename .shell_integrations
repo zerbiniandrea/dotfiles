@@ -1,6 +1,6 @@
 # Common shell integrations for bash and zsh
 
-source /usr/share/nvm/init-nvm.sh
+[ -f /usr/share/nvm/init-nvm.sh ] && source /usr/share/nvm/init-nvm.sh
 
 # direnv integration
 if command -v direnv >/dev/null 2>&1; then

@@ -60,4 +60,4 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
 KEYTIMEOUT=1
 
-source ~/Quinck/secure-sharing/quinck-secure.zsh
+[ -f ~/Quinck/secure-sharing/quinck-secure.zsh ] && source ~/Quinck/secure-sharing/quinck-secure.zsh
