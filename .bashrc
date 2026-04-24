@@ -11,12 +11,9 @@
 [ -f ~/.shell_integrations ] && source ~/.shell_integrations
 PS1='[\u@\h \W]\$ '
 
-# export $(envsubst < ~/.env)
-
-# exec fish
-
 #if [[ $(ps --no-header --pid=$PPID --format=comm) != "fish" && -z ${BASH_EXECUTION_STRING} && ${SHLVL} == 1 ]]; then
 #  shopt -q login_shell && LOGIN_OPTION='--login' || LOGIN_OPTION=''
 #  exec fish $LOGIN_OPTION
 #fi
 
+eval "$(starship init bash)"
