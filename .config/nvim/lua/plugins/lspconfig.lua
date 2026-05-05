@@ -131,6 +131,8 @@ return {
           'html-lsp',
           'json-lsp',
           'hyprls',
+          'basedpyright',
+          'ruff',
           -- Formatters
           'stylua',
           'prettier',
