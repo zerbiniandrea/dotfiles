@@ -1,0 +1,14 @@
+# Grant members of the `video` group write access to uvcvideo's bind/unbind
+# sysfs handles, so toggle-webcam.sh can disable/enable USB cameras without sudo.
+#
+# Re-applies on every uvcvideo USB event so the perms self-heal after rebind.
+#
+# Install with:
+#   sudo install -m 644 -o root -g root \
+#     ~/dotfiles/.config/udev/rules.d/99-uvcvideo-toggle.rules /etc/udev/rules.d/
+#   sudo udevadm control --reload
+#   sudo udevadm trigger --subsystem-match=usb --action=add
+
+SUBSYSTEM=="usb", DRIVER=="uvcvideo", \
+    RUN+="/usr/bin/chgrp video /sys/bus/usb/drivers/uvcvideo/bind /sys/bus/usb/drivers/uvcvideo/unbind", \
+    RUN+="/usr/bin/chmod g+w /sys/bus/usb/drivers/uvcvideo/bind /sys/bus/usb/drivers/uvcvideo/unbind"

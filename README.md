@@ -38,6 +38,39 @@ sudo pacman -S \
 yay -S bluetuith
 ```
 
+### Enable NetworkManager
+
+```bash
+sudo systemctl enable --now NetworkManager
+```
+
+If `systemd-networkd` is also active (Arch sometimes ships it enabled), disable it and its triggering units to avoid two managers fighting over the same interfaces.
+
+List every related unit on your system (the exact set may vary across systemd versions):
+
+```bash
+systemctl list-unit-files 'systemd-networkd*' 'systemd-network-generator*'
+```
+
+Then disable + stop everything from that list, e.g.:
+
+```bash
+sudo systemctl disable --now \
+  systemd-networkd.service \
+  systemd-networkd.socket \
+  systemd-networkd-resolve-hook.socket \
+  systemd-networkd-varlink.socket \
+  systemd-networkd-varlink-metrics.socket \
+  systemd-network-generator.service
+```
+
+Verify nothing's still running:
+
+```bash
+systemctl is-active 'systemd-networkd*'   # all should be inactive
+networkctl                                # all links should be unmanaged
+```
+
 ### Deploy Dotfiles
 
 Clone the repository to your home directory:

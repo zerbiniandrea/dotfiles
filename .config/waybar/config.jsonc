@@ -15,6 +15,9 @@
         "custom/power-profile",
         "battery",
         "bluetooth",
+        "custom/webcam",
+        "custom/microphone",
+        "custom/vpn",
         "network",
         "pulseaudio",
         "custom/notification"
@@ -169,5 +172,28 @@
         "signal": 9,
         "tooltip": false,
         "format": "{}"
+    },
+    "custom/vpn": {
+        "exec": "~/.config/scripts/waybar-vpn-status.sh",
+        "interval": 5,
+        "tooltip": true,
+        "format": "{}",
+        "return-type": "json"
+    },
+    "custom/webcam": {
+        "exec": "~/.config/scripts/waybar-webcam-status.sh",
+        "on-click": "~/.config/scripts/toggle-webcam.sh",
+        "signal": 11,
+        "interval": 2,
+        "tooltip": true,
+        "format": "{}",
+        "return-type": "json"
+    },
+    "custom/microphone": {
+        "exec": "~/.config/scripts/waybar-microphone-status.sh",
+        "interval": 2,
+        "tooltip": true,
+        "format": "{}",
+        "return-type": "json"
     }
 }

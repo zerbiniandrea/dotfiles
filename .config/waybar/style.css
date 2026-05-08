@@ -40,9 +40,32 @@
 #bluetooth,
 #pulseaudio,
 #custom-notification,
-#custom-power-profile {
+#custom-power-profile,
+#custom-vpn.connected,
+#custom-webcam.active,
+#custom-webcam.disabled,
+#custom-microphone.active,
+#custom-microphone.disabled {
   min-width: 12px;
   margin: 0 7.5px;
+}
+
+#custom-vpn.disconnected,
+#custom-webcam.inactive,
+#custom-microphone.inactive {
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+#custom-webcam.active,
+#custom-microphone.active {
+  color: #a55555;
+}
+
+#custom-webcam.disabled,
+#custom-microphone.disabled {
+  opacity: 0.6;
 }
 
 #custom-expand-icon {
