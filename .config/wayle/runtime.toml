@@ -1,0 +1,107 @@
+[general]
+font-sans = "JetBrainsMono Nerd Font Propo"
+font-mono = "JetBrainsMono Nerd Font Propo"
+
+[bar]
+padding = 0.10000000149011612
+button-variant = "basic"
+button-bg-opacity = 0
+button-icon-size = 0.5
+button-label-size = 0.800000011920929
+button-label-padding = 0.4000000059604645
+
+[[bar.layout]]
+monitor = "*"
+show = true
+left = [
+    "dashboard",
+    "hyprland-workspaces",
+    "cava",
+]
+center = ["clock"]
+right = [
+    "bluetooth",
+    "network",
+    "microphone",
+    "volume",
+    "notifications",
+]
+
+[styling]
+rounding = "none"
+
+[styling.palette]
+bg = "#16161e"
+surface = "#1a1b26"
+elevated = "#202230"
+fg = "#c0caf5"
+fg-muted = "#a9b1d6"
+primary = "#7aa2f7"
+red = "#f7768e"
+yellow = "#e0af68"
+green = "#9ece6a"
+blue = "#7dcfff"
+
+[modules.bluetooth]
+icon-color = "fg-default"
+icon-bg-color = "auto"
+label-show = false
+
+[modules.cava]
+color = "fg-default"
+left-click = "dropdown:media"
+
+[modules.clock]
+format = "%H:%M:%S"
+icon-show = false
+label-color = "fg-default"
+right-click = ""
+dropdown-show-seconds = true
+
+[modules.dashboard]
+icon-color = "fg-default"
+dropdown-logout-command = "uwsm stop"
+
+[modules.hyprland-workspaces]
+min-workspace-count = 5
+monitor-specific = false
+label-size = 0.75
+active-color = "fg-default"
+
+[modules.media]
+icon-type = "spinning-disc"
+player-priority = [
+    "*spotify*",
+    "*mpv*",
+    "*firefox*",
+]
+format = "{{ title }}"
+label-max-length = 20
+
+[modules.microphone]
+icon-color = "fg-default"
+label-show = false
+
+[modules.network]
+icon-color = "fg-default"
+label-show = false
+
+[modules.notification]
+icon-color = "fg-default"
+label-show = false
+popup-position = "bottom-right"
+
+[modules.separator]
+length = 0.699999988079071
+
+[modules.volume]
+icon-color = "fg-default"
+label-show = false
+label-color = "fg-default"
+
+[osd]
+duration = 1500
+margin = 100.0
+
+[wallpaper]
+engine-enabled = false

@@ -4,4 +4,7 @@
 .config/rofi/current-theme.rasi
 .config/swayosd/style.css
 .config/themes/current/
+.config/wayle/schema.json
+.config/wayle/tombi.toml
+.config/wayle/themes/schema.json
 .claude/

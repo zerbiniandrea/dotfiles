@@ -44,12 +44,10 @@ echo "Switching to wallpaper $((next_index + 1))/${#wallpapers[@]}: $(basename "
 # Update wallpaper symlink
 ln -sf "$next_wallpaper" "$CURRENT_DIR/wallpaper"
 
-# Need to unload all wallpapers first to clear cache
-hyprctl hyprpaper unload all 2>/dev/null || true
-
-# Apply wallpaper (hyprpaper will use the symlink)
-hyprctl hyprpaper preload "$CURRENT_DIR/wallpaper" 2>/dev/null || true
-hyprctl hyprpaper wallpaper ",$CURRENT_DIR/wallpaper" 2>/dev/null || true
+# Apply wallpaper to each connected monitor
+for mon in $(hyprctl monitors -j | jq -r '.[].name'); do
+    hyprctl hyprpaper wallpaper "$mon,$CURRENT_DIR/wallpaper" >/dev/null 2>&1 || true
+done
 
 # Save current index
 echo "$next_index" > "$STATE_FILE"

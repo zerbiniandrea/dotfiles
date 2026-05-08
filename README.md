@@ -19,9 +19,9 @@ sudo pacman -S git stow
 ```bash
 # Official repositories
 sudo pacman -S \
-  hyprland hyprlock hypridle hyprpaper hyprsunset hyprpicker uwsm \
+  hyprland hyprlock hypridle hyprsunset hyprpicker uwsm \
   grim slurp \
-  waybar rofi mako libnotify swayosd \
+  rofi libnotify brightnessctl \
   xdg-desktop-portal-gtk \
   kitty starship fastfetch \
   pipewire wireplumber playerctl wl-clipboard wl-clip-persist jq \
@@ -35,7 +35,7 @@ sudo pacman -S \
 
 ```bash
 # AUR
-yay -S bluetuith
+yay -S bluetuith wayle-bin
 ```
 
 ### Enable NetworkManager

@@ -80,17 +80,10 @@ apply_wallpaper() {
         local wallpaper=$(find "$wallpaper_dir" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" \) | sort | head -1)
         
         if [ -n "$wallpaper" ] && [ -f "$wallpaper" ]; then
-            # Update wallpaper symlink
             ln -sf "$wallpaper" "$CURRENT_DIR/wallpaper"
-
-            # Need to unload all wallpapers first to clear cache
-            hyprctl hyprpaper unload all 2>/dev/null || true
-
-            # Now load and apply the new wallpaper through the symlink
-            hyprctl hyprpaper preload "$CURRENT_DIR/wallpaper" 2>/dev/null || true
-            hyprctl hyprpaper wallpaper ",$CURRENT_DIR/wallpaper" 2>/dev/null || true
-            
-            # Reset wallpaper cycle state to start from first wallpaper
+            for mon in $(hyprctl monitors -j | jq -r '.[].name'); do
+                hyprctl hyprpaper wallpaper "$mon,$CURRENT_DIR/wallpaper" >/dev/null 2>&1 || true
+            done
             echo "0" > "$HOME/.cache/wallpaper-cycle-state"
         fi
     fi
