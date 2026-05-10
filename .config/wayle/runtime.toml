@@ -20,6 +20,7 @@ left = [
 ]
 center = ["clock"]
 right = [
+    "custom-webcam",
     "bluetooth",
     "network",
     "microphone",
@@ -98,6 +99,35 @@ length = 0.699999988079071
 icon-color = "fg-default"
 label-show = false
 label-color = "fg-default"
+
+[[modules.custom]]
+id = "webcam"
+command = "~/.config/scripts/waybar-webcam-status.sh"
+mode = "poll"
+interval-ms = 2000
+restart-policy = "never"
+restart-interval-ms = 1000
+format = "{{ output }}"
+hide-if-empty = true
+icon-name = "ld-camera-symbolic"
+icon-show = true
+icon-color = "red"
+icon-bg-color = "auto"
+label-show = false
+label-color = "auto"
+label-max-length = 0
+button-bg-color = "bg-surface-elevated"
+border-show = false
+border-color = "auto"
+left-click = "~/.config/scripts/toggle-webcam.sh"
+right-click = ""
+middle-click = ""
+scroll-up = ""
+scroll-down = ""
+
+[modules.custom.icon-map]
+active = "ld-camera-symbolic"
+disabled = "ld-eye-off-symbolic"
 
 [osd]
 duration = 1500
