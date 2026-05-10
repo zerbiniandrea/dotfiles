@@ -60,7 +60,7 @@ dropdown-show-seconds = true
 
 [modules.dashboard]
 icon-color = "fg-default"
-dropdown-logout-command = "uwsm stop"
+dropdown-logout-command = "hyprctl dispatch exit"
 
 [modules.hyprland-workspaces]
 min-workspace-count = 5

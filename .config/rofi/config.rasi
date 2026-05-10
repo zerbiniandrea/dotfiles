@@ -4,7 +4,6 @@ configuration{
     display-run: " ";
     display-window: " ";
     drun-display-format: "{icon} {name}";
-    drun-launch-command: "uwsm app -- {cmd}";
     matching: "normal";
     drun-match-fields: "name";
 }

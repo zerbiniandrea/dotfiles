@@ -58,7 +58,7 @@ apply_osd_theme() {
         # Restart swayosd to apply new theme
         pkill swayosd 2>/dev/null || true
         sleep 0.5
-        uwsm app -s b -- swayosd-server >/dev/null 2>&1 &
+        swayosd-server >/dev/null 2>&1 &
         disown
     fi
 }
@@ -120,7 +120,7 @@ switch_theme() {
     # Restart waybar
     killall waybar 2>/dev/null || true
     sleep 0.5
-    uwsm app -- waybar >/dev/null 2>&1 &
+    waybar >/dev/null 2>&1 &
     disown
     
     # Reload hyprland
@@ -132,7 +132,7 @@ switch_theme() {
     # Restart mako (notifications)
     pkill mako 2>/dev/null || true
     sleep 0.5
-    uwsm app -- mako >/dev/null 2>&1 &
+    mako >/dev/null 2>&1 &
     disown
     
     echo "Theme '$theme_name' applied successfully!"

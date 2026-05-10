@@ -19,10 +19,10 @@ sudo pacman -S git stow
 ```bash
 # Official repositories
 sudo pacman -S \
-  hyprland hyprlock hypridle hyprsunset hyprpicker uwsm \
+  hyprland hyprlock hypridle hyprsunset hyprpicker \
   grim slurp \
   rofi libnotify brightnessctl \
-  xdg-desktop-portal-gtk \
+  xdg-desktop-portal-gtk xdg-desktop-portal-hyprland \
   kitty starship fastfetch \
   pipewire wireplumber playerctl wl-clipboard wl-clip-persist jq \
   power-profiles-daemon nautilus \

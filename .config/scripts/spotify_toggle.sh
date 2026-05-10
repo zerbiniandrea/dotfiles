@@ -26,7 +26,7 @@ if pgrep -x "spotify" >/dev/null; then
 else
     # Spotify is not running, launch it and go to workspace 9
     echo "$current_ws" >"$STATE_FILE"
-    uwsm app -- spotify-launcher &
+    spotify-launcher &
     hyprctl dispatch workspace "$SPOTIFY_WS"
 fi
 
