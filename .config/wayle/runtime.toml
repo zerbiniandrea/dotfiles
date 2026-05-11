@@ -20,11 +20,13 @@ left = [
 ]
 center = ["clock"]
 right = [
+    "keyboard-input",
     "custom-webcam",
     "bluetooth",
     "network",
     "microphone",
     "volume",
+    "keybind-mode",
     "notifications",
 ]
 
@@ -68,6 +70,9 @@ min-workspace-count = 5
 monitor-specific = false
 label-size = 0.75
 active-color = "fg-default"
+
+[modules.keyboard-input]
+label-show = false
 
 [modules.media]
 icon-type = "spinning-disc"
