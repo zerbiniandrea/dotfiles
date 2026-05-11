@@ -15,18 +15,19 @@ monitor = "*"
 show = true
 left = [
     "dashboard",
+    "separator",
     "hyprland-workspaces",
     "cava",
 ]
 center = ["clock"]
 right = [
     "keyboard-input",
+    "separator",
     "custom-webcam",
     "bluetooth",
     "network",
     "microphone",
     "volume",
-    "keybind-mode",
     "notifications",
 ]
 
@@ -63,7 +64,7 @@ dropdown-show-seconds = true
 
 [modules.dashboard]
 icon-color = "fg-default"
-dropdown-logout-command = "hyprctl dispatch exit"
+dropdown-logout-command = 'hyprctl dispatch "hl.dsp.exit()"'
 
 [modules.hyprland-workspaces]
 min-workspace-count = 5
@@ -72,7 +73,13 @@ label-size = 0.75
 active-color = "fg-default"
 
 [modules.keyboard-input]
-label-show = false
+icon-color = "fg-default"
+label-color = "fg-default"
+left-click = "hyprctl switchxkblayout all next"
+
+[modules.keyboard-input.layout-alias-map]
+"English (US)" = "US"
+Italian = "IT"
 
 [modules.media]
 icon-type = "spinning-disc"

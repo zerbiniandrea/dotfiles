@@ -3,7 +3,7 @@
 ----------
 local ok, err = pcall(dofile, os.getenv("HOME") .. "/.config/themes/current/theme/hyprland.lua")
 if not ok then
-	hl.notify({ message = "Theme load failed: " .. tostring(err) })
+	hl.notification.create({ text = "Theme load failed: " .. tostring(err), timeout = 5000, icon = "warning" })
 end
 
 ----------
@@ -113,7 +113,7 @@ hl.config({
 	},
 
 	input = {
-		kb_layout = "us",
+		kb_layout = "us,it",
 		follow_mouse = 1,
 		sensitivity = 0,
 		touchpad = {
@@ -181,7 +181,7 @@ hl.bind(
 	mainMod .. " + SHIFT + R",
 	hl.dsp.exec_cmd([[hyprctl reload && notify-send "Hyprland" "Configuration reloaded"]])
 )
-hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd([[killall wayle; wayle shell & notify-send "Wayle" "Restarted"]]))
+hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd([[killall -w wayle; setsid -f wayle shell]]))
 
 -- Focus movement
 hl.bind(mainMod .. " + h", hl.dsp.focus({ direction = "left" }))
@@ -288,13 +288,12 @@ hl.bind(mainMod .. " + F3", hl.dsp.exec_cmd("hyprctl hyprsunset gamma 70"))
 -- Suppress self-maximizing apps
 hl.window_rule({ match = { class = ".*" }, suppress_event = "maximize" })
 
--- Floating dialogs
-hl.window_rule({ match = { class = "^(xdg-desktop-portal-gtk)$" }, float = true })
-hl.window_rule({ match = { class = "^(xdg-desktop-portal-gtk)$" }, center = true })
-hl.window_rule({ match = { class = "^(xdg-desktop-portal-gtk)$" }, size = { 875, 600 } })
-hl.window_rule({ match = { class = "^(hyprland-share-picker)$" }, float = true })
-hl.window_rule({ match = { class = "^(hyprland-share-picker)$" }, center = true })
-hl.window_rule({ match = { class = "^(hyprland-share-picker)$" }, size = { 875, 600 } })
+-- Centered floating dialogs
+for _, cls in ipairs({ "^(xdg-desktop-portal-gtk)$", "^(hyprland-share-picker)$" }) do
+	hl.window_rule({ match = { class = cls }, float = true })
+	hl.window_rule({ match = { class = cls }, center = true })
+	hl.window_rule({ match = { class = cls }, size = { 875, 600 } })
+end
 
 -- Steam
 hl.window_rule({ match = { class = "^(steam)$", title = "^(Friends List)$" }, float = true })
@@ -310,19 +309,32 @@ hl.window_rule({ match = { class = "org.gnome.Calculator" }, float = true })
 hl.window_rule({ match = { class = "gnome-calculator" }, float = true })
 
 -- Workspace assignments
-hl.window_rule({ match = { class = "^(app\\.zen_browser\\.zen)$" }, workspace = "1 silent" })
-hl.window_rule({ match = { class = "^(discord)$" }, workspace = "2 silent" })
-hl.window_rule({ match = { class = "^(?i)spotify$" }, workspace = "9 silent" })
-hl.window_rule({ match = { class = "^(org\\.gnome\\.Music)$" }, workspace = "9 silent" })
-hl.window_rule({ match = { class = "^(steam)$" }, workspace = "10 silent" })
-hl.window_rule({ match = { class = "^(lutris)$" }, workspace = "10 silent" })
-hl.window_rule({ match = { class = "^(heroic)$" }, workspace = "10 silent" })
-hl.window_rule({ match = { class = "^(bottles)$" }, workspace = "10 silent" })
-hl.window_rule({ match = { class = "^(steam_app_).*" }, workspace = "10 silent" })
-hl.window_rule({ match = { class = "^(bg3)$" }, workspace = "10 silent" })
-hl.window_rule({ match = { class = "^(gamescope)$" }, workspace = "10 silent" })
-hl.window_rule({ match = { class = "^(Waydroid)$" }, workspace = "10 silent" })
-hl.window_rule({ match = { class = "^(Minecraft).*" }, workspace = "10 silent" })
+local workspace_apps = {
+	{ ws = "1 silent", classes = { "^(app\\.zen_browser\\.zen)$" } },
+	{ ws = "2 silent", classes = { "^(discord)$" } },
+	{ ws = "9 silent", classes = { "^(?i)spotify$", "^(org\\.gnome\\.Music)$" } },
+	{
+		ws = "10 silent",
+		classes = {
+			"^(steam)$",
+			"^(lutris)$",
+			"^(heroic)$",
+			"^(bottles)$",
+			"^(steam_app_).*",
+			"^(bg3)$",
+			"^(gamescope)$",
+			"^(Waydroid)$",
+			"^(Minecraft).*",
+		},
+	},
+}
+for _, group in ipairs(workspace_apps) do
+	for _, cls in ipairs(group.classes) do
+		hl.window_rule({ match = { class = cls }, workspace = group.ws })
+	end
+end
+
+-- Waydroid: additionally fullscreens on its assigned workspace
 hl.window_rule({ match = { class = "^(Waydroid)$" }, fullscreen = true })
 
 -- WoW / Wine resize-loop fixes
