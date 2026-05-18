@@ -20,7 +20,6 @@ sudo pacman -S git stow
 # Official repositories
 sudo pacman -S \
   hyprland hyprlock hypridle hyprsunset hyprpicker \
-  grim slurp \
   rofi libnotify brightnessctl \
   xdg-desktop-portal-gtk xdg-desktop-portal-hyprland \
   kitty starship fastfetch \
@@ -30,6 +29,7 @@ sudo pacman -S \
   neovim \
   rclone rsync solaar \
   wiremix networkmanager networkmanager-dmenu satty \
+  gpu-screen-recorder layer-shell-qt vulkan-headers \
   ttf-jetbrains-mono-nerd
 ```
 
@@ -37,6 +37,33 @@ sudo pacman -S \
 # AUR
 yay -S bluetuith wayle-bin
 ```
+
+### Hyprland Plugins
+
+Screenshots and recording use [HyprCapture](https://github.com/gfhdhytghd/HyprCapture) via `hyprpm`:
+
+```bash
+hyprpm add https://github.com/gfhdhytghd/HyprCapture
+hyprpm enable hyprcapture
+hyprpm reload
+```
+
+Satty is wired up automatically as an "Open with" option in HyprCapture's thumbnail context menu (via its system `image/png` MIME handler).
+
+#### Patch for fullscreen Xwayland games
+
+HyprCapture's overlay uses `KeyboardInteractivityOnDemand`, which prevents it from receiving input over fullscreen Xwayland apps (e.g. games via Proton). Patch it to `KeyboardInteractivityExclusive`:
+
+```bash
+git clone https://github.com/gfhdhytghd/HyprCapture ~/Projects/HyprCapture
+cd ~/Projects/HyprCapture
+sed -i 's/KeyboardInteractivityOnDemand/KeyboardInteractivityExclusive/' src/ui/capture_overlay.cpp
+cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
+cmake --build build -j --target hyprcapture-ui
+cp build/hyprcapture-ui ~/.local/bin/hyprcapture-ui
+```
+
+Re-run after every `hyprpm update`, which overwrites the helper.
 
 ### Enable NetworkManager
 

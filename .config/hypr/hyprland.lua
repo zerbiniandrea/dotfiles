@@ -40,6 +40,7 @@ end
 -- AUTOSTART
 ----------
 hl.on("hyprland.start", function()
+	hl.exec_cmd("hyprpm reload -n")
 	hl.exec_cmd("xrdb -merge ~/.Xresources")
 	hl.exec_cmd("wayle shell")
 	hl.exec_cmd("hyprpaper")
@@ -211,17 +212,10 @@ hl.bind(mainMod .. " + S", function()
 	workspace_toggle(9)
 end)
 
--- Screenshots
-hl.bind(
-	"PRINT",
-	hl.dsp.exec_cmd([[grim -o "$(hyprctl monitors -j | jq -r '.[] | select(.focused) | .name')" - | wl-copy]])
-)
-hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd([[grim -g "$(slurp)" - | wl-copy]]))
-hl.bind("CTRL + PRINT", hl.dsp.exec_cmd([[grim - | satty --filename - --copy-command wl-copy]]))
-
--- Screen recording
-hl.bind("ALT + PRINT", hl.dsp.exec_cmd("~/.config/scripts/screen_record.sh region"))
-hl.bind("CTRL + ALT + PRINT", hl.dsp.exec_cmd("~/.config/scripts/screen_record.sh monitor"))
+-- Screenshots / recording (HyprCapture)
+hl.bind("PRINT", function()
+	hl.plugin.hyprcapture.open()
+end)
 
 -- Mouse drag (middle button)
 hl.bind(mainMod .. " + mouse:274", hl.dsp.window.drag(), { mouse = true })

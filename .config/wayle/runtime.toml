@@ -78,8 +78,8 @@ label-color = "fg-default"
 left-click = "hyprctl switchxkblayout all next"
 
 [modules.keyboard-input.layout-alias-map]
-"English (US)" = "US"
 Italian = "IT"
+"English (US)" = "US"
 
 [modules.media]
 icon-type = "spinning-disc"
