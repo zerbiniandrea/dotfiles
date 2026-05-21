@@ -71,11 +71,18 @@ hl.config({
 		border_size = 2,
 		resize_on_border = false,
 		allow_tearing = false,
-		layout = "dwindle",
+		layout = "scrolling",
 	},
 
 	scrolling = {
-		column_width = 1.0,
+		column_width = 0.5,
+		fullscreen_on_one_column = true,
+		focus_fit_method = 1,
+		follow_focus = true,
+		explicit_column_widths = "0.33333, 0.5, 0.66667",
+		wrap_focus = true,
+		wrap_swapcol = true,
+		direction = "right",
 	},
 
 	decoration = {
@@ -110,7 +117,7 @@ hl.config({
 	misc = {
 		force_default_wallpaper = 0,
 		disable_hyprland_logo = true,
-		focus_on_activate = true,
+		focus_on_activate = false,
 	},
 
 	input = {
@@ -149,13 +156,6 @@ hl.animation({ leaf = "fadeLayersOut", enabled = true, speed = 1.39, bezier = "a
 hl.animation({ leaf = "workspaces", enabled = false })
 
 ----------
--- WORKSPACE RULES
-----------
-for _, ws in ipairs({ "1", "2", "9", "10" }) do
-	hl.workspace_rule({ workspace = ws, layout = "scrolling" })
-end
-
-----------
 -- KEYBINDINGS
 ----------
 local mainMod = "SUPER"
@@ -164,7 +164,17 @@ local mainMod = "SUPER"
 hl.bind(mainMod .. " + C", hl.dsp.window.close())
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen())
-hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))
+
+-- Scrolling-layout actions (H/L = direction, mirrors nvim & focus binds)
+hl.bind(mainMod .. " + SHIFT + h", hl.dsp.layout("swapcol l"))
+hl.bind(mainMod .. " + SHIFT + l", hl.dsp.layout("swapcol r"))
+hl.bind(mainMod .. " + CTRL + h", hl.dsp.layout("consume_or_expel prev"))
+hl.bind(mainMod .. " + CTRL + l", hl.dsp.layout("consume_or_expel next"))
+hl.bind(mainMod .. " + W", hl.dsp.layout("colresize +conf"))
+hl.bind(mainMod .. " + ALT + W", hl.dsp.layout("colresize -conf"))
+hl.bind(mainMod .. " + P", hl.dsp.layout("promote"))
+
+hl.bind(mainMod .. " + F", hl.dsp.layout("fit active"))
 
 -- App launchers
 hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(terminal))
@@ -176,7 +186,6 @@ hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("wayle notify dnd"))
 hl.bind(mainMod .. " + ALT + space", hl.dsp.exec_cmd("~/.config/scripts/theme_menu.sh"))
 hl.bind(mainMod .. " + ALT + B", hl.dsp.exec_cmd("~/.config/scripts/wallpaper-cycle.sh"))
 hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("~/.config/scripts/power_menu.sh"))
-hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("hyprlock"))
 hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("~/.config/scripts/toggle-webcam.sh"))
 hl.bind(
 	mainMod .. " + SHIFT + R",
@@ -184,11 +193,11 @@ hl.bind(
 )
 hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd([[killall -w wayle; setsid -f wayle shell]]))
 
--- Focus movement
-hl.bind(mainMod .. " + h", hl.dsp.focus({ direction = "left" }))
-hl.bind(mainMod .. " + l", hl.dsp.focus({ direction = "right" }))
-hl.bind(mainMod .. " + k", hl.dsp.focus({ direction = "up" }))
-hl.bind(mainMod .. " + j", hl.dsp.focus({ direction = "down" }))
+-- Focus movement (scrolling-layout-aware: wraps within workspace, navigates stacked columns)
+hl.bind(mainMod .. " + h", hl.dsp.layout("focus l"))
+hl.bind(mainMod .. " + l", hl.dsp.layout("focus r"))
+hl.bind(mainMod .. " + k", hl.dsp.layout("focus u"))
+hl.bind(mainMod .. " + j", hl.dsp.layout("focus d"))
 hl.bind("ALT + Tab", hl.dsp.window.cycle_next())
 hl.bind("ALT + SHIFT + Tab", hl.dsp.window.cycle_next({ next = false }))
 
@@ -281,6 +290,17 @@ hl.bind(mainMod .. " + F3", hl.dsp.exec_cmd("hyprctl hyprsunset gamma 70"))
 
 -- Suppress self-maximizing apps
 hl.window_rule({ match = { class = ".*" }, suppress_event = "maximize" })
+
+-- Single-window apps: open at full column width regardless of workspace
+local fullwidth_apps = {
+	"^(app\\.zen_browser\\.zen)$",
+	"^(discord)$",
+	"^(?i)spotify$",
+	"^(org\\.gnome\\.Music)$",
+}
+for _, cls in ipairs(fullwidth_apps) do
+	hl.window_rule({ match = { class = cls }, scrolling_width = 1.0 })
+end
 
 -- Centered floating dialogs
 for _, cls in ipairs({ "^(xdg-desktop-portal-gtk)$", "^(hyprland-share-picker)$" }) do
