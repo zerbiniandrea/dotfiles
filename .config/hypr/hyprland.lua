@@ -353,7 +353,11 @@ end
 -- Waydroid: additionally fullscreens on its assigned workspace
 hl.window_rule({ match = { class = "^(Waydroid)$" }, fullscreen = true })
 
+-- Workspace 10 (games): single-column layout, keep rendering when unfocused
+hl.window_rule({ match = { workspace = "10" }, scrolling_width = 1.0 })
+hl.window_rule({ match = { workspace = "10" }, render_unfocused = true })
+
 -- WoW / Wine resize-loop fixes
 hl.window_rule({ match = { title = "^(World of Warcraft)$" }, suppress_event = "fullscreen" })
-hl.window_rule({ match = { title = "^(World of Warcraft)$" }, render_unfocused = true })
+--hl.window_rule({ match = { title = "^(World of Warcraft)$" }, render_unfocused = true })
 hl.window_rule({ match = { title = "^(World of Warcraft)$" }, fullscreen = true })
