@@ -59,8 +59,14 @@ apply_nvim_theme() {
     fi
 
     # Persist for new nvim sessions (read by ~/.config/nvim/after/plugin/active-theme.lua).
-    # Running nvim instances keep their current colorscheme until restarted.
     echo "$nvim_cs" > "$HOME/.cache/nvim-theme"
+
+    # Signal running nvim instances via their auto-created sockets.
+    # --remote-expr runs without touching input state (unlike --remote-send).
+    for sock in /run/user/"$(id -u)"/nvim.*.0; do
+        [ -S "$sock" ] || continue
+        nvim --server "$sock" --remote-expr "execute('colorscheme $nvim_cs')" >/dev/null 2>&1 || true
+    done
 }
 
 apply_wallpaper() {
