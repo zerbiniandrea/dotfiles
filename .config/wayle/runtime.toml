@@ -4,6 +4,7 @@ font-mono = "JetBrainsMono Nerd Font Propo"
 
 [bar]
 padding = 0.10000000149011612
+bg = "bg-base"
 button-variant = "basic"
 button-bg-opacity = 0
 button-icon-size = 0.5
@@ -32,19 +33,19 @@ right = [
 ]
 
 [styling]
-rounding = "none"
+rounding = "md"
 
 [styling.palette]
-bg = "#16161e"
-surface = "#1a1b26"
-elevated = "#202230"
-fg = "#c0caf5"
-fg-muted = "#a9b1d6"
-primary = "#7aa2f7"
-red = "#f7768e"
-yellow = "#e0af68"
-green = "#9ece6a"
-blue = "#7dcfff"
+bg = "#14171d"
+surface = "#1f1f26"
+elevated = "#14171d"
+fg = "#c5c9c7"
+fg-muted = "#75797f"
+primary = "#8ba4b0"
+red = "#c4746e"
+yellow = "#c4b28a"
+green = "#8a9a7b"
+blue = "#8ba4b0"
 
 [modules.bluetooth]
 icon-color = "fg-default"
@@ -71,6 +72,7 @@ min-workspace-count = 5
 monitor-specific = false
 label-size = 0.75
 active-color = "fg-default"
+occupied-color = "fg-default"
 
 [modules.keyboard-input]
 icon-color = "fg-default"
@@ -99,7 +101,7 @@ label-show = false
 icon-color = "fg-default"
 label-show = false
 
-[modules.notification]
+[modules.notifications]
 icon-color = "fg-default"
 label-show = false
 popup-position = "bottom-right"

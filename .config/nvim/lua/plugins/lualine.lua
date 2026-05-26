@@ -4,7 +4,7 @@ return {
   event = 'VeryLazy',
   opts = {
     options = {
-      theme = 'tokyonight',
+      theme = 'auto',
       globalstatus = true,
       disabled_filetypes = {
         statusline = { 'snacks_dashboard', 'snacks_picker', 'snacks_explorer' },

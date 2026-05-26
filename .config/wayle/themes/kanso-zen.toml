@@ -1,0 +1,12 @@
+# Kansō (Zen) — upstream: webhooked/kanso.nvim/lua/kanso/colors.lua
+# Zen variant: deepest of the four kanso flavors (zenBg0 background).
+bg = "#090e13"
+surface = "#1c1e25"
+elevated = "#090e13"
+fg = "#c5c9c7"
+fg_muted = "#75797f"
+primary = "#8ba4b0"
+red = "#c4746e"
+yellow = "#c4b28a"
+green = "#8a9a7b"
+blue = "#8ba4b0"

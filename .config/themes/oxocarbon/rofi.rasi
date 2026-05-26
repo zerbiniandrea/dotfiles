@@ -1,11 +1,11 @@
 * {
-    surface: #1e1e2e;
-    on-surface: #cdd6f4;
-    primary: #cba6f7;
-    primary-container: #cba6f7;
-    on-primary-container: #1e1e2e;
-    outline: #c6d0f5;
-    
+    surface: #161616;
+    on-surface: #ffffff;
+    primary: #78a9ff;
+    primary-container: #78a9ff;
+    on-primary-container: #161616;
+    outline: #393939;
+
     border: 0;
     margin: 0;
     padding: 0;

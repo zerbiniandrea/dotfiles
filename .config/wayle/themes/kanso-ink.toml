@@ -1,0 +1,12 @@
+# Kansō (Ink) — upstream: webhooked/kanso.nvim/lua/kanso/colors.lua
+# Ink variant: balanced dark — slightly lighter than Zen, more neutral.
+bg = "#14171d"
+surface = "#1f1f26"
+elevated = "#14171d"
+fg = "#c5c9c7"
+fg_muted = "#75797f"
+primary = "#8ba4b0"
+red = "#c4746e"
+yellow = "#c4b28a"
+green = "#8a9a7b"
+blue = "#8ba4b0"

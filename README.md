@@ -30,6 +30,7 @@ sudo pacman -S \
   rclone rsync solaar \
   wiremix networkmanager networkmanager-dmenu satty \
   gpu-screen-recorder layer-shell-qt vulkan-headers \
+  sddm qt6-virtualkeyboard \
   ttf-jetbrains-mono-nerd
 ```
 
@@ -112,6 +113,41 @@ Deploy all configurations using GNU Stow:
 
 ```bash
 stow .
+```
+
+### SDDM Theme Bootstrap
+
+The dotfiles ship per-theme `sddm.conf` files (`.config/themes/<t>/sddm.conf`) and the `theme-switcher.sh` logic that wires them in, but the underlying SDDM theme (`simple-sddm-2`) and `/etc` bits aren't tracked. One-time setup on a fresh install:
+
+```bash
+# 1. Clone the SDDM theme (simple-sddm-2 acts as a shared shell that the
+#    per-theme sddm.conf files re-color and re-background per active dotfile theme)
+sudo git clone https://github.com/JaKooLit/simple-sddm-2 /usr/share/sddm/themes/simple-sddm-2
+
+# 2. Hand ownership to the user so theme-switcher.sh can rewrite theme.conf
+#    and drop wallpapers into Backgrounds/ without sudo on every theme switch
+sudo chown -R "$USER:$USER" /usr/share/sddm/themes/simple-sddm-2
+
+# 3. Point SDDM at it
+sudo tee /etc/sddm.conf > /dev/null <<'EOF'
+[Theme]
+    Current=simple-sddm-2
+EOF
+
+# 4. Enable virtual-keyboard input method (the per-theme sddm.conf files have
+#    HideVirtualKeyboard="false", which only shows the button — the input
+#    method backend must be configured separately)
+sudo tee /etc/sddm.conf.d/virtualkbd.conf > /dev/null <<'EOF'
+[General]
+    InputMethod=qtvirtualkeyboard
+EOF
+
+# 5. Enable SDDM
+sudo systemctl enable sddm
+
+# 6. Apply the active dotfile theme to SDDM (writes the live theme.conf and
+#    copies the wallpaper into Backgrounds/)
+~/.config/scripts/theme-switcher.sh "$(basename "$(readlink ~/.config/themes/current/theme)")"
 ```
 
 ### Enable Systemd User Timers

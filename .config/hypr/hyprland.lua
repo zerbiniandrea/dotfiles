@@ -1,10 +1,22 @@
 ----------
--- THEME (symlink at ~/.config/themes/current/theme rotates per active theme)
+-- THEME (symlink at ~/.config/themes/current/theme rotates per active theme;
+-- falls back to kanso-zen if missing, then to an empty table on fresh installs)
 ----------
-local ok, err = pcall(dofile, os.getenv("HOME") .. "/.config/themes/current/theme/hyprland.lua")
-if not ok then
-	hl.notification.create({ text = "Theme load failed: " .. tostring(err), timeout = 5000, icon = "warning" })
+local function load_theme()
+	local home = os.getenv("HOME")
+	local candidates = {
+		home .. "/.config/themes/current/theme/hyprland.lua",
+		home .. "/.config/themes/kanso-zen/hyprland.lua",
+	}
+	for _, path in ipairs(candidates) do
+		local ok, result = pcall(dofile, path)
+		if ok and type(result) == "table" then
+			return result
+		end
+	end
+	return {}
 end
+local theme = load_theme()
 
 ----------
 -- MONITORS
@@ -42,6 +54,7 @@ end
 hl.on("hyprland.start", function()
 	hl.exec_cmd("hyprpm reload -n")
 	hl.exec_cmd("xrdb -merge ~/.Xresources")
+	hl.exec_cmd("~/.config/scripts/theme-switcher.sh")
 	hl.exec_cmd("wayle shell")
 	hl.exec_cmd("hyprpaper")
 	hl.exec_cmd("hyprsunset --identity")
@@ -62,16 +75,21 @@ hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
 ----------
 -- LOOK AND FEEL
 ----------
+-- Geometry preset — uncomment one
+local geo = { gaps_in = 6, gaps_out = 12, rounding = 8 } -- rounded (current)
+-- local geo = { gaps_in = 5, gaps_out = 20, rounding = 0 } -- squared (omarchy-era)
+
 hl.config({
 	xwayland = { force_zero_scaling = true },
 
 	general = {
-		gaps_in = 5,
-		gaps_out = 20,
+		gaps_in = geo.gaps_in,
+		gaps_out = geo.gaps_out,
 		border_size = 2,
 		resize_on_border = false,
 		allow_tearing = false,
 		layout = "scrolling",
+		col = theme.active_border and { active_border = theme.active_border } or nil,
 	},
 
 	scrolling = {
@@ -86,7 +104,7 @@ hl.config({
 	},
 
 	decoration = {
-		rounding = 0,
+		rounding = geo.rounding,
 		active_opacity = 1.0,
 		inactive_opacity = 1.0,
 		shadow = {
@@ -96,7 +114,7 @@ hl.config({
 			color = "rgba(1a1a1aee)",
 		},
 		blur = {
-			enabled = true,
+			enabled = false,
 			size = 3,
 			passes = 1,
 			vibrancy = 0.1696,

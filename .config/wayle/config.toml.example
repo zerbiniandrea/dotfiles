@@ -13,6 +13,8 @@ padding = 0.35
 padding-ends = 0.5
 module-gap = 0.5
 location = "top"
+exclusive = true
+layer = "top"
 bg = "bg-surface"
 background-opacity = 100
 border-location = "none"
@@ -429,7 +431,42 @@ middle-click = ""
 scroll-up = ""
 scroll-down = ""
 
-[modules.notification]
+[modules.niri-workspaces]
+min-workspace-count = 0
+monitor-specific = true
+hide-trailing-empty = true
+display-mode = "label"
+label-strategy = "name-or-index"
+urgent-show = true
+urgent-mode = "workspace"
+active-indicator = "background"
+divider = " "
+app-icons-show = false
+app-icons-dedupe = true
+app-icons-fallback = "ld-app-window-symbolic"
+app-icons-empty = "tb-minus-symbolic"
+icon-gap = 0.3
+workspace-padding = 0.5
+icon-size = 1.0
+label-size = 1.0
+workspace-ignore = []
+active-color = "accent"
+occupied-color = "fg-muted"
+empty-color = "fg-subtle"
+container-bg-color = "bg-surface-elevated"
+border-show = false
+border-color = "border-default"
+left-click = "focus:this"
+middle-click = ""
+right-click = ""
+scroll-up = "focus:previous"
+scroll-down = "focus:next"
+
+[modules.niri-workspaces.workspace-map]
+
+[modules.niri-workspaces.app-icon-map]
+
+[modules.notifications]
 icon-name = "ld-bell-symbolic"
 icon-unread = "ld-bell-dot-symbolic"
 icon-dnd = "ld-bell-off-symbolic"
@@ -458,6 +495,7 @@ popup-margin-x = 0.0
 popup-margin-y = 0.0
 popup-gap = 8.0
 popup-monitor = "primary"
+popup-layer = "overlay"
 popup-close-behavior = "dismiss"
 popup-shadow = true
 popup-urgency-bar = "low"
@@ -624,6 +662,7 @@ duration = 2500
 monitor = "primary"
 margin = 150.0
 border = true
+layer = "overlay"
 
 [wallpaper]
 engine-enabled = true

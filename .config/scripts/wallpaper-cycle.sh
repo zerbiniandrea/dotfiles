@@ -6,6 +6,7 @@
 THEMES_DIR="$HOME/.config/themes"
 CURRENT_DIR="$THEMES_DIR/current"
 CURRENT_LINK="$CURRENT_DIR/theme"
+WALLPAPERS_DIR="$HOME/Pictures/Wallpapers"
 STATE_FILE="$HOME/.cache/wallpaper-cycle-state"
 
 # Get current theme
@@ -15,9 +16,10 @@ if [ ! -d "$current_theme_path" ]; then
     exit 1
 fi
 
-backgrounds_dir="$current_theme_path/backgrounds"
+current_theme=$(basename "$current_theme_path")
+backgrounds_dir="$WALLPAPERS_DIR/$current_theme"
 if [ ! -d "$backgrounds_dir" ]; then
-    echo "Error: No backgrounds directory found for current theme"
+    echo "Error: No wallpapers directory found for current theme ($backgrounds_dir)"
     exit 1
 fi
 

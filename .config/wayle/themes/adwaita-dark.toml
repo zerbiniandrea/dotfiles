@@ -1,0 +1,12 @@
+# Adwaita dark — upstream: gnome.pages.gitlab.gnome.org/libadwaita/doc/1.7/css-variables.html
+# elevated set to bg (flat dropdowns) per user pref; canonical Adwaita popover_bg = #36363a
+bg = "#1d1d20"
+surface = "#2e2e32"
+elevated = "#1d1d20"
+fg = "#ffffff"
+fg_muted = "#b8b8b8"
+primary = "#3584e4"
+red = "#c01c28"
+yellow = "#cd9309"
+green = "#2ec27e"
+blue = "#3584e4"

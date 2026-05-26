@@ -1,1 +1,3 @@
-hl.config({ general = { col = { active_border = "rgb(c6d0f5)" } } })
+return {
+	active_border = "rgb(c6d0f5)",
+}
