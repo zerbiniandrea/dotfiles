@@ -1,5 +1,5 @@
 -- Applies the active colorscheme on startup based on ~/.cache/nvim-theme.
--- The file holds a single line: the colorscheme name (e.g. "oxocarbon").
+-- The file holds a single line: the colorscheme name (e.g. "kanagawa-dragon").
 -- Theme-switcher.sh writes this file when you swap themes; new nvim sessions
 -- read it here. Running nvim sessions keep their current colorscheme until restart.
 

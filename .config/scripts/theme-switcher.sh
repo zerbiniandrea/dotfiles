@@ -41,7 +41,6 @@ apply_terminal_theme() {
 
 # Map: theme dir name -> nvim colorscheme name
 declare -A NVIM_COLORSCHEME=(
-    [oxocarbon]=oxocarbon
     [kanagawa-dragon]=kanagawa-dragon
     [kanso-zen]=kanso-zen
     [kanso-ink]=kanso-ink
