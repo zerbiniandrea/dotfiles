@@ -36,15 +36,15 @@ right = [
 rounding = "md"
 
 [styling.palette]
-bg = "#14171d"
-surface = "#1f1f26"
-elevated = "#14171d"
-fg = "#c5c9c7"
-fg-muted = "#75797f"
-primary = "#8ba4b0"
+bg = "#0d0c0c"
+surface = "#181616"
+elevated = "#282727"
+fg = "#c5c9c5"
+fg-muted = "#a6a69c"
+primary = "#8992a7"
 red = "#c4746e"
 yellow = "#c4b28a"
-green = "#8a9a7b"
+green = "#87a987"
 blue = "#8ba4b0"
 
 [modules.bluetooth]
@@ -80,8 +80,8 @@ label-color = "fg-default"
 left-click = "hyprctl switchxkblayout all next"
 
 [modules.keyboard-input.layout-alias-map]
-Italian = "IT"
 "English (US)" = "US"
+Italian = "IT"
 
 [modules.media]
 icon-type = "spinning-disc"

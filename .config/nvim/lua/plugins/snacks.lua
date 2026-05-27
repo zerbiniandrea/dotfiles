@@ -56,6 +56,10 @@ return {
       sources = {
         explorer = {
           hidden = true,
+          -- hide the search/input bar while navigating the tree; it reappears
+          -- when the input is focused. (layout.auto_hide, deep-merges with the
+          -- explorer's built-in sidebar preset)
+          layout = { auto_hide = { 'input' } },
         },
         files = {
           hidden = true,
