@@ -82,6 +82,13 @@ local geo = { gaps_in = 6, gaps_out = 12, rounding = 8 } -- rounded (current)
 hl.config({
 	xwayland = { force_zero_scaling = true },
 
+	plugin = {
+		hyprcapture = {
+			allow_quick = 1,
+			save = 0,
+		},
+	},
+
 	general = {
 		gaps_in = geo.gaps_in,
 		gaps_out = geo.gaps_out,
@@ -244,6 +251,9 @@ end)
 -- Screenshots / recording (HyprCapture)
 hl.bind("PRINT", function()
 	hl.plugin.hyprcapture.open()
+end)
+hl.bind("SHIFT + PRINT", function()
+	hl.plugin.hyprcapture.quick("fullscreen")
 end)
 
 -- Mouse drag (middle button)
