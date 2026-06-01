@@ -1,0 +1,10 @@
+[Trigger]
+Operation = Upgrade
+Type = Package
+Target = hyprland
+
+[Action]
+Description = Rebuilding Hyprland plugins against new headers (hyprpm update)...
+When = PostTransaction
+Depends = hyprland
+Exec = /usr/bin/su - zerbi -c '/usr/bin/hyprpm update'

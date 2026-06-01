@@ -1,0 +1,21 @@
+# Stow's built-in default ignore list (replaced once this file exists),
+# plus repo-specific entries below.
+RCS
+.+,v
+CVS
+\.\#.+
+\.cvsignore
+\.svn
+_darcs
+\.hg
+\.git
+\.gitignore
+\.gitmodules
+.+~
+\#.*\#
+^/README.*
+^/LICENSE.*
+^/COPYING
+
+# Not home dotfiles — installed into /etc manually (see README).
+^/system
