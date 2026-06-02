@@ -140,8 +140,8 @@ scroll-up = ""
 scroll-down = ""
 
 [modules.custom.icon-map]
-disabled = "ld-eye-off-symbolic"
 active = "ld-camera-symbolic"
+disabled = "ld-eye-off-symbolic"
 
 [osd]
 duration = 1500

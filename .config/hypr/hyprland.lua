@@ -248,49 +248,18 @@ hl.bind("ALT + PRINT", hl.dsp.exec_cmd("~/.config/scripts/record-toggle.sh"))
 -- Mouse drag (middle button)
 hl.bind(mainMod .. " + mouse:274", hl.dsp.window.drag(), { mouse = true })
 
--- Resize submap
-hl.bind(mainMod .. " + Z", hl.dsp.submap("resize"))
-hl.define_submap("resize", function()
-	local function rz(keys, x, y)
-		for _, k in ipairs(keys) do
-			hl.bind(k, hl.dsp.window.resize({ x = x, y = y, relative = true }), { repeating = true })
-		end
-	end
-	rz({ "h", "left" }, -40, 0)
-	rz({ "l", "right" }, 40, 0)
-	rz({ "k", "up" }, 0, -40)
-	rz({ "j", "down" }, 0, 40)
-	hl.bind("escape", hl.dsp.submap("reset"))
-	hl.bind("return", hl.dsp.submap("reset"))
-end)
-
 -- Volume (wayle OSD)
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wayle audio output-volume +5"), { locked = true, repeating = true })
 hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wayle audio output-volume -5"), { locked = true, repeating = true })
 hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wayle audio output-mute"), { locked = true, repeating = true })
 
-local micToggleCmd =
-	[[case $(wayle audio input-mute) in *unmuted*) paplay /usr/share/sounds/freedesktop/stereo/power-plug.oga ;; *) paplay /usr/share/sounds/freedesktop/stereo/power-unplug.oga ;; esac]]
+local micToggleCmd = "wayle audio input-mute"
 hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd(micToggleCmd), { locked = true, repeating = true })
 hl.bind(mainMod .. " + grave", hl.dsp.exec_cmd(micToggleCmd))
 
 -- Brightness
 hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 5%+"), { locked = true, repeating = true })
 hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 5%-"), { locked = true, repeating = true })
-
--- Precise 1% adjustments
-hl.bind(
-	"ALT + XF86AudioRaiseVolume",
-	hl.dsp.exec_cmd("wayle audio output-volume +1"),
-	{ locked = true, repeating = true }
-)
-hl.bind(
-	"ALT + XF86AudioLowerVolume",
-	hl.dsp.exec_cmd("wayle audio output-volume -1"),
-	{ locked = true, repeating = true }
-)
-hl.bind("ALT + XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 1%+"), { locked = true, repeating = true })
-hl.bind("ALT + XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 1%-"), { locked = true, repeating = true })
 
 -- Media keys
 hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })

@@ -28,15 +28,15 @@ sudo pacman -S \
   ffmpegthumbnailer \
   neovim \
   rclone rsync \
-  wiremix networkmanager networkmanager-dmenu satty \
+  networkmanager \
   sddm qt6-virtualkeyboard \
   ttf-jetbrains-mono-nerd \
-  grim slurp wf-recorder # screenshots & screen recording (hyprpicker/satty above too)
+  grim slurp wf-recorder satty # screenshots & screen recording (hyprpicker/satty above too)
 ```
 
 ```bash
 # AUR
-yay -S bluetuith wayle-bin
+yay -S wayle-bin
 ```
 
 Screenshots use [grimblast](https://github.com/hyprwm/contrib/tree/main/grimblast) — follow its README to install.
