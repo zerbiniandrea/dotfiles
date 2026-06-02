@@ -29,9 +29,9 @@ sudo pacman -S \
   neovim \
   rclone rsync \
   wiremix networkmanager networkmanager-dmenu satty \
-  gpu-screen-recorder layer-shell-qt vulkan-headers \
   sddm qt6-virtualkeyboard \
-  ttf-jetbrains-mono-nerd
+  ttf-jetbrains-mono-nerd \
+  grim slurp wf-recorder # screenshots & screen recording (hyprpicker/satty above too)
 ```
 
 ```bash
@@ -39,43 +39,7 @@ sudo pacman -S \
 yay -S bluetuith wayle-bin
 ```
 
-### Hyprland Plugins
-
-Screenshots and recording use [HyprCapture](https://github.com/gfhdhytghd/HyprCapture) via `hyprpm`:
-
-```bash
-hyprpm add https://github.com/gfhdhytghd/HyprCapture
-hyprpm enable hyprcapture
-hyprpm reload
-```
-
-Satty is wired up automatically as an "Open with" option in HyprCapture's thumbnail context menu (via its system `image/png` MIME handler).
-
-#### Patch for fullscreen Xwayland games
-
-HyprCapture's overlay uses `KeyboardInteractivityOnDemand`, which prevents it from receiving input over fullscreen Xwayland apps (e.g. games via Proton). Patch it to `KeyboardInteractivityExclusive`:
-
-```bash
-git clone https://github.com/gfhdhytghd/HyprCapture ~/Projects/HyprCapture
-cd ~/Projects/HyprCapture
-sed -i 's/KeyboardInteractivityOnDemand/KeyboardInteractivityExclusive/' src/ui/capture_overlay.cpp
-cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
-cmake --build build -j --target hyprcapture-ui
-cp build/hyprcapture-ui ~/.local/bin/hyprcapture-ui
-```
-
-Re-run after every `hyprpm update`, which overwrites the helper.
-
-#### Auto-rebuild plugins on Hyprland upgrade
-
-`hyprpm` plugins are compiled against Hyprland's headers, so they stop loading after every `hyprland` package upgrade until rebuilt with `hyprpm update` (the symptom is `unknown config key plugin.<name>` and `hyprctl plugins list` showing none loaded). A pacman hook automates the rebuild:
-
-```bash
-sudo install -Dm644 ~/dotfiles/system/pacman-hooks/hyprpm-update.hook \
-  /etc/pacman.d/hooks/hyprpm-update.hook
-```
-
-It runs `hyprpm update` as your user after any `hyprland` upgrade; `hyprland.lua` already runs `hyprpm reload -n` at session start to load the rebuilt plugins. (Edit the `Exec` line if your username isn't `zerbi`.)
+Screenshots use [grimblast](https://github.com/hyprwm/contrib/tree/main/grimblast) — follow its README to install.
 
 ### Enable NetworkManager
 

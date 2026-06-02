@@ -52,7 +52,6 @@ end
 -- AUTOSTART
 ----------
 hl.on("hyprland.start", function()
-	hl.exec_cmd("hyprpm reload -n")
 	hl.exec_cmd("xrdb -merge ~/.Xresources")
 	hl.exec_cmd("~/.config/scripts/theme-switcher.sh")
 	hl.exec_cmd("wayle shell")
@@ -67,8 +66,6 @@ end)
 ----------
 -- ENV VARS
 ----------
-hl.env("XCURSOR_SIZE", "24")
-hl.env("HYPRCURSOR_SIZE", "24")
 hl.env("QT_QPA_PLATFORM", "wayland")
 hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
 
@@ -81,13 +78,6 @@ local geo = { gaps_in = 6, gaps_out = 12, rounding = 8 } -- rounded (current)
 
 hl.config({
 	xwayland = { force_zero_scaling = true },
-
-	plugin = {
-		hyprcapture = {
-			allow_quick = 1,
-			save = 0,
-		},
-	},
 
 	general = {
 		gaps_in = geo.gaps_in,
@@ -248,13 +238,12 @@ hl.bind(mainMod .. " + S", function()
 	workspace_toggle(9)
 end)
 
--- Screenshots / recording (HyprCapture)
-hl.bind("PRINT", function()
-	hl.plugin.hyprcapture.open()
-end)
-hl.bind("SHIFT + PRINT", function()
-	hl.plugin.hyprcapture.quick("fullscreen")
-end)
+-- Screenshots
+hl.bind("PRINT", hl.dsp.exec_cmd("grimblast --notify --freeze copy area"))
+hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd("grimblast --notify copy screen"))
+hl.bind("SUPER + PRINT", hl.dsp.exec_cmd('GRIMBLAST_EDITOR="satty --filename" grimblast edit screen'))
+-- Recording
+hl.bind("ALT + PRINT", hl.dsp.exec_cmd("~/.config/scripts/record-toggle.sh"))
 
 -- Mouse drag (middle button)
 hl.bind(mainMod .. " + mouse:274", hl.dsp.window.drag(), { mouse = true })
