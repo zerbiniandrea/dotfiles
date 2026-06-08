@@ -16,14 +16,12 @@ monitor = "*"
 show = true
 left = [
     "dashboard",
-    "separator",
     "hyprland-workspaces",
     "cava",
 ]
 center = ["clock"]
 right = [
     "keyboard-input",
-    "separator",
     "custom-webcam",
     "bluetooth",
     "network",
@@ -105,9 +103,6 @@ label-show = false
 icon-color = "fg-default"
 label-show = false
 popup-position = "bottom-right"
-
-[modules.separator]
-length = 0.699999988079071
 
 [modules.volume]
 icon-color = "fg-default"
