@@ -12,6 +12,6 @@ case $chosen in
     systemctl reboot
     ;;
 "󰌾 Lock")
-    hyprlock
+    loginctl lock-session
     ;;
 esac
