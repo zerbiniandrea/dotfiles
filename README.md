@@ -27,6 +27,7 @@ sudo pacman -S \
   power-profiles-daemon nautilus \
   ffmpegthumbnailer \
   neovim \
+  fnm \
   rclone rsync \
   networkmanager \
   sddm qt6-virtualkeyboard \
