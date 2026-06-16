@@ -52,15 +52,26 @@ end
 -- AUTOSTART
 ----------
 hl.on("hyprland.start", function()
+	-- push session env into systemd/dbus and bring up graphical-session.target,
+	-- otherwise xdg-desktop-portal won't start (Requisite=graphical-session.target)
+	-- and apps like Firefox/Zen lose the dark color-scheme preference
+	hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP HYPRLAND_INSTANCE_SIGNATURE")
+	hl.exec_cmd("systemctl --user start hyprland-session.target")
 	hl.exec_cmd("xrdb -merge ~/.Xresources")
 	hl.exec_cmd("~/.config/scripts/theme-switcher.sh")
 	hl.exec_cmd("wayle shell")
 	hl.exec_cmd("hyprpaper")
 	hl.exec_cmd("hyprsunset --identity")
-	hl.exec_cmd("systemctl --user start hypridle.service")  -- systemd unit gives Restart=on-failure (auto-recovers crashes)
+	hl.exec_cmd("systemctl --user start hypridle.service") -- systemd unit gives Restart=on-failure (auto-recovers crashes)
 	hl.exec_cmd("wl-clip-persist --clipboard regular")
 	hl.exec_cmd(browser)
 	hl.exec_cmd("discord")
+end)
+
+hl.on("hyprland.shutdown", function()
+	-- stop the session target on exit so graphical-session.target and its
+	-- user services tear down cleanly instead of leaking into the next session
+	os.execute("systemctl --user stop hyprland-session.target && sleep 0.1")
 end)
 
 ----------
@@ -216,7 +227,6 @@ hl.bind(mainMod .. " + l", hl.dsp.layout("focus r"))
 hl.bind(mainMod .. " + k", hl.dsp.layout("focus u"))
 hl.bind(mainMod .. " + j", hl.dsp.layout("focus d"))
 hl.bind("ALT + Tab", hl.dsp.window.cycle_next())
-hl.bind("ALT + SHIFT + Tab", hl.dsp.window.cycle_next({ next = false }))
 
 -- Workspaces 1..10 + move-to-workspace
 for i = 1, 10 do
@@ -301,7 +311,6 @@ end
 hl.window_rule({ match = { class = "^(steam)$", title = "^(Friends List)$" }, float = true })
 hl.window_rule({ match = { class = "^(steam)$", title = "^(Steam Settings)$" }, float = true })
 hl.window_rule({ match = { class = "^(steam)$", title = "^()$" }, min_size = { 1, 1 } })
-hl.window_rule({ match = { class = "^(steam)$" }, render_unfocused = true })
 
 -- VSCode floating popups
 hl.window_rule({ match = { class = "^(Code|code)$", float = true }, center = true })
@@ -336,14 +345,11 @@ for _, group in ipairs(workspace_apps) do
 	end
 end
 
--- Waydroid: additionally fullscreens on its assigned workspace
 hl.window_rule({ match = { class = "^(Waydroid)$" }, fullscreen = true })
 
 -- Workspace 10 (games): single-column layout, keep rendering when unfocused
-hl.window_rule({ match = { workspace = "10" }, scrolling_width = 1.0 })
-hl.window_rule({ match = { workspace = "10" }, render_unfocused = true })
+hl.window_rule({ match = { workspace = "10" }, scrolling_width = 1.0, render_unfocused = true })
 
 -- WoW / Wine resize-loop fixes
-hl.window_rule({ match = { title = "^(World of Warcraft)$" }, suppress_event = "fullscreen" })
+hl.window_rule({ match = { title = "^(World of Warcraft)$" }, suppress_event = "fullscreen", fullscreen = true })
 --hl.window_rule({ match = { title = "^(World of Warcraft)$" }, render_unfocused = true })
-hl.window_rule({ match = { title = "^(World of Warcraft)$" }, fullscreen = true })

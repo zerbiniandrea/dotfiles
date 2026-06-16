@@ -69,8 +69,7 @@ dropdown-logout-command = 'hyprctl dispatch "hl.dsp.exit()"'
 min-workspace-count = 5
 monitor-specific = false
 label-size = 0.75
-active-color = "fg-default"
-occupied-color = "fg-default"
+active-color = "fg-muted"
 
 [modules.keyboard-input]
 icon-color = "fg-default"
@@ -78,8 +77,8 @@ label-color = "fg-default"
 left-click = "hyprctl switchxkblayout all next"
 
 [modules.keyboard-input.layout-alias-map]
-"English (US)" = "US"
 Italian = "IT"
+"English (US)" = "US"
 
 [modules.media]
 icon-type = "spinning-disc"
@@ -135,8 +134,8 @@ scroll-up = ""
 scroll-down = ""
 
 [modules.custom.icon-map]
-active = "ld-camera-symbolic"
 disabled = "ld-eye-off-symbolic"
+active = "ld-camera-symbolic"
 
 [osd]
 duration = 1500

@@ -137,6 +137,17 @@ systemctl --user enable --now keepass-backup.timer       # Daily KeePass backup
 systemctl --user enable --now wtf-backup.timer           # Daily WTF backup
 ```
 
+### Dark Mode (dconf)
+
+These preferences live in dconf, not in stowable files, so apply them once on a fresh install:
+
+```bash
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'  # portal signal for Firefox/Zen in-content + devtools
+gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'         # GTK3 dialogs (file picker); dark via prefer-dark flag in gtk-3.0/settings.ini
+```
+
+Note: `Adwaita-dark` is not a valid theme name here (no on-disk theme) — the dark variant comes from the built-in `Adwaita` plus `gtk-application-prefer-dark-theme=1`. Dark mode also requires `xdg-desktop-portal` running, which needs `hyprland-session.target` to be active (started from `hyprland.lua` autostart).
+
 ## Managing Dotfiles
 
 ### Remove all configurations
