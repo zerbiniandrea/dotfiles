@@ -9,7 +9,22 @@ return {
     quickfile = { enabled = true },
     statuscolumn = { enabled = true },
     words = { enabled = true },
-    indent = { enabled = true },
+    indent = {
+      enabled = true,
+      -- Skip indent guides inside codediff.nvim tabs: its right pane is the real
+      -- working-tree buffer (buftype == ""), so the guides render on top of the
+      -- folded chunk text in compact mode. See CodeDiffOpen/Close tracking in init.
+      filter = function(buf, win)
+        if vim.g.snacks_indent == false or vim.b[buf].snacks_indent == false or vim.bo[buf].buftype ~= '' then
+          return false
+        end
+        local ok, tabpage = pcall(vim.api.nvim_win_get_tabpage, win)
+        if ok and _G.__codediff_tabs and _G.__codediff_tabs[tabpage] then
+          return false
+        end
+        return true
+      end,
+    },
     scroll = { enabled = true },
     input = { enabled = true },
     rename = { enabled = true },
@@ -238,6 +253,25 @@ return {
 
   },
   init = function()
+    -- Track codediff.nvim tabs so the indent filter can skip them.
+    _G.__codediff_tabs = _G.__codediff_tabs or {}
+    vim.api.nvim_create_autocmd('User', {
+      pattern = 'CodeDiffOpen',
+      callback = function(ev)
+        local tabpage = (ev.data and ev.data.tabpage) or vim.api.nvim_get_current_tabpage()
+        _G.__codediff_tabs[tabpage] = true
+      end,
+    })
+    vim.api.nvim_create_autocmd('User', {
+      pattern = 'CodeDiffClose',
+      callback = function(ev)
+        local tabpage = ev.data and ev.data.tabpage
+        if tabpage then
+          _G.__codediff_tabs[tabpage] = nil
+        end
+      end,
+    })
+
     vim.api.nvim_create_autocmd('User', {
       pattern = 'VeryLazy',
       callback = function()

@@ -22,6 +22,8 @@ return {
     opts = {
       diff = {
         layout = 'side-by-side',
+        compact_context_lines = 3,
+        compact_sync_folds = true,
       },
       explorer = {
         position = 'left',
