@@ -55,7 +55,9 @@ hl.on("hyprland.start", function()
 	-- push session env into systemd/dbus and bring up graphical-session.target,
 	-- otherwise xdg-desktop-portal won't start (Requisite=graphical-session.target)
 	-- and apps like Firefox/Zen lose the dark color-scheme preference
-	hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP HYPRLAND_INSTANCE_SIGNATURE")
+	hl.exec_cmd(
+		"dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP HYPRLAND_INSTANCE_SIGNATURE"
+	)
 	hl.exec_cmd("systemctl --user start hyprland-session.target")
 	hl.exec_cmd("xrdb -merge ~/.Xresources")
 	hl.exec_cmd("~/.config/scripts/theme-switcher.sh")
@@ -252,8 +254,18 @@ end)
 hl.bind("PRINT", hl.dsp.exec_cmd("grimblast --notify --freeze copy area"))
 hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd("grimblast --notify copy screen"))
 hl.bind("SUPER + PRINT", hl.dsp.exec_cmd('GRIMBLAST_EDITOR="satty --filename" grimblast edit screen'))
--- Recording
-hl.bind("ALT + PRINT", hl.dsp.exec_cmd("~/.config/scripts/record-toggle.sh"))
+-- Recording: toggle region capture (video only, no audio) via wf-recorder.
+-- pkill -INT succeeds when it stops a recording, fails when none is running.
+-- Shrink a clip for Discord afterwards with `discord-compress`.
+hl.bind(
+	"ALT + PRINT",
+	hl.dsp.exec_cmd(
+		'pkill -INT wf-recorder && notify-send -a wf-recorder "Recording stopped" '
+			.. '|| { g=$(slurp) && notify-send -a wf-recorder "Recording started" '
+			.. '&& wf-recorder -g "$g" -c h264_vaapi -d /dev/dri/renderD128 '
+			.. "-f ~/Videos/$(date +%Y-%m-%d_%H-%M-%S).mp4; }"
+	)
+)
 
 -- Mouse drag (middle button)
 hl.bind(mainMod .. " + mouse:274", hl.dsp.window.drag(), { mouse = true })

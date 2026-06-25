@@ -18,6 +18,7 @@ fish_add_path ~/.cargo/bin
 # Aliases
 alias up 'yay && flatpak update'
 alias uuid 'uuidgen | tr -d "\n" | wl-copy && echo "UUID copied to clipboard: $(wl-paste)"'
+alias ds_compress '~/.config/scripts/discord-compress.sh'
 
 # Shell integrations
 direnv hook fish | source
