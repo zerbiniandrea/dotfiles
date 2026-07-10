@@ -28,11 +28,12 @@ else
 
 	# When the bitrate gets starved, native res just looks blocky — spend the
 	# bits on a clean 1080p30 instead (scale never upscales, fps never speeds up).
+	# libx264 (yuv420p) requires even dimensions, so always round to even.
 	if ((bitrate < 5000)); then
-		vf=(-vf "scale=-2:min(1080\,ih),fps=30")
+		vf=(-vf "scale=-2:trunc(min(1080\,ih)/2)*2,fps=30")
 		mode="1080p30 @ ${bitrate}k"
 	else
-		vf=()
+		vf=(-vf "scale=trunc(iw/2)*2:trunc(ih/2)*2")
 		mode="native @ ${bitrate}k"
 	fi
 

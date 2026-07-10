@@ -299,7 +299,7 @@ hl.bind(mainMod .. " + F3", hl.dsp.exec_cmd("hyprctl hyprsunset gamma 70"))
 ----------
 
 -- Suppress self-maximizing apps
-hl.window_rule({ match = { class = ".*" }, suppress_event = "maximize" })
+-- hl.window_rule({ match = { class = ".*" }, suppress_event = "maximize" })
 
 -- Single-window apps: open at full column width regardless of workspace
 local fullwidth_apps = {

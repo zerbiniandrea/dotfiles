@@ -57,6 +57,7 @@ return {
         zsh = { 'shfmt' },
         toml = { 'taplo' },
         python = { 'ruff_organize_imports', 'ruff_format' },
+        go = { 'goimports', 'gofumpt' },
       },
     },
   },

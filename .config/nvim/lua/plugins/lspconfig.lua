@@ -116,15 +116,20 @@ return {
           'hyprls',
           'basedpyright',
           'ruff',
+          'gopls',
+          'golangci-lint-langserver',
           -- Formatters
           'stylua',
           'prettier',
           'oxfmt',
           'shfmt',
+          'gofumpt',
+          'goimports',
           -- Linters
           'shellcheck',
           'hadolint',
           'actionlint',
+          'golangci-lint',
         },
       }
 
