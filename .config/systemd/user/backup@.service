@@ -1,8 +1,8 @@
 [Unit]
-Description=WTF Backup
+Description=Cloud backup: %i
 After=network-online.target
 OnFailure=notify-failure@%n.service
 
 [Service]
 Type=oneshot
-ExecStart=%h/.bin/wtf-backup.sh
+ExecStart=%h/.bin/backup.sh %i

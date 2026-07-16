@@ -1,11 +1,5 @@
 # Dotfiles
 
-Personal dotfiles configuration for Arch Linux development environment.
-
-## System Requirements
-
-This dotfiles configuration is designed for Arch Linux with Hyprland (Wayland compositor).
-
 ## Installation
 
 ### Prerequisites

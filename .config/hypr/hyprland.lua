@@ -313,16 +313,12 @@ for _, cls in ipairs(fullwidth_apps) do
 end
 
 -- Centered floating dialogs
-for _, cls in ipairs({ "^(xdg-desktop-portal-gtk)$", "^(hyprland-share-picker)$" }) do
-	hl.window_rule({ match = { class = cls }, float = true })
-	hl.window_rule({ match = { class = cls }, center = true })
-	hl.window_rule({ match = { class = cls }, size = { 875, 600 } })
-end
+hl.window_rule({ match = { class = "^(xdg-desktop-portal-gtk)$" }, float = true, center = true, size = { 875, 600 } })
+hl.window_rule({ match = { class = "^(hyprland-share-picker)$" }, float = true, center = true, size = { 875, 600 } })
 
 -- Steam
-hl.window_rule({ match = { class = "^(steam)$", title = "^(Friends List)$" }, float = true })
+hl.window_rule({ match = { class = "^(steam)$", title = "^(Friends List)$" }, float = true, size = { 360, 700 } })
 hl.window_rule({ match = { class = "^(steam)$", title = "^(Steam Settings)$" }, float = true })
-hl.window_rule({ match = { class = "^(steam)$", title = "^()$" }, min_size = { 1, 1 } })
 
 -- VSCode floating popups
 hl.window_rule({ match = { class = "^(Code|code)$", float = true }, center = true })

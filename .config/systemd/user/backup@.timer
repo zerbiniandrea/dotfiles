@@ -1,5 +1,5 @@
 [Unit]
-Description=Run KeePass backup daily at 4 PM
+Description=Daily cloud backup at 4 PM: %i
 
 [Timer]
 OnCalendar=*-*-* 16:00:00
