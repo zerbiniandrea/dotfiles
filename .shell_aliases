@@ -1,9 +1,10 @@
 # Common aliases for bash and zsh
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
-alias up='yay && flatpak update'
 alias uuid='uuidgen | tr -d "\n" | wl-copy && echo "UUID copied to clipboard: $(wl-paste)"'
 alias ds_compress='~/.config/scripts/discord-compress.sh'
+
+alias up='paru && flatpak update'
 
 # Load .env files safely (handles special chars like & in values)
 loadenv() {

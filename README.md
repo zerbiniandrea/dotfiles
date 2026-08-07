@@ -31,7 +31,7 @@ sudo pacman -S \
 
 ```bash
 # AUR
-yay -S wayle-bin
+paru -S wayle-bin
 ```
 
 Screenshots use [grimblast](https://github.com/hyprwm/contrib/tree/main/grimblast) — follow its README to install.
