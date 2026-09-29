@@ -21,7 +21,8 @@ return {
     cmd = 'CodeDiff',
     opts = {
       diff = {
-        layout = 'side-by-side',
+        layout = 'inline',
+        compact = true,
         compact_context_lines = 3,
         compact_sync_folds = true,
       },
@@ -30,6 +31,8 @@ return {
         width = 40,
         view_mode = 'tree',
         flatten_dirs = true,
+        initial_focus = 'modified',
+        focus_on_select = true,
       },
       keymaps = {
         view = {

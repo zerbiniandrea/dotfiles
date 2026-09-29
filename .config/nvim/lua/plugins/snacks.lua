@@ -25,10 +25,40 @@ return {
         return true
       end,
     },
-    scroll = { enabled = true },
+    scroll = {
+      enabled = true,
+      -- Don't animate scrolling inside codediff.nvim tabs. codediff turns
+      -- `scrollbind` off and drives its own scroll sync from WinScrolled, so
+      -- snacks' guard at scroll.lua ("only animate the current window when
+      -- scrollbind is enabled") never fires and it animates the follower pane
+      -- too. The two then fight: every animation frame re-triggers the sync,
+      -- which re-scrolls the pane, which snacks animates again. Worst in
+      -- compact mode (gc), whose folds the sync's line-based math ignores.
+      filter = function(buf)
+        if vim.g.snacks_scroll == false or vim.b[buf].snacks_scroll == false or vim.bo[buf].buftype == 'terminal' then
+          return false
+        end
+        local tabpage = vim.api.nvim_get_current_tabpage()
+        if _G.__codediff_tabs and _G.__codediff_tabs[tabpage] then
+          return false
+        end
+        return true
+      end,
+    },
     input = { enabled = true },
     rename = { enabled = true },
     scratch = { enabled = false },
+
+    image = {
+      enabled = true,
+      doc = {
+        inline = true,
+        float = true,
+        max_width = 60,
+        max_height = 30,
+      },
+      math = { enabled = false },
+    },
 
     dashboard = {
       enabled = true,
@@ -250,7 +280,6 @@ return {
       desc = 'Toggle Terminal',
       mode = { 'n', 't' },
     },
-
   },
   init = function()
     -- Track codediff.nvim tabs so the indent filter can skip them.
