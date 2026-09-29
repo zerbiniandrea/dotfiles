@@ -1,0 +1,190 @@
+config_version = 14
+
+[audio]
+enable_sounds = false
+
+[bar.default]
+end = [ "keyboard_layout", "input_volume", "volume", "notifications" ]
+font_scale = 1.1499999817460775
+margin_ends = 0
+padding = 12
+radius_top_left = 0
+radius_top_right = 0
+scale = 0.84999999999999998
+start = [ "control-center", "workspaces", "audio_visualizer", "media" ]
+widget_spacing = 9
+
+[calendar]
+
+[control_center]
+hidden_tabs = [ "weather" ]
+
+[desktop_widgets]
+enabled = false
+schema_version = 2
+widget_order = []
+
+    [desktop_widgets.grid]
+    cell_size = 16
+    major_interval = 4
+    visible = true
+
+    [desktop_widgets.widget]
+
+[idle]
+pre_action_fade_seconds = 0
+
+[lockscreen]
+blurred_desktop = true
+enabled = false
+
+[lockscreen_widgets]
+enabled = false
+schema_version = 2
+widget_order = [ "lockscreen-login-box@DP-1" ]
+
+    [lockscreen_widgets.grid]
+    cell_size = 16
+    major_interval = 4
+    visible = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@DP-1"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 1024.0
+    cy = 970.0
+    output = "DP-1"
+    placement_height = 1152.0
+    placement_width = 2048.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@DP-1".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+[notification]
+history_retention_hours = 1
+
+[osd]
+offset_y = 100
+position = "bottom_center"
+
+    [osd.kinds]
+    media = false
+
+[plugin_settings."noctalia/screen_recorder"]
+audio_source = "none"
+
+[plugins]
+enabled = [ "noctalia/screen_recorder" ]
+
+[shell]
+avatar_path = "/usr/share/pixmaps/archlinux-logo.svg"
+clipboard_enabled = false
+telemetry_enabled = true
+
+    [shell.launcher]
+    categories = false
+    compact = true
+
+    [shell.panel]
+    control_center_position = "center"
+    session_placement = "floating"
+    session_position = "center"
+
+    [shell.screenshot]
+    save_to_file = false
+
+    [[shell.session.actions]]
+    action = "command"
+    command = "loginctl lock-session"
+    glyph = "lock"
+    label = "Lock"
+    shortcut = "1"
+
+    [[shell.session.actions]]
+    action = "logout"
+    shortcut = "2"
+
+    [[shell.session.actions]]
+    action = "command"
+    command = "systemctl suspend"
+    label = "Suspend"
+    shortcut = "3"
+
+    [[shell.session.actions]]
+    action = "reboot"
+    shortcut = "4"
+
+    [[shell.session.actions]]
+    action = "shutdown"
+    shortcut = "5"
+    variant = "destructive"
+
+[theme]
+builtin = "Ayu"
+community_palette = "Kanagawa Dragon"
+custom_palette = "Kanagawa Dragon Zerbi"
+mode = "dark"
+source = "community"
+wallpaper_scheme = "m3-content"
+
+    [theme.templates]
+    enable_community_templates = false
+
+[wallpaper]
+enabled = false
+
+[weather]
+enabled = false
+
+[widget.audio_visualizer]
+color_1 = "on_surface"
+color_2 = "on_surface"
+
+[widget.clock]
+format = "{:%H:%M:%S}"
+
+[widget.control-center]
+custom_image = "/usr/share/pixmaps/archlinux-logo.png"
+custom_image_colorize = true
+
+[widget.input_volume]
+mute_color = "on_surface"
+show_label = false
+
+[widget.media]
+hide_album_art = true
+hide_when_no_media = true
+max_length = 350
+
+[widget.network]
+show_label = false
+
+    [widget.network.actions]
+    right = "none"
+
+[widget.tray]
+match_adjacent_spacing = true
+
+[widget.volume]
+mute_color = "on_surface"
+show_label = false
+
+[widget.workspaces]
+focused_color = "on_surface"
+font_scale = 1.0800000000000001
+style = "minimal"
