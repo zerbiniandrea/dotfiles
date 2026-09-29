@@ -1,8 +1,14 @@
 #!/bin/bash
 
-options="󰐥 Power Off\n Reboot\n󰤄 Suspend\n󰌾 Lock"
+if [ -n "$(~/.config/scripts/wayle/caffeine.sh status)" ]; then
+    caffeine="󰅶 Caffeine: On"
+else
+    caffeine="󰅶 Caffeine: Off"
+fi
 
-chosen=$(echo -e "$options" | rofi -dmenu -i -l 4 -p "Power Menu" -theme-str 'window {width: 300px;}')
+options="󰐥 Power Off\n Reboot\n󰤄 Suspend\n󰌾 Lock\n$caffeine"
+
+chosen=$(echo -e "$options" | rofi -dmenu -i -l 5 -p "Power Menu" -theme-str 'window {width: 300px;}')
 
 case $chosen in
 "󰐥 Power Off")
@@ -16,5 +22,8 @@ case $chosen in
     ;;
 "󰌾 Lock")
     loginctl lock-session
+    ;;
+"󰅶 Caffeine: "*)
+    ~/.config/scripts/wayle/caffeine.sh toggle
     ;;
 esac

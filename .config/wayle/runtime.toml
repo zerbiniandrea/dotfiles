@@ -23,6 +23,8 @@ center = ["clock"]
 right = [
     "keyboard-input",
     "custom-webcam",
+    "custom-vpn",
+    "custom-caffeine",
     "bluetooth",
     "network",
     "microphone",
@@ -134,8 +136,58 @@ scroll-up = ""
 scroll-down = ""
 
 [modules.custom.icon-map]
-disabled = "ld-eye-off-symbolic"
 active = "ld-camera-symbolic"
+disabled = "ld-eye-off-symbolic"
+
+[[modules.custom]]
+id = "caffeine"
+command = "~/.config/scripts/wayle/caffeine.sh status"
+mode = "poll"
+interval-ms = 2000
+restart-policy = "never"
+restart-interval-ms = 1000
+format = "{{ output }}"
+hide-if-empty = true
+icon-name = "ld-coffee-symbolic"
+icon-show = true
+icon-color = "fg-default"
+icon-bg-color = "auto"
+label-show = false
+label-color = "auto"
+label-max-length = 0
+button-bg-color = "bg-surface-elevated"
+border-show = false
+border-color = "auto"
+left-click = ""
+right-click = ""
+middle-click = ""
+scroll-up = ""
+scroll-down = ""
+
+[[modules.custom]]
+id = "vpn"
+command = "~/.config/scripts/wayle/vpn.sh"
+mode = "poll"
+interval-ms = 2000
+restart-policy = "never"
+restart-interval-ms = 1000
+format = "{{ output }}"
+hide-if-empty = true
+icon-name = "ld-shield-symbolic"
+icon-show = true
+icon-color = "fg-default"
+icon-bg-color = "auto"
+label-show = false
+label-color = "auto"
+label-max-length = 0
+button-bg-color = "bg-surface-elevated"
+border-show = false
+border-color = "auto"
+left-click = ""
+right-click = ""
+middle-click = ""
+scroll-up = ""
+scroll-down = ""
 
 [osd]
 duration = 1500
