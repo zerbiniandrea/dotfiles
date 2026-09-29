@@ -24,14 +24,16 @@ setopt SHARE_HISTORY
 setopt HIST_IGNORE_SPACE
 HISTORY_IGNORE="(export *|curl *|git commit -m *|ds_compress *)"
 
+# Keep typos (unknown first word) in session history but don't write them to HISTFILE
+zshaddhistory() {
+    local cmd=${${(z)1}[1]}
+    [[ -n $cmd ]] && whence -- "$cmd" >/dev/null || return 2
+}
+
 # Completion
 zstyle :compinstall filename "$HOME/.zshrc"
 autoload -Uz compinit
-if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
-    compinit
-else
-    compinit -C
-fi
+compinit
 
 # Completion styling
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
@@ -60,3 +62,4 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 KEYTIMEOUT=1
 
 [ -f ~/Quinck/secure-sharing/quinck-secure.zsh ] && source ~/Quinck/secure-sharing/quinck-secure.zsh
+export PATH="$PATH:/home/zerbi/.local/bin"
