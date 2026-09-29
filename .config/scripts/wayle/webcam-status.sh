@@ -1,14 +1,12 @@
 #!/bin/bash
 
-# Webcam privacy status indicator.
-# First arg picks the consumer's output convention: "wayle" (default) or "waybar".
+# Webcam privacy status indicator for the wayle bar.
 #
 # States:
 #   - "active"   : a process is reading from /dev/video* (red camera icon)
 #   - "disabled" : uvcvideo has no bound USB interfaces (privacy mode on)
 #   - "inactive" : present but idle (hidden)
 
-mode="${1:-wayle}"
 driver=/sys/bus/usb/drivers/uvcvideo
 
 shopt -s nullglob
@@ -17,27 +15,15 @@ devices=(/dev/video*)
 shopt -u nullglob
 
 emit_disabled() {
-    if [ "$mode" = "waybar" ]; then
-        printf '{"text": "󰗟", "tooltip": "Webcam disabled (privacy mode)", "class": "disabled"}\n'
-    else
-        printf '{"alt": "disabled", "tooltip": "Webcam disabled (privacy mode)"}\n'
-    fi
+    printf '{"alt": "disabled", "tooltip": "Webcam disabled (privacy mode)"}\n'
 }
 
 emit_active() {
-    if [ "$mode" = "waybar" ]; then
-        printf '{"text": "󰄀", "tooltip": "Webcam in use: %s", "class": "active"}\n' "$1"
-    else
-        printf '{"alt": "active", "tooltip": "Webcam in use: %s"}\n' "$1"
-    fi
+    printf '{"alt": "active", "tooltip": "Webcam in use: %s"}\n' "$1"
 }
 
 emit_inactive() {
-    if [ "$mode" = "waybar" ]; then
-        printf '{"text": "", "tooltip": "", "class": "inactive"}\n'
-    else
-        echo
-    fi
+    echo
 }
 
 if [ ${#bound[@]} -eq 0 ] && [ -e "$driver" ]; then

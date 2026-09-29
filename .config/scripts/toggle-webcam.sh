@@ -57,5 +57,3 @@ else
         notify-send "Webcam" "No previously-disabled camera to restore"
     fi
 fi
-
-pkill -RTMIN+11 waybar
