@@ -28,8 +28,53 @@ hl.monitor({ output = "", mode = "highrr", position = "auto", scale = 1.25 })
 ----------
 local terminal = "kitty"
 local fileManager = "nautilus"
-local menu = "rofi -show drun"
-local browser = "flatpak run app.zen_browser.zen"
+
+----------
+-- SHELL (bar, notifications, OSD, launcher, screenshots): flip to switch
+----------
+local shell_name = "noctalia" -- "noctalia" | "wayle"
+
+local shells = {
+	noctalia = {
+		start = "noctalia",
+		restart = "killall -w noctalia; setsid -f noctalia",
+		launcher = "noctalia msg panel-toggle launcher",
+		power_menu = "noctalia msg panel-toggle session",
+		dnd = "noctalia msg notification-dnd-toggle",
+		screenshot_area = "noctalia msg screenshot-region",
+		screenshot_screen = "noctalia msg screenshot-fullscreen",
+		screenshot_edit = "noctalia msg screenshot-annotate",
+		-- Capture source, audio, and output dir live in the screen_recorder plugin settings.
+		record = "noctalia msg plugin noctalia/screen_recorder:service all toggle",
+		-- Generic wpctl; the noctalia OSD reacts to the PipeWire change
+		volume_up = "wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+",
+		volume_down = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
+		volume_mute = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+		mic_mute = "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle",
+	},
+	wayle = {
+		start = "systemctl --user start wayle.service", -- systemd unit gives Restart=on-failure
+		restart = "systemctl --user restart wayle.service",
+		launcher = "rofi -show drun",
+		power_menu = "~/.config/scripts/wayle/power_menu.sh",
+		dnd = "wayle notify dnd",
+		screenshot_area = "grimblast --notify --freeze copy area",
+		screenshot_screen = "grimblast --notify copy screen",
+		screenshot_edit = 'GRIMBLAST_EDITOR="satty --filename" grimblast edit screen',
+		-- Toggle region capture (video only, no audio) via wf-recorder.
+		-- pkill -INT succeeds when it stops a recording, fails when none is running.
+		record = 'pkill -INT wf-recorder && notify-send -a wf-recorder "Recording stopped" '
+			.. '|| { g=$(slurp) && notify-send -a wf-recorder "Recording started" '
+			.. '&& wf-recorder -g "$g" -c h264_vaapi -d /dev/dri/renderD128 '
+			.. "-f ~/Videos/$(date +%Y-%m-%d_%H-%M-%S).mp4; }",
+		-- wayle's own audio commands drive its OSD
+		volume_up = "wayle audio output-volume +5",
+		volume_down = "wayle audio output-volume -5",
+		volume_mute = "wayle audio output-mute",
+		mic_mute = "wayle audio input-mute",
+	},
+}
+local shell = shells[shell_name]
 
 ----------
 -- HELPERS
@@ -61,12 +106,12 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("systemctl --user start hyprland-session.target")
 	hl.exec_cmd("xrdb -merge ~/.Xresources")
 	hl.exec_cmd("~/.config/scripts/theme-switcher.sh")
-	hl.exec_cmd("wayle shell")
+	hl.exec_cmd(shell.start)
 	hl.exec_cmd("hyprpaper")
 	hl.exec_cmd("hyprsunset --identity")
 	hl.exec_cmd("systemctl --user start hypridle.service") -- systemd unit gives Restart=on-failure (auto-recovers crashes)
 	hl.exec_cmd("wl-clip-persist --clipboard regular")
-	hl.exec_cmd(browser)
+	hl.exec_cmd("flatpak run app.zen_browser.zen")
 	hl.exec_cmd("discord")
 end)
 
@@ -80,14 +125,12 @@ end)
 -- ENV VARS
 ----------
 hl.env("QT_QPA_PLATFORM", "wayland")
---hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
 
 ----------
 -- LOOK AND FEEL
 ----------
 -- Geometry preset — uncomment one
 local geo = { gaps_in = 6, gaps_out = 12, rounding = 8 } -- rounded (current)
--- local geo = { gaps_in = 5, gaps_out = 20, rounding = 0 } -- squared (omarchy-era)
 
 hl.config({
 	xwayland = { force_zero_scaling = true },
@@ -150,7 +193,7 @@ hl.config({
 
 	input = {
 		kb_layout = "us,it",
-		follow_mouse = 1,
+		follow_mouse = 2,
 		sensitivity = 0,
 		touchpad = {
 			natural_scroll = false,
@@ -210,19 +253,19 @@ hl.bind(mainMod .. " + F", hl.dsp.layout("fit active"))
 -- App launchers
 hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
-hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
+hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(shell.launcher))
 
 -- System triggers
-hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("wayle notify dnd"))
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd(shell.dnd))
 hl.bind(mainMod .. " + ALT + space", hl.dsp.exec_cmd("~/.config/scripts/theme_menu.sh"))
 hl.bind(mainMod .. " + ALT + B", hl.dsp.exec_cmd("~/.config/scripts/wallpaper-cycle.sh"))
-hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("~/.config/scripts/power_menu.sh"))
+hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd(shell.power_menu))
 hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("~/.config/scripts/toggle-webcam.sh"))
 hl.bind(
 	mainMod .. " + SHIFT + R",
 	hl.dsp.exec_cmd([[hyprctl reload && notify-send "Hyprland" "Configuration reloaded"]])
 )
-hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd([[killall -w wayle; setsid -f wayle shell]]))
+hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd(shell.restart))
 
 -- Focus movement (scrolling-layout-aware: wraps within workspace, navigates stacked columns)
 hl.bind(mainMod .. " + h", hl.dsp.layout("focus l"))
@@ -251,34 +294,21 @@ hl.bind(mainMod .. " + S", function()
 	workspace_toggle(9)
 end)
 
--- Screenshots
-hl.bind("PRINT", hl.dsp.exec_cmd("grimblast --notify --freeze copy area"))
-hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd("grimblast --notify copy screen"))
-hl.bind("SUPER + PRINT", hl.dsp.exec_cmd('GRIMBLAST_EDITOR="satty --filename" grimblast edit screen'))
--- Recording: toggle region capture (video only, no audio) via wf-recorder.
--- pkill -INT succeeds when it stops a recording, fails when none is running.
--- Shrink a clip for Discord afterwards with `discord-compress`.
-hl.bind(
-	"ALT + PRINT",
-	hl.dsp.exec_cmd(
-		'pkill -INT wf-recorder && notify-send -a wf-recorder "Recording stopped" '
-			.. '|| { g=$(slurp) && notify-send -a wf-recorder "Recording started" '
-			.. '&& wf-recorder -g "$g" -c h264_vaapi -d /dev/dri/renderD128 '
-			.. "-f ~/Videos/$(date +%Y-%m-%d_%H-%M-%S).mp4; }"
-	)
-)
+-- Screenshots + recording
+hl.bind("PRINT", hl.dsp.exec_cmd(shell.screenshot_area))
+hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd(shell.screenshot_screen))
+hl.bind("SUPER + PRINT", hl.dsp.exec_cmd(shell.screenshot_edit))
+hl.bind("ALT + PRINT", hl.dsp.exec_cmd(shell.record))
 
 -- Mouse drag (middle button)
 hl.bind(mainMod .. " + mouse:274", hl.dsp.window.drag(), { mouse = true })
 
--- Volume (wayle OSD)
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wayle audio output-volume +5"), { locked = true, repeating = true })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wayle audio output-volume -5"), { locked = true, repeating = true })
-hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wayle audio output-mute"), { locked = true, repeating = true })
-
-local micToggleCmd = "wayle audio input-mute"
-hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd(micToggleCmd), { locked = true, repeating = true })
-hl.bind(mainMod .. " + grave", hl.dsp.exec_cmd(micToggleCmd))
+-- Volume + mic
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(shell.volume_up), { locked = true, repeating = true })
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(shell.volume_down), { locked = true, repeating = true })
+hl.bind("XF86AudioMute", hl.dsp.exec_cmd(shell.volume_mute), { locked = true, repeating = true })
+hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd(shell.mic_mute), { locked = true, repeating = true })
+hl.bind(mainMod .. " + grave", hl.dsp.exec_cmd(shell.mic_mute))
 
 -- Brightness
 hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 5%+"), { locked = true, repeating = true })
@@ -299,6 +329,11 @@ hl.bind(mainMod .. " + F3", hl.dsp.exec_cmd("hyprctl hyprsunset gamma 70"))
 -- WINDOW RULES
 ----------
 
+-- Keep workspaces 1-5 alive when empty so the bar always shows them
+for i = 1, 5 do
+	hl.workspace_rule({ workspace = tostring(i), persistent = true })
+end
+
 -- Suppress self-maximizing apps
 -- hl.window_rule({ match = { class = ".*" }, suppress_event = "maximize" })
 
@@ -312,6 +347,8 @@ local fullwidth_apps = {
 for _, cls in ipairs(fullwidth_apps) do
 	hl.window_rule({ match = { class = cls }, scrolling_width = 1.0 })
 end
+
+hl.window_rule({ match = { class = "^(discord)$" }, render_unfocused = true })
 
 -- Centered floating dialogs
 hl.window_rule({ match = { class = "^(xdg-desktop-portal-gtk)$" }, float = true, center = true, size = { 875, 600 } })
@@ -361,4 +398,3 @@ hl.window_rule({ match = { workspace = "10" }, scrolling_width = 1.0, render_unf
 
 -- WoW / Wine resize-loop fixes
 hl.window_rule({ match = { title = "^(World of Warcraft)$" }, suppress_event = "fullscreen", fullscreen = true })
---hl.window_rule({ match = { title = "^(World of Warcraft)$" }, render_unfocused = true })
