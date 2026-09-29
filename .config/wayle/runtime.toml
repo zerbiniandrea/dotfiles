@@ -77,8 +77,8 @@ label-color = "fg-default"
 left-click = "hyprctl switchxkblayout all next"
 
 [modules.keyboard-input.layout-alias-map]
-Italian = "IT"
 "English (US)" = "US"
+Italian = "IT"
 
 [modules.media]
 icon-type = "spinning-disc"
@@ -110,7 +110,7 @@ label-color = "fg-default"
 
 [[modules.custom]]
 id = "webcam"
-command = "~/.config/scripts/waybar-webcam-status.sh"
+command = "~/.config/scripts/wayle/webcam-status.sh"
 mode = "poll"
 interval-ms = 2000
 restart-policy = "never"
