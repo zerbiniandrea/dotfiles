@@ -46,11 +46,6 @@ local shells = {
 		screenshot_edit = "noctalia msg screenshot-annotate",
 		-- Capture source, audio, and output dir live in the screen_recorder plugin settings.
 		record = "noctalia msg plugin noctalia/screen_recorder:service all toggle",
-		-- Generic wpctl; the noctalia OSD reacts to the PipeWire change
-		volume_up = "wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+",
-		volume_down = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
-		volume_mute = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
-		mic_mute = "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle",
 	},
 	wayle = {
 		start = "systemctl --user start wayle.service", -- systemd unit gives Restart=on-failure
@@ -67,11 +62,6 @@ local shells = {
 			.. '|| { g=$(slurp) && notify-send -a wf-recorder "Recording started" '
 			.. '&& wf-recorder -g "$g" -c h264_vaapi -d /dev/dri/renderD128 '
 			.. "-f ~/Videos/$(date +%Y-%m-%d_%H-%M-%S).mp4; }",
-		-- wayle's own audio commands drive its OSD
-		volume_up = "wayle audio output-volume +5",
-		volume_down = "wayle audio output-volume -5",
-		volume_mute = "wayle audio output-mute",
-		mic_mute = "wayle audio input-mute",
 	},
 }
 local shell = shells[shell_name]
@@ -210,8 +200,7 @@ hl.curve("easeInOutCubic", { type = "bezier", points = { { 0.65, 0.05 }, { 0.36,
 hl.curve("linear", { type = "bezier", points = { { 0, 0 }, { 1, 1 } } })
 hl.curve("almostLinear", { type = "bezier", points = { { 0.5, 0.5 }, { 0.75, 1 } } })
 hl.curve("quick", { type = "bezier", points = { { 0.15, 0 }, { 0.1, 1 } } })
---hl.curve("easy", { type = "spring", mass = 1, stiffness = 238.1191, dampening = 24.21279333 })
-hl.curve("easy", { type = "spring", mass = 1, stiffness = 71.2633, dampening = 15.8273644 })
+hl.curve("easy", { type = "spring", mass = 1, stiffness = 238.1191, dampening = 24.21279333 })
 
 hl.animation({ leaf = "global", enabled = true, speed = 10, bezier = "default" })
 hl.animation({ leaf = "border", enabled = true, speed = 5.39, bezier = "easeOutQuint" })
@@ -303,16 +292,16 @@ hl.bind("ALT + PRINT", hl.dsp.exec_cmd(shell.record))
 -- Mouse drag (middle button)
 hl.bind(mainMod .. " + mouse:274", hl.dsp.window.drag(), { mouse = true })
 
--- Volume + mic
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(shell.volume_up), { locked = true, repeating = true })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(shell.volume_down), { locked = true, repeating = true })
-hl.bind("XF86AudioMute", hl.dsp.exec_cmd(shell.volume_mute), { locked = true, repeating = true })
-hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd(shell.mic_mute), { locked = true, repeating = true })
-hl.bind(mainMod .. " + grave", hl.dsp.exec_cmd(shell.mic_mute))
+-- Volume + mic (plain wpctl; both shells' OSDs react to the PipeWire change)
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true })
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), { locked = true, repeating = true })
+hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), { locked = true, repeating = true })
+hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), { locked = true, repeating = true })
+hl.bind(mainMod .. " + grave", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"))
 
 -- Brightness
-hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 5%+"), { locked = true, repeating = true })
-hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 5%-"), { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+"), { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%-"), { locked = true, repeating = true })
 
 -- Media keys
 hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
