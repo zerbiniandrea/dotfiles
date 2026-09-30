@@ -132,6 +132,32 @@ systemctl --user enable --now keepass-backup.timer       # Daily KeePass backup
 systemctl --user enable --now wtf-backup.timer           # Daily WTF backup
 ```
 
+### OOM Handling (SysRq + systemd-oomd)
+
+```bash
+cd ~/dotfiles/system
+
+# 1. SysRq
+sudo install -Dm644 etc/sysctl.d/99-sysrq.conf /etc/sysctl.d/99-sysrq.conf
+sudo sysctl --load=/etc/sysctl.d/99-sysrq.conf
+
+# 2. systemd-oomd
+sudo install -Dm644 etc/systemd/system/-.slice.d/oomd.conf /etc/systemd/system/-.slice.d/oomd.conf
+sudo install -Dm644 etc/systemd/system/user@.service.d/oomd.conf /etc/systemd/system/user@.service.d/oomd.conf
+sudo install -Dm644 etc/systemd/oomd.conf.d/tuning.conf /etc/systemd/oomd.conf.d/tuning.conf
+sudo systemctl daemon-reload
+sudo systemctl restart systemd-oomd
+```
+
+Verify:
+
+```bash
+cat /proc/sys/kernel/sysrq   # 1
+oomctl                       # "/" under Swap Monitored, user@1000.service under Memory Pressure Monitored
+```
+
+Test SysRq safely with **Alt+SysRq+H** (prints help to `journalctl -k`).
+
 ### Dark Mode (dconf)
 
 These preferences live in dconf, not in stowable files, so apply them once on a fresh install:
