@@ -158,6 +158,14 @@ oomctl                       # "/" under Swap Monitored, user@1000.service under
 
 Test SysRq safely with **Alt+SysRq+H** (prints help to `journalctl -k`).
 
+### Italian Formats Locale
+
+`.config/locale.conf` keeps English messages, uses `en_GB` for dates (Monday first, dd/mm, 24h) and `it_IT` for everything else. Generate the locales once, then relog:
+
+```bash
+sudo sed -i -E 's/^#(it_IT|en_GB)\.UTF-8/\1.UTF-8/' /etc/locale.gen && sudo locale-gen
+```
+
 ### Dark Mode (dconf)
 
 These preferences live in dconf, not in stowable files, so apply them once on a fresh install:
