@@ -1,8 +1,0 @@
-# Wayle configuration file
-
-[[modules.custom]]
-id = "webcam"
-command = "~/.config/scripts/wayle/webcam-status.sh"
-interval-ms = 2000
-hide-if-empty = true
-left-click = "~/.config/scripts/toggle-webcam.sh"

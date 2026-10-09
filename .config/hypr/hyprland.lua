@@ -30,43 +30,6 @@ local terminal = "kitty"
 local fileManager = "nautilus"
 
 ----------
--- SHELL (bar, notifications, OSD, launcher, screenshots): flip to switch
-----------
-local shell_name = "noctalia" -- "noctalia" | "wayle"
-
-local shells = {
-	noctalia = {
-		start = "noctalia",
-		restart = "killall -w noctalia; setsid -f noctalia",
-		launcher = "noctalia msg panel-toggle launcher",
-		power_menu = "noctalia msg panel-toggle session",
-		dnd = "noctalia msg notification-dnd-toggle",
-		screenshot_area = "noctalia msg screenshot-region",
-		screenshot_screen = "noctalia msg screenshot-fullscreen",
-		screenshot_edit = "noctalia msg screenshot-annotate",
-		-- Capture source, audio, and output dir live in the screen_recorder plugin settings.
-		record = "noctalia msg plugin noctalia/screen_recorder:service all toggle",
-	},
-	wayle = {
-		start = "systemctl --user start wayle.service", -- systemd unit gives Restart=on-failure
-		restart = "systemctl --user restart wayle.service",
-		launcher = "rofi -show drun",
-		power_menu = "~/.config/scripts/wayle/power_menu.sh",
-		dnd = "wayle notify dnd",
-		screenshot_area = "grimblast --notify --freeze copy area",
-		screenshot_screen = "grimblast --notify copy screen",
-		screenshot_edit = 'GRIMBLAST_EDITOR="satty --filename" grimblast edit screen',
-		-- Toggle region capture (video only, no audio) via wf-recorder.
-		-- pkill -INT succeeds when it stops a recording, fails when none is running.
-		record = 'pkill -INT wf-recorder && notify-send -a wf-recorder "Recording stopped" '
-			.. '|| { g=$(slurp) && notify-send -a wf-recorder "Recording started" '
-			.. '&& wf-recorder -g "$g" -c h264_vaapi -d /dev/dri/renderD128 '
-			.. "-f ~/Videos/$(date +%Y-%m-%d_%H-%M-%S).mp4; }",
-	},
-}
-local shell = shells[shell_name]
-
-----------
 -- HELPERS
 ----------
 local function is_running(name)
@@ -96,7 +59,7 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("systemctl --user start hyprland-session.target")
 	hl.exec_cmd("xrdb -merge ~/.Xresources")
 	hl.exec_cmd("~/.config/scripts/theme-switcher.sh")
-	hl.exec_cmd(shell.start)
+	hl.exec_cmd("noctalia")
 	hl.exec_cmd("hyprpaper")
 	hl.exec_cmd("hyprsunset --identity")
 	hl.exec_cmd("systemctl --user start hypridle.service") -- systemd unit gives Restart=on-failure (auto-recovers crashes)
@@ -242,19 +205,19 @@ hl.bind(mainMod .. " + F", hl.dsp.layout("fit active"))
 -- App launchers
 hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
-hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(shell.launcher))
+hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("noctalia msg panel-toggle launcher"))
 
 -- System triggers
-hl.bind(mainMod .. " + N", hl.dsp.exec_cmd(shell.dnd))
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("noctalia msg notification-dnd-toggle"))
 hl.bind(mainMod .. " + ALT + space", hl.dsp.exec_cmd("~/.config/scripts/theme_menu.sh"))
 hl.bind(mainMod .. " + ALT + B", hl.dsp.exec_cmd("~/.config/scripts/wallpaper-cycle.sh"))
-hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd(shell.power_menu))
+hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("noctalia msg panel-toggle session"))
 hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("~/.config/scripts/toggle-webcam.sh"))
 hl.bind(
 	mainMod .. " + SHIFT + R",
 	hl.dsp.exec_cmd([[hyprctl reload && notify-send "Hyprland" "Configuration reloaded"]])
 )
-hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd(shell.restart))
+hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd("killall -w noctalia; setsid -f noctalia"))
 
 -- Focus movement (scrolling-layout-aware: wraps within workspace, navigates stacked columns)
 hl.bind(mainMod .. " + h", hl.dsp.layout("focus l"))
@@ -283,16 +246,16 @@ hl.bind(mainMod .. " + S", function()
 	workspace_toggle(9)
 end)
 
--- Screenshots + recording
-hl.bind("PRINT", hl.dsp.exec_cmd(shell.screenshot_area))
-hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd(shell.screenshot_screen))
-hl.bind("SUPER + PRINT", hl.dsp.exec_cmd(shell.screenshot_edit))
-hl.bind("ALT + PRINT", hl.dsp.exec_cmd(shell.record))
+-- Screenshots + recording (capture source, audio, and output dir live in the screen_recorder plugin settings)
+hl.bind("PRINT", hl.dsp.exec_cmd("noctalia msg screenshot-region"))
+hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd("noctalia msg screenshot-fullscreen"))
+hl.bind("SUPER + PRINT", hl.dsp.exec_cmd("noctalia msg screenshot-annotate"))
+hl.bind("ALT + PRINT", hl.dsp.exec_cmd("noctalia msg plugin noctalia/screen_recorder:service all toggle"))
 
 -- Mouse drag (middle button)
 hl.bind(mainMod .. " + mouse:274", hl.dsp.window.drag(), { mouse = true })
 
--- Volume + mic (plain wpctl; both shells' OSDs react to the PipeWire change)
+-- Volume + mic (plain wpctl; noctalia's OSD reacts to the PipeWire change)
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true })
 hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), { locked = true, repeating = true })
 hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), { locked = true, repeating = true })

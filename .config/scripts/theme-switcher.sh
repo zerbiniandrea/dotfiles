@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # Theme switcher: rotates ~/.config/themes/current/theme symlink and reloads
-# the stack to pick up the new colors. waybar/mako/swayosd are gone — wayle
-# owns bar/notifications/osd now.
+# the stack to pick up the new colors.
 # Usage: theme-switcher.sh [theme-name]
 
 THEMES_DIR="$HOME/.config/themes"

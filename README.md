@@ -27,15 +27,12 @@ sudo pacman -S \
   networkmanager \
   sddm qt6-virtualkeyboard \
   ttf-jetbrains-mono-nerd \
-  grim slurp wf-recorder satty # screenshots & screen recording (hyprpicker/satty above too)
-```
+  noctalia \
+  wf-recorder # screen recording
 
-```bash
-# AUR
-paru -S wayle-bin
+# Optional deps of xdg-desktop-portal-hyprland (screenshot portal)
+sudo pacman -S --asdeps grim slurp
 ```
-
-Screenshots use [grimblast](https://github.com/hyprwm/contrib/tree/main/grimblast) — follow its README to install.
 
 ### Enable NetworkManager
 
