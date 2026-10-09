@@ -14,7 +14,22 @@ scale = 0.84999999999999998
 start = [ "control-center", "workspaces", "audio_visualizer", "media" ]
 widget_spacing = 9
 
+[brightness]
+enable_ddcutil = true
+minimum_brightness = 0.19999999552965164
+
 [calendar]
+enabled = true
+
+    [calendar.account.personal_google]
+    color = "primary"
+    name = "Personal"
+    type = "google"
+
+    [calendar.account.work_google]
+    color = "#6D28D9"
+    name = "Work"
+    type = "google"
 
 [control_center]
 hidden_tabs = [ "weather" ]
@@ -33,6 +48,9 @@ widget_order = []
 
 [idle]
 pre_action_fade_seconds = 0
+
+[location]
+custom_schedule = false
 
 [lockscreen]
 blurred_desktop = true
@@ -75,6 +93,9 @@ widget_order = [ "lockscreen-login-box@DP-1" ]
         show_unlock_hint = true
         show_weather = true
 
+[nightlight]
+temperature_night = 3400
+
 [notification]
 history_retention_hours = 1
 
@@ -100,6 +121,9 @@ telemetry_enabled = true
     categories = false
     compact = true
 
+        [shell.launcher.providers.emoji]
+        global = false
+
     [shell.panel]
     control_center_position = "center"
     session_placement = "floating"
@@ -107,30 +131,45 @@ telemetry_enabled = true
 
     [shell.screenshot]
     save_to_file = false
+    show_cursor = true
 
     [[shell.session.actions]]
     action = "command"
     command = "loginctl lock-session"
+    countdown_seconds = 0.0
+    enabled = true
     glyph = "lock"
     label = "Lock"
     shortcut = "1"
+    variant = "default"
 
     [[shell.session.actions]]
     action = "logout"
+    countdown_seconds = 0.0
+    enabled = true
     shortcut = "2"
+    variant = "default"
 
     [[shell.session.actions]]
     action = "command"
     command = "systemctl suspend"
+    countdown_seconds = 0.0
+    enabled = true
     label = "Suspend"
     shortcut = "3"
+    variant = "default"
 
     [[shell.session.actions]]
     action = "reboot"
+    countdown_seconds = 0.0
+    enabled = true
     shortcut = "4"
+    variant = "default"
 
     [[shell.session.actions]]
     action = "shutdown"
+    countdown_seconds = 0.0
+    enabled = true
     shortcut = "5"
     variant = "destructive"
 

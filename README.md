@@ -15,6 +15,7 @@ sudo pacman -S git stow
 sudo pacman -S \
   hyprland hyprlock hypridle hyprsunset hyprpicker \
   rofi libnotify brightnessctl \
+  ddcutil \
   xdg-desktop-portal-gtk xdg-desktop-portal-hyprland \
   kitty starship fastfetch \
   zsh zsh-completions \
