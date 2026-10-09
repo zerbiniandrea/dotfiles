@@ -129,28 +129,24 @@ systemctl --user enable --now keepass-backup.timer       # Daily KeePass backup
 systemctl --user enable --now wtf-backup.timer           # Daily WTF backup
 ```
 
-### OOM Handling (SysRq + systemd-oomd)
+### OOM Handling (SysRq + earlyoom)
 
 ```bash
+sudo pacman -S earlyoom
 cd ~/dotfiles/system
-
-# 1. SysRq
 sudo install -Dm644 etc/sysctl.d/99-sysrq.conf /etc/sysctl.d/99-sysrq.conf
 sudo sysctl --load=/etc/sysctl.d/99-sysrq.conf
-
-# 2. systemd-oomd
-sudo install -Dm644 etc/systemd/system/-.slice.d/oomd.conf /etc/systemd/system/-.slice.d/oomd.conf
-sudo install -Dm644 etc/systemd/system/user@.service.d/oomd.conf /etc/systemd/system/user@.service.d/oomd.conf
-sudo install -Dm644 etc/systemd/oomd.conf.d/tuning.conf /etc/systemd/oomd.conf.d/tuning.conf
-sudo systemctl daemon-reload
-sudo systemctl restart systemd-oomd
+sudo install -Dm644 etc/default/earlyoom /etc/default/earlyoom
+sudo systemctl enable --now earlyoom
 ```
+
+earlyoom kills the worst process (preferring lint/test tooling, avoiding Hyprland/kitty/Steam/games) when free RAM drops below 5%, before the system starts thrashing. **Alt+SysRq+F** is the manual escape.
 
 Verify:
 
 ```bash
-cat /proc/sys/kernel/sysrq   # 1
-oomctl                       # "/" under Swap Monitored, user@1000.service under Memory Pressure Monitored
+cat /proc/sys/kernel/sysrq      # 1
+systemctl status earlyoom       # active, logs the thresholds and prefer/avoid regexes
 ```
 
 Test SysRq safely with **Alt+SysRq+H** (prints help to `journalctl -k`).

@@ -1,0 +1,4 @@
+# Kill the worst process when available RAM drops below 5% (SIGKILL below 2%; zram swap ignored via -s 100,100: it lives in RAM).
+# Prefer dev tooling, avoid the compositor, terminal, Steam and games. Regexes match the 15-char process
+# name and must stay unquoted/space-free: systemd splits $EARLYOOM_ARGS on whitespace without parsing quotes.
+EARLYOOM_ARGS="-m 5,2 -s 100,100 -r 0 -n --prefer ^(node|oxlint|tsgolint|tsc|vitest|esbuild)$ --avoid ^(Hyprland|kitty|steam|gamescope|noctalia|.*[.]exe)$"
