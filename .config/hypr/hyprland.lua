@@ -82,8 +82,7 @@ hl.env("QT_QPA_PLATFORM", "wayland")
 ----------
 -- LOOK AND FEEL
 ----------
--- Geometry preset — uncomment one
-local geo = { gaps_in = 6, gaps_out = 12, rounding = 8 } -- rounded (current)
+local geo = { gaps_in = 6, gaps_out = 12, rounding = 8 }
 
 hl.config({
 	xwayland = { force_zero_scaling = true },
@@ -256,10 +255,26 @@ hl.bind("ALT + PRINT", hl.dsp.exec_cmd("noctalia msg plugin noctalia/screen_reco
 hl.bind(mainMod .. " + mouse:274", hl.dsp.window.drag(), { mouse = true })
 
 -- Volume + mic (plain wpctl; noctalia's OSD reacts to the PipeWire change)
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), { locked = true, repeating = true })
-hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), { locked = true, repeating = true })
-hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), { locked = true, repeating = true })
+hl.bind(
+	"XF86AudioRaiseVolume",
+	hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"),
+	{ locked = true, repeating = true }
+)
+hl.bind(
+	"XF86AudioLowerVolume",
+	hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),
+	{ locked = true, repeating = true }
+)
+hl.bind(
+	"XF86AudioMute",
+	hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),
+	{ locked = true, repeating = true }
+)
+hl.bind(
+	"XF86AudioMicMute",
+	hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),
+	{ locked = true, repeating = true }
+)
 hl.bind(mainMod .. " + grave", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"))
 
 -- Brightness
@@ -272,11 +287,6 @@ hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = tr
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 
--- Hyprsunset
-hl.bind(mainMod .. " + F1", hl.dsp.exec_cmd("hyprctl hyprsunset temperature 3000"))
-hl.bind(mainMod .. " + F2", hl.dsp.exec_cmd("hyprctl hyprsunset identity && hyprctl hyprsunset gamma 100"))
-hl.bind(mainMod .. " + F3", hl.dsp.exec_cmd("hyprctl hyprsunset gamma 70"))
-
 ----------
 -- WINDOW RULES
 ----------
@@ -288,17 +298,6 @@ end
 
 -- Suppress self-maximizing apps
 -- hl.window_rule({ match = { class = ".*" }, suppress_event = "maximize" })
-
--- Single-window apps: open at full column width regardless of workspace
-local fullwidth_apps = {
-	"^(app\\.zen_browser\\.zen)$",
-	"^(discord)$",
-	"^(?i)spotify$",
-	"^(org\\.gnome\\.Music)$",
-}
-for _, cls in ipairs(fullwidth_apps) do
-	hl.window_rule({ match = { class = cls }, scrolling_width = 1.0 })
-end
 
 hl.window_rule({ match = { class = "^(discord)$" }, render_unfocused = true })
 
