@@ -1,0 +1,5 @@
+# Shell hooks (dotfiles-managed; the GUI writes to settings.toml).
+
+[hooks]
+started = ["bash ~/.config/noctalia/hooks/wallpaper.sh"]
+wallpaper_changed = ["bash ~/.config/noctalia/hooks/wallpaper.sh"]

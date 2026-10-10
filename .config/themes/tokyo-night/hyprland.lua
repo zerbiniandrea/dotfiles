@@ -1,3 +1,0 @@
-return {
-	active_border = "rgb(7aa2f7)",
-}

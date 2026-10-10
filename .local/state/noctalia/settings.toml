@@ -176,16 +176,27 @@ telemetry_enabled = true
 [theme]
 builtin = "Ayu"
 community_palette = "Kanagawa Dragon"
-custom_palette = "Kanagawa Dragon Zerbi"
+custom_palette = "kanagawa-dragon"
 mode = "dark"
-source = "community"
+source = "custom"
 wallpaper_scheme = "m3-content"
 
     [theme.templates]
-    enable_community_templates = false
+    builtin_ids = [ "hyprland", "kitty" ]
+    community_ids = [ "hyprtoolkit", "tmux" ]
 
 [wallpaper]
-enabled = false
+directory = "/home/zerbi/Pictures/Wallpapers"
+enabled = true
+
+    [wallpaper.default]
+    path = "/home/zerbi/Pictures/Wallpapers/kanso.jpg"
+
+    [wallpaper.last]
+    path = "/home/zerbi/Pictures/Wallpapers/kanso.jpg"
+
+    [wallpaper.monitors.DP-1]
+    path = "/home/zerbi/Pictures/Wallpapers/kanso.jpg"
 
 [weather]
 enabled = false

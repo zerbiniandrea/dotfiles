@@ -1,0 +1,10 @@
+# User templates; rendered on every palette change (or `noctalia msg templates-apply`).
+
+[theme.templates.user.hyprlock]
+input_path = "templates/hyprlock-colors.conf"
+output_path = "$XDG_CONFIG_HOME/hypr/hyprlock-colors.conf"
+
+[theme.templates.user.sddm]
+input_path = "templates/sddm-theme.conf"
+output_path = "$XDG_CACHE_HOME/noctalia/sddm-theme.conf"
+post_hook = "bash ~/.config/noctalia/hooks/sddm.sh"

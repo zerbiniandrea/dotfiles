@@ -1,24 +1,4 @@
 ----------
--- THEME (symlink at ~/.config/themes/current/theme rotates per active theme;
--- falls back to kanso-zen if missing, then to an empty table on fresh installs)
-----------
-local function load_theme()
-	local home = os.getenv("HOME")
-	local candidates = {
-		home .. "/.config/themes/current/theme/hyprland.lua",
-		home .. "/.config/themes/kanso-zen/hyprland.lua",
-	}
-	for _, path in ipairs(candidates) do
-		local ok, result = pcall(dofile, path)
-		if ok and type(result) == "table" then
-			return result
-		end
-	end
-	return {}
-end
-local theme = load_theme()
-
-----------
 -- MONITORS
 ----------
 hl.monitor({ output = "", mode = "highrr", position = "auto", scale = 1.25 })
@@ -58,9 +38,7 @@ hl.on("hyprland.start", function()
 	)
 	hl.exec_cmd("systemctl --user start hyprland-session.target")
 	hl.exec_cmd("xrdb -merge ~/.Xresources")
-	hl.exec_cmd("~/.config/scripts/theme-switcher.sh")
 	hl.exec_cmd("noctalia")
-	hl.exec_cmd("hyprpaper")
 	hl.exec_cmd("hyprsunset --identity")
 	hl.exec_cmd("systemctl --user start hypridle.service") -- systemd unit gives Restart=on-failure (auto-recovers crashes)
 	hl.exec_cmd("wl-clip-persist --clipboard regular")
@@ -94,7 +72,6 @@ hl.config({
 		resize_on_border = false,
 		allow_tearing = false,
 		layout = "scrolling",
-		col = theme.active_border and { active_border = theme.active_border } or nil,
 	},
 
 	scrolling = {
@@ -208,8 +185,6 @@ hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("noctalia msg panel-toggle launcher")
 
 -- System triggers
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("noctalia msg notification-dnd-toggle"))
-hl.bind(mainMod .. " + ALT + space", hl.dsp.exec_cmd("~/.config/scripts/theme_menu.sh"))
-hl.bind(mainMod .. " + ALT + B", hl.dsp.exec_cmd("~/.config/scripts/wallpaper-cycle.sh"))
 hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("noctalia msg panel-toggle session"))
 hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("~/.config/scripts/toggle-webcam.sh"))
 hl.bind(
@@ -349,3 +324,6 @@ hl.window_rule({ match = { workspace = "10" }, scrolling_width = 1.0, render_unf
 
 -- WoW / Wine resize-loop fixes
 hl.window_rule({ match = { title = "^(World of Warcraft)$" }, suppress_event = "fullscreen", fullscreen = true })
+
+-- For Noctalia Color templates (border/group colors, generated into noctalia.lua)
+require("noctalia").apply_theme()

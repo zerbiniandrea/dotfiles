@@ -1,5 +1,4 @@
--- All colorscheme plugins. Active colorscheme is applied by
--- ~/.config/nvim/after/plugin/active-theme.lua based on ~/.cache/nvim-theme.
+-- All colorscheme plugins; the active one is set in the kanagawa spec's config.
 return {
   {
     'folke/tokyonight.nvim',
@@ -60,6 +59,10 @@ return {
         }
       end,
     },
+    config = function(_, opts)
+      require('kanagawa').setup(opts)
+      vim.cmd.colorscheme('kanagawa-dragon')
+    end,
   },
   {
     'Mofiqul/adwaita.nvim',

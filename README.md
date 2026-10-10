@@ -14,7 +14,7 @@ sudo pacman -S git stow
 # Official repositories
 sudo pacman -S \
   hyprland hyprlock hypridle hyprsunset hyprpicker \
-  rofi libnotify brightnessctl \
+  libnotify brightnessctl \
   ddcutil \
   xdg-desktop-portal-gtk xdg-desktop-portal-hyprland \
   kitty starship fastfetch \
@@ -86,14 +86,14 @@ stow .
 
 ### SDDM Theme Bootstrap
 
-The dotfiles ship per-theme `sddm.conf` files (`.config/themes/<t>/sddm.conf`) and the `theme-switcher.sh` logic that wires them in, but the underlying SDDM theme (`simple-sddm-2`) and `/etc` bits aren't tracked. One-time setup on a fresh install:
+SDDM colors come from a Noctalia user template (`.config/noctalia/templates/sddm-theme.conf`); its post-hook (`.config/noctalia/hooks/sddm.sh`) installs the rendered `theme.conf` and copies the current wallpaper into the theme. The underlying SDDM theme (`simple-sddm-2`) and `/etc` bits aren't tracked. One-time setup on a fresh install:
 
 ```bash
 # 1. Clone the SDDM theme (simple-sddm-2 acts as a shared shell that the
-#    per-theme sddm.conf files re-color and re-background per active dotfile theme)
+#    Noctalia sddm template re-colors and re-backgrounds per active palette)
 sudo git clone https://github.com/JaKooLit/simple-sddm-2 /usr/share/sddm/themes/simple-sddm-2
 
-# 2. Hand ownership to the user so theme-switcher.sh can rewrite theme.conf
+# 2. Hand ownership to the user so the Noctalia sddm hook can rewrite theme.conf
 #    and drop wallpapers into Backgrounds/ without sudo on every theme switch
 sudo chown -R "$USER:$USER" /usr/share/sddm/themes/simple-sddm-2
 
@@ -103,7 +103,7 @@ sudo tee /etc/sddm.conf > /dev/null <<'EOF'
     Current=simple-sddm-2
 EOF
 
-# 4. Enable virtual-keyboard input method (the per-theme sddm.conf files have
+# 4. Enable virtual-keyboard input method (the sddm template has
 #    HideVirtualKeyboard="false", which only shows the button — the input
 #    method backend must be configured separately)
 sudo tee /etc/sddm.conf.d/virtualkbd.conf > /dev/null <<'EOF'
@@ -114,9 +114,9 @@ EOF
 # 5. Enable SDDM
 sudo systemctl enable sddm
 
-# 6. Apply the active dotfile theme to SDDM (writes the live theme.conf and
-#    copies the wallpaper into Backgrounds/)
-~/.config/scripts/theme-switcher.sh "$(basename "$(readlink ~/.config/themes/current/theme)")"
+# 6. Render Noctalia templates (writes the live theme.conf and copies the
+#    wallpaper into Backgrounds/); needs noctalia running
+noctalia msg templates-apply
 ```
 
 ### Enable Systemd User Timers
