@@ -3,7 +3,7 @@
 # Toggle every USB webcam on/off at the kernel-driver level.
 # Unbinds/binds each uvcvideo USB interface via sysfs.
 # Apps using the camera see it "disconnect" but are not killed.
-# Requires the udev rule at ~/.config/udev/rules.d/99-uvcvideo-toggle.rules
+# Requires the udev rule at ~/dotfiles/system/etc/udev/rules.d/99-uvcvideo-toggle.rules
 # to give the `video` group write access to the bind/unbind handles.
 
 driver=/sys/bus/usb/drivers/uvcvideo
@@ -19,7 +19,7 @@ if ! [ -d "$driver" ]; then
 fi
 
 if ! [ -w "$driver/bind" ] || ! [ -w "$driver/unbind" ]; then
-    fail "No write access to $driver/{bind,unbind}. Install ~/dotfiles/.config/udev/rules.d/99-uvcvideo-toggle.rules then: sudo udevadm control --reload && sudo udevadm trigger --subsystem-match=usb --action=add"
+    fail "No write access to $driver/{bind,unbind}. Install ~/dotfiles/system/etc/udev/rules.d/99-uvcvideo-toggle.rules (see README) then: sudo udevadm control --reload && sudo udevadm trigger --subsystem-match=usb --action=add"
 fi
 
 write_sysfs() {

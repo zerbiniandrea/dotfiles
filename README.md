@@ -152,6 +152,17 @@ systemctl status earlyoom       # active, logs the thresholds and prefer/avoid r
 
 Test SysRq safely with **Alt+SysRq+H** (prints help to `journalctl -k`).
 
+### Webcam Toggle (udev)
+
+`.config/scripts/toggle-webcam.sh` (**Super+Shift+W**) unbinds/binds the webcam via sysfs. This udev rule lets the `video` group write the uvcvideo bind/unbind handles so it works without sudo:
+
+```bash
+cd ~/dotfiles/system
+sudo install -Dm644 etc/udev/rules.d/99-uvcvideo-toggle.rules /etc/udev/rules.d/99-uvcvideo-toggle.rules
+sudo udevadm control --reload
+sudo udevadm trigger --subsystem-match=usb --action=add
+```
+
 ### Italian Formats Locale
 
 `.config/locale.conf` keeps English messages, uses `en_GB` for dates (Monday first, dd/mm, 24h) and `it_IT` for everything else. Generate the locales once, then relog:
