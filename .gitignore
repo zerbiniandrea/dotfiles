@@ -6,3 +6,4 @@
 .config/hypr/noctalia.lua
 .config/hypr/hyprtoolkit.conf
 .config/hypr/hyprlock-colors.conf
+.config/rofi/theme.rasi

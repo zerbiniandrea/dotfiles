@@ -8,3 +8,7 @@ output_path = "$XDG_CONFIG_HOME/hypr/hyprlock-colors.conf"
 input_path = "templates/sddm-theme.conf"
 output_path = "$XDG_CACHE_HOME/noctalia/sddm-theme.conf"
 post_hook = "bash ~/.config/noctalia/hooks/sddm.sh"
+
+[theme.templates.user.rofi]
+input_path = "templates/rofi.rasi"
+output_path = "$XDG_CONFIG_HOME/rofi/theme.rasi"

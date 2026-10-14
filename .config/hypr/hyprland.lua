@@ -181,7 +181,7 @@ hl.bind(mainMod .. " + F", hl.dsp.layout("fit active"))
 -- App launchers
 hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
-hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("noctalia msg panel-toggle launcher"))
+hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("rofi -show drun"))
 
 -- System triggers
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("noctalia msg notification-dnd-toggle"))
@@ -220,11 +220,14 @@ hl.bind(mainMod .. " + S", function()
 	workspace_toggle(9)
 end)
 
--- Screenshots + recording (capture source, audio, and output dir live in the screen_recorder plugin settings)
-hl.bind("PRINT", hl.dsp.exec_cmd("noctalia msg screenshot-region"))
-hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd("noctalia msg screenshot-fullscreen"))
-hl.bind("SUPER + PRINT", hl.dsp.exec_cmd("noctalia msg screenshot-annotate"))
-hl.bind("ALT + PRINT", hl.dsp.exec_cmd("noctalia msg plugin noctalia/screen_recorder:service all toggle"))
+-- Screenshots + recording
+hl.bind("PRINT", hl.dsp.exec_cmd("noctalia msg screenshot-fullscreen"))
+hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("noctalia msg screenshot-region"))
+hl.bind(mainMod .. " + SHIFT + A", hl.dsp.exec_cmd("noctalia msg screenshot-annotate"))
+hl.bind(
+	mainMod .. " + SHIFT + X",
+	hl.dsp.exec_cmd("noctalia msg plugin noctalia/screen_recorder:service all toggle region")
+)
 
 -- Mouse drag (middle button)
 hl.bind(mainMod .. " + mouse:274", hl.dsp.window.drag(), { mouse = true })

@@ -1,0 +1,10 @@
+configuration{
+    show-icons: true;
+    display-drun: " ";
+    display-run: " ";
+    display-window: " ";
+    drun-display-format: "{icon} {name}";
+    matching: "normal";
+    drun-match-fields: "name";
+}
+@theme "theme.rasi"

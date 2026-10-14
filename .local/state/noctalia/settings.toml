@@ -4,7 +4,7 @@ config_version = 14
 enable_sounds = false
 
 [bar.default]
-end = [ "keyboard_layout", "input_volume", "volume", "notifications" ]
+end = [ "recorder", "keyboard_layout", "input_volume", "volume", "notifications" ]
 font_scale = 1.1499999817460775
 margin_ends = 0
 padding = 12
@@ -97,7 +97,16 @@ widget_order = [ "lockscreen-login-box@DP-1" ]
 temperature_night = 3400
 
 [notification]
-history_retention_hours = 1
+filter_order = [ "filter" ]
+
+    [notification.filter.filter]
+    allow_permanent = true
+    bypass_dnd = false
+    enabled = true
+    match_content = ".*."
+    play_sound = true
+    save_history = false
+    show_toast = true
 
 [osd]
 offset_y = 100
@@ -108,6 +117,10 @@ position = "bottom_center"
 
 [plugin_settings."noctalia/screen_recorder"]
 audio_source = "none"
+frame_rate = 30
+hide_inactive = true
+resolution = "1920x1080"
+video_qp = 28
 
 [plugins]
 enabled = [ "noctalia/screen_recorder" ]
@@ -179,7 +192,7 @@ community_palette = "Kanagawa Dragon"
 custom_palette = "kanagawa-dragon"
 mode = "dark"
 source = "custom"
-wallpaper_scheme = "m3-content"
+wallpaper_scheme = "soft"
 
     [theme.templates]
     builtin_ids = [ "hyprland", "kitty" ]
@@ -227,6 +240,12 @@ show_label = false
     [widget.network.actions]
     right = "none"
 
+[widget.recorder]
+type = "noctalia/screen_recorder:recorder"
+
+[widget.sysmon]
+stat = "cpu_temp"
+
 [widget.tray]
 match_adjacent_spacing = true
 
@@ -237,4 +256,5 @@ show_label = false
 [widget.workspaces]
 focused_color = "on_surface"
 font_scale = 1.0800000000000001
+occupied_color = "primary"
 style = "minimal"
