@@ -1,25 +1,41 @@
 #!/usr/bin/env bash
-# Compress a video to fit under Discord's ~10 MB cap (video only, no audio).
+# Compress a video to fit under Discord's ~10 MB cap (video only by default).
 # Two-pass libx264 at a bitrate computed from the clip duration.
-#   usage: discord-compress.sh <input> [output]
+#   usage: discord-compress.sh [-a] <input> [output]
+#   -a  keep audio (AAC, its bitrate comes out of the size budget)
 # Default output is <input-basename>-discord.mp4 next to the input.
 set -euo pipefail
 
 TARGET_MIB=9.5 # stay safely under Discord's 10 MB cap
+AUDIO_KBPS=96
 
-in="${1:?usage: discord-compress.sh <input> [output]}"
+audio=0
+if [[ "${1:-}" == -a ]]; then
+	audio=1
+	shift
+fi
+
+in="${1:?usage: discord-compress.sh [-a] <input> [output]}"
 [[ -f "$in" ]] || {
 	echo "File not found: $in" >&2
 	exit 1
 }
 out="${2:-${in%.*}-discord.mp4}"
 
+if ((audio)); then
+	acopy=(-c:a copy)
+	aenc=(-c:a aac -b:a "${AUDIO_KBPS}k")
+else
+	acopy=(-an)
+	aenc=(-an)
+fi
+
 target_bytes="$(awk -v m="$TARGET_MIB" 'BEGIN { printf "%d", m * 1024 * 1024 }')"
 in_bytes="$(stat -c %s "$in")"
 
 if ((in_bytes <= target_bytes)); then
-	# Already under the cap — just strip audio and remux, no quality loss.
-	ffmpeg -y -i "$in" -c:v copy -an -movflags +faststart "$out"
+	# Already under the cap — just remux (stripping audio unless -a), no quality loss.
+	ffmpeg -y -i "$in" -c:v copy "${acopy[@]}" -movflags +faststart "$out"
 	mode="copied"
 else
 	# bitrate = target_bits / duration (video only). Two-pass ABR can overshoot
@@ -27,6 +43,7 @@ else
 	# hard-cap the stream at the full budget with maxrate/bufsize.
 	dur="$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$in")"
 	maxrate="$(awk -v m="$TARGET_MIB" -v d="$dur" 'BEGIN { printf "%d", m * 1024 * 1024 * 8 / d / 1000 }')"
+	((audio)) && maxrate=$((maxrate - AUDIO_KBPS))
 	bitrate=$((maxrate * 95 / 100))
 
 	# When the bitrate gets starved, native res just looks blocky — spend the
@@ -49,7 +66,7 @@ else
 			-passlogfile "$passlog" -pass 1 -an -f null /dev/null
 		ffmpeg -y -i "$in" "${vf[@]}" -c:v libx264 -b:v "${bitrate}k" \
 			-maxrate "${maxrate}k" -bufsize "${maxrate}k" -preset medium \
-			-passlogfile "$passlog" -pass 2 -an -movflags +faststart "$out"
+			-passlogfile "$passlog" -pass 2 "${aenc[@]}" -movflags +faststart "$out"
 		out_bytes="$(stat -c %s "$out")"
 		((out_bytes <= target_bytes)) && break
 		if ((attempt == 3)); then

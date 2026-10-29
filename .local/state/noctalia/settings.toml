@@ -1,4 +1,4 @@
-config_version = 14
+config_version = 16
 
 [audio]
 enable_sounds = false
@@ -11,7 +11,7 @@ padding = 12
 radius_top_left = 0
 radius_top_right = 0
 scale = 0.84999999999999998
-start = [ "control-center", "workspaces", "audio_visualizer", "media" ]
+start = [ "control-center", "workspaces", "media" ]
 widget_spacing = 9
 
 [brightness]
@@ -78,7 +78,7 @@ widget_order = [ "lockscreen-login-box@DP-1" ]
     type = "login_box"
 
         [lockscreen_widgets.widget."lockscreen-login-box@DP-1".settings]
-        background_color = "surface_variant"
+        background_color = "surface_container"
         background_opacity = 0.88
         background_radius = 12.0
         center_password_text = false
@@ -98,6 +98,7 @@ temperature_night = 3400
 
 [notification]
 filter_order = [ "filter" ]
+layer = "overlay"
 
     [notification.filter.filter]
     allow_permanent = true
@@ -119,7 +120,6 @@ position = "bottom_center"
 audio_source = "none"
 frame_rate = 30
 hide_inactive = true
-resolution = "1920x1080"
 video_qp = 28
 
 [plugins]
@@ -180,10 +180,17 @@ telemetry_enabled = true
     variant = "default"
 
     [[shell.session.actions]]
-    action = "shutdown"
+    action = "reboot_uefi"
     countdown_seconds = 0.0
     enabled = true
     shortcut = "5"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "shutdown"
+    countdown_seconds = 0.0
+    enabled = true
+    shortcut = "6"
     variant = "destructive"
 
 [theme]
@@ -217,6 +224,7 @@ enabled = false
 [widget.audio_visualizer]
 color_1 = "on_surface"
 color_2 = "on_surface"
+mirrored = false
 
 [widget.clock]
 format = "{:%H:%M:%S}"
@@ -231,6 +239,7 @@ show_label = false
 
 [widget.media]
 hide_album_art = true
+hide_when_idle = true
 hide_when_no_media = true
 max_length = 350
 
@@ -254,7 +263,8 @@ mute_color = "on_surface"
 show_label = false
 
 [widget.workspaces]
+empty_color = "outline_variant"
 focused_color = "on_surface"
 font_scale = 1.0800000000000001
-occupied_color = "primary"
+occupied_color = "on_surface_variant"
 style = "minimal"

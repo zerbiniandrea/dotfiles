@@ -30,13 +30,6 @@ end
 -- AUTOSTART
 ----------
 hl.on("hyprland.start", function()
-	-- push session env into systemd/dbus and bring up graphical-session.target,
-	-- otherwise xdg-desktop-portal won't start (Requisite=graphical-session.target)
-	-- and apps like Firefox/Zen lose the dark color-scheme preference
-	hl.exec_cmd(
-		"dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP HYPRLAND_INSTANCE_SIGNATURE"
-	)
-	hl.exec_cmd("systemctl --user start hyprland-session.target")
 	hl.exec_cmd("xrdb -merge ~/.Xresources")
 	hl.exec_cmd("noctalia")
 	hl.exec_cmd("hyprsunset --identity")
@@ -44,12 +37,6 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("wl-clip-persist --clipboard regular")
 	hl.exec_cmd("flatpak run app.zen_browser.zen")
 	hl.exec_cmd("discord")
-end)
-
-hl.on("hyprland.shutdown", function()
-	-- stop the session target on exit so graphical-session.target and its
-	-- user services tear down cleanly instead of leaking into the next session
-	os.execute("systemctl --user stop hyprland-session.target && sleep 0.1")
 end)
 
 ----------
@@ -79,7 +66,6 @@ hl.config({
 		fullscreen_on_one_column = true,
 		focus_fit_method = 1,
 		follow_focus = true,
-		explicit_column_widths = "0.33333, 0.5, 0.66667",
 		wrap_focus = true,
 		wrap_swapcol = true,
 		direction = "right",
@@ -118,6 +104,7 @@ hl.config({
 		force_default_wallpaper = 0,
 		disable_hyprland_logo = true,
 		focus_on_activate = false,
+		bell_sound = "none",
 	},
 
 	input = {
@@ -139,16 +126,17 @@ hl.curve("easeInOutCubic", { type = "bezier", points = { { 0.65, 0.05 }, { 0.36,
 hl.curve("linear", { type = "bezier", points = { { 0, 0 }, { 1, 1 } } })
 hl.curve("almostLinear", { type = "bezier", points = { { 0.5, 0.5 }, { 0.75, 1 } } })
 hl.curve("quick", { type = "bezier", points = { { 0.15, 0 }, { 0.1, 1 } } })
-hl.curve("easy", { type = "spring", mass = 1, stiffness = 238.1191, dampening = 24.21279333 })
+-- Kanso: critically damped (damping = 2*sqrt(stiffness*mass)), no overshoot
+hl.curve("calm", { type = "spring", mass = 1, stiffness = 450, damping = 42.43 })
 
 hl.animation({ leaf = "global", enabled = true, speed = 10, bezier = "default" })
 hl.animation({ leaf = "border", enabled = true, speed = 5.39, bezier = "easeOutQuint" })
-hl.animation({ leaf = "windows", enabled = true, speed = 4.79, spring = "easy" })
-hl.animation({ leaf = "windowsIn", enabled = true, speed = 4.1, spring = "easy", style = "popin 87%" })
-hl.animation({ leaf = "windowsOut", enabled = true, speed = 1.49, bezier = "linear", style = "popin 87%" })
-hl.animation({ leaf = "fadeIn", enabled = true, speed = 1.73, bezier = "almostLinear" })
-hl.animation({ leaf = "fadeOut", enabled = true, speed = 1.46, bezier = "almostLinear" })
-hl.animation({ leaf = "fade", enabled = true, speed = 3.03, bezier = "quick" })
+hl.animation({ leaf = "windows", enabled = true, speed = 4.79, spring = "calm" })
+hl.animation({ leaf = "windowsIn", enabled = true, speed = 2.4, spring = "calm", style = "slide" })
+hl.animation({ leaf = "windowsOut", enabled = true, speed = 2.4, spring = "calm", style = "slide" })
+hl.animation({ leaf = "fadeIn", enabled = true, speed = 1, bezier = "almostLinear" })
+hl.animation({ leaf = "fadeOut", enabled = true, speed = 1, bezier = "almostLinear" })
+hl.animation({ leaf = "fade", enabled = true, speed = 3, bezier = "almostLinear" })
 hl.animation({ leaf = "layers", enabled = true, speed = 3.81, bezier = "easeOutQuint" })
 hl.animation({ leaf = "layersIn", enabled = true, speed = 4, bezier = "easeOutQuint", style = "fade" })
 hl.animation({ leaf = "layersOut", enabled = true, speed = 1.5, bezier = "linear", style = "fade" })
@@ -172,11 +160,65 @@ hl.bind(mainMod .. " + SHIFT + h", hl.dsp.layout("swapcol l"))
 hl.bind(mainMod .. " + SHIFT + l", hl.dsp.layout("swapcol r"))
 hl.bind(mainMod .. " + CTRL + h", hl.dsp.layout("consume_or_expel prev"))
 hl.bind(mainMod .. " + CTRL + l", hl.dsp.layout("consume_or_expel next"))
-hl.bind(mainMod .. " + W", hl.dsp.layout("colresize +conf"))
-hl.bind(mainMod .. " + ALT + W", hl.dsp.layout("colresize -conf"))
 hl.bind(mainMod .. " + P", hl.dsp.layout("promote"))
-
 hl.bind(mainMod .. " + F", hl.dsp.layout("fit active"))
+
+-- Split-aware column widths for a 2-window workflow (niri-style keys): the
+-- visible neighbour always takes the complement so the screen stays filled.
+-- SUPER+W cycles 33/67 -> 50/50 -> 67/33
+local col_presets = { 1 / 3, 1 / 2, 2 / 3 }
+
+-- Focused column's width as a fraction of the usable tape width
+local function col_width(win)
+	local mon = win.monitor
+	local usable = mon.width / mon.scale - mon.reserved.left - mon.reserved.right - 2 * geo.gaps_out
+	return (win.size.x + 2 * geo.gaps_in) / usable
+end
+
+-- Nearest on-screen tiled column right of the focused one, else left of it
+local function col_neighbour(win)
+	local mon = win.monitor
+	local left = mon.x + mon.reserved.left
+	local right = mon.x + mon.width / mon.scale - mon.reserved.right
+	local best, bestd
+	for _, w in ipairs(hl.get_workspace_windows(win.workspace.id)) do
+		local x0, x1 = w.at.x, w.at.x + w.size.x
+		if not w.floating and w.at.x ~= win.at.x and x0 >= left - 1 and x1 <= right + 1 then
+			local d = x0 > win.at.x and x0 - win.at.x or (win.at.x - x0) + 1e6
+			if not bestd or d < bestd then
+				best, bestd = w, d
+			end
+		end
+	end
+	return best
+end
+
+-- Set the focused column to pick(current width), its neighbour to the rest
+local function col_set(pick)
+	local win = hl.get_active_window()
+	if not win or win.floating then
+		return
+	end
+	local width = pick(col_width(win))
+	local nb = col_neighbour(win)
+	hl.dispatch(hl.dsp.layout(string.format("colresize %.4f", width)))
+	if nb then
+		hl.dispatch(hl.dsp.focus({ window = "address:" .. nb.address }))
+		hl.dispatch(hl.dsp.layout(string.format("colresize %.4f", 1 - width)))
+		hl.dispatch(hl.dsp.focus({ window = "address:" .. win.address }))
+	end
+end
+
+hl.bind(mainMod .. " + W", function()
+	col_set(function(cur)
+		for _, p in ipairs(col_presets) do
+			if p > cur + 0.02 then
+				return p
+			end
+		end
+		return col_presets[1]
+	end)
+end)
 
 -- App launchers
 hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(terminal))
@@ -186,7 +228,6 @@ hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("rofi -show drun"))
 -- System triggers
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("noctalia msg notification-dnd-toggle"))
 hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("noctalia msg panel-toggle session"))
-hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("~/.config/scripts/toggle-webcam.sh"))
 hl.bind(
 	mainMod .. " + SHIFT + R",
 	hl.dsp.exec_cmd([[hyprctl reload && notify-send "Hyprland" "Configuration reloaded"]])
@@ -275,7 +316,7 @@ for i = 1, 5 do
 end
 
 -- Suppress self-maximizing apps
--- hl.window_rule({ match = { class = ".*" }, suppress_event = "maximize" })
+hl.window_rule({ match = { class = ".*" }, suppress_event = "maximize" })
 
 hl.window_rule({ match = { class = "^(discord)$" }, render_unfocused = true })
 
@@ -286,6 +327,21 @@ hl.window_rule({ match = { class = "^(hyprland-share-picker)$" }, float = true, 
 -- Steam
 hl.window_rule({ match = { class = "^(steam)$", title = "^(Friends List)$" }, float = true, size = { 360, 700 } })
 hl.window_rule({ match = { class = "^(steam)$", title = "^(Steam Settings)$" }, float = true })
+
+-- Battle.net (non-Steam shortcut): Wine/CEF popups map at tiny sizes (e.g. 184x80).
+-- Titled floats only, so the untitled 128x16 helper window is left alone.
+hl.window_rule({
+	match = { class = "^(steam_app_2324268097)$", title = ".+", float = true },
+	min_size = { 900, 650 },
+	center = true,
+})
+-- Secondary windows like "Battle.net - Chats and Groups" map tiled; float them instead
+hl.window_rule({
+	match = { class = "^(steam_app_2324268097)$", title = "^(Battle\\.net - .+)$" },
+	float = true,
+	size = { 1000, 700 },
+	center = true,
+})
 
 -- VSCode floating popups
 hl.window_rule({ match = { class = "^(Code|code)$", float = true }, center = true })
